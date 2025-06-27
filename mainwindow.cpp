@@ -109,82 +109,82 @@ void MainWindow::applyDrawCardAnimation(QList<QPushButton*> cards){
     // QSequentialAnimationGroup *mainGroup = new QSequentialAnimationGroup;
 
 
-    // const QSize startSize(31, 41);
-    // const QSize endSize(310, 410);
-    // const int parentWidth = this->width();
-    // const int parentHeight = this->height();
-    // const int spacing = 20; // 卡片间距
+    const QSize startSize(31, 41);
+    const QSize endSize(310, 410);
+    const int parentWidth = this->width();
+    const int parentHeight = this->height();
+    const int spacing = 20; // 卡片间距
 
-    // // 计算卡片排列的总宽度
-    // int totalWidth = cards.size() * endSize.width() + (cards.size() - 1) * spacing;
-    // int startX = this->width() - totalWidth - 50; // 右侧起始位置
-    // int yPos = 50;
-    // // 使用并行动画组管理所有卡片动画
-    // QParallelAnimationGroup *mainGroup = new QParallelAnimationGroup(this);
-    // const int animationDuration = 600; // 每个卡片动画总时长
-    // const int overlapDelay = animationDuration / 2; // 卡片间重叠延迟（前一个动画执行一半时开始下一个）
+    // 计算卡片排列的总宽度
+    int totalWidth = cards.size() * endSize.width() + (cards.size() - 1) * spacing;
+    int startX = this->width() - totalWidth - 50; // 右侧起始位置
+    int yPos = 50;
+    // 使用并行动画组管理所有卡片动画
+    QParallelAnimationGroup *mainGroup = new QParallelAnimationGroup(this);
+    const int animationDuration = 600; // 每个卡片动画总时长
+    const int overlapDelay = animationDuration / 2; // 卡片间重叠延迟（前一个动画执行一半时开始下一个）
 
-    // for (int i = 0; i < cards.size(); ++i) {
-    //     QPushButton *card = cards[i];
-    //     card->show();
+    for (int i = 0; i < cards.size(); ++i) {
+        QPushButton *card = cards[i];
+        card->show();
 
-    //     // 设置初始状态：左下角外、小尺寸、完全透明
-    //     card->setGeometry(0, parentHeight, startSize.width(), startSize.height());
+        // 设置初始状态：左下角外、小尺寸、完全透明
+        card->setGeometry(0, parentHeight, startSize.width(), startSize.height());
 
-    //     // 设置透明度效果
-    //     QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(card);
-    //     opacityEffect->setOpacity(0.0);
-    //     card->setGraphicsEffect(opacityEffect);
+        // 设置透明度效果
+        QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(card);
+        opacityEffect->setOpacity(0.0);
+        card->setGraphicsEffect(opacityEffect);
 
-    //     // 目标位置（从右向左排列）
-    //     int targetX = startX + i * (endSize.width() + spacing);
-    //     QPoint endPos(targetX, yPos);
+        // 目标位置（从右向左排列）
+        int targetX = startX + i * (endSize.width() + spacing);
+        QPoint endPos(targetX, yPos);
 
-    //     // 位置动画（左下角 -> 目标位置）
-    //     QPropertyAnimation *posAnim = new QPropertyAnimation(card, "pos", this);
-    //     posAnim->setDuration(animationDuration);
-    //     posAnim->setStartValue(QPoint(0, parentHeight));
-    //     posAnim->setEndValue(endPos);
-    //     posAnim->setEasingCurve(QEasingCurve::OutBack);
+        // 位置动画（左下角 -> 目标位置）
+        QPropertyAnimation *posAnim = new QPropertyAnimation(card, "pos", this);
+        posAnim->setDuration(animationDuration);
+        posAnim->setStartValue(QPoint(0, parentHeight));
+        posAnim->setEndValue(endPos);
+        posAnim->setEasingCurve(QEasingCurve::OutBack);
 
-    //     // 大小动画（31x41 -> 310x410）
-    //     QPropertyAnimation *sizeAnim = new QPropertyAnimation(card, "geometry", this);
-    //     sizeAnim->setDuration(animationDuration);
-    //     sizeAnim->setStartValue(QRect(0, parentHeight, startSize.width(), startSize.height()));
-    //     sizeAnim->setEndValue(QRect(endPos, endSize));
-    //     sizeAnim->setEasingCurve(QEasingCurve::OutBack);
+        // 大小动画（31x41 -> 310x410）
+        QPropertyAnimation *sizeAnim = new QPropertyAnimation(card, "geometry", this);
+        sizeAnim->setDuration(animationDuration);
+        sizeAnim->setStartValue(QRect(0, parentHeight, startSize.width(), startSize.height()));
+        sizeAnim->setEndValue(QRect(endPos, endSize));
+        sizeAnim->setEasingCurve(QEasingCurve::OutBack);
 
-    //     // 透明度动画（0 -> 1）
-    //     QPropertyAnimation *opacityAnim = new QPropertyAnimation(opacityEffect, "opacity", this);
-    //     opacityAnim->setDuration(animationDuration);
-    //     opacityAnim->setStartValue(0.0);
-    //     opacityAnim->setEndValue(1.0);
-    //     opacityAnim->setEasingCurve(QEasingCurve::InQuad);
+        // 透明度动画（0 -> 1）
+        QPropertyAnimation *opacityAnim = new QPropertyAnimation(opacityEffect, "opacity", this);
+        opacityAnim->setDuration(animationDuration);
+        opacityAnim->setStartValue(0.0);
+        opacityAnim->setEndValue(1.0);
+        opacityAnim->setEasingCurve(QEasingCurve::InQuad);
 
 
-    //     // 组合动画（位置+大小+透明度同步）
-    //     QParallelAnimationGroup *cardGroup = new QParallelAnimationGroup(this);
-    //     cardGroup->addAnimation(posAnim);
-    //     cardGroup->addAnimation(sizeAnim);
-    //     cardGroup->addAnimation(opacityAnim);
+        // 组合动画（位置+大小+透明度同步）
+        QParallelAnimationGroup *cardGroup = new QParallelAnimationGroup(this);
+        cardGroup->addAnimation(posAnim);
+        cardGroup->addAnimation(sizeAnim);
+        cardGroup->addAnimation(opacityAnim);
 
-    //     // 设置卡片动画的延迟启动（每个卡片比前一个卡片延迟overlapDelay毫秒）
+        // 设置卡片动画的延迟启动（每个卡片比前一个卡片延迟overlapDelay毫秒）
 
-    //     mainGroup->addAnimation(cardGroup);
-    // }
+        mainGroup->addAnimation(cardGroup);
+    }
 
     // mainGroup->start(QAbstractAnimation::DeleteWhenStopped);
 
     // 按钮显示控制
-    // QObject::connect(mainGroup, &QSequentialAnimationGroup::currentTimeChanged,
-    //                  [&cards, animationGroups](QAbstractAnimation *current){
-    //                      if (auto group = qobject_cast<QParallelAnimationGroup*>(current)) {
-    //                          int idx = animationGroups.indexOf(group);
-    //                          if (idx >= 0 && idx < cards.size()) {
-    //                             cards[idx]->show();
-    //                          }
-    //                      }
-    //                  });
+    QObject::connect(mainGroup, &QPropertyAnimation::currentTimeChanged,
+                     [&cards, animationGroups](QAbstractAnimation *current){
+                         if (auto group = qobject_cast<QParallelAnimationGroup*>(current)) {
+                             int idx = animationGroups.indexOf(group);
+                             if (idx >= 0 && idx < cards.size()) {
+                                cards[idx]->show();
+                             }
+                         }
+                     });
 
 
 }
