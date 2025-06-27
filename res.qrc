@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/image">
+        <file>images/defect.gif</file>
+        <file>images/image.png</file>
+        <file>images/scene.png</file>
+        <file>images/scene_1.png</file>
+        <file>images/strike.png</file>
+        <file>images/bash.png</file>
+        <file>images/power_through.png</file>
+        <file>images/second_wind.png</file>
+        <file>images/defend.png</file>
+    </qresource>
+</RCC>

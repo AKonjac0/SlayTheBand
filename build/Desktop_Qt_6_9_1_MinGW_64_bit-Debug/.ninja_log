@@ -1,0 +1,27 @@
+# ninja log v5
+3	500	7727278654763290	SlayTheShrike_autogen/timestamp	fe93ced1c8aff490
+1897	2630	7727276357694354	SlayTheShrike_autogen/EWIEGA46WW/qrc_res.cpp	fff34fb96de2d990
+3	500	7727278654763290	SlayTheShrike_autogen/mocs_compilation.cpp	fe93ced1c8aff490
+3	500	7727278654763290	E:/SlayTheShrike/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/SlayTheShrike_autogen/timestamp	fe93ced1c8aff490
+3	500	7727278654763290	E:/SlayTheShrike/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/SlayTheShrike_autogen/mocs_compilation.cpp	fe93ced1c8aff490
+1897	2630	7727276357694354	E:/SlayTheShrike/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/SlayTheShrike_autogen/EWIEGA46WW/qrc_res.cpp	fff34fb96de2d990
+973	2931	7727277606271182	CMakeFiles/SlayTheShrike.dir/main.cpp.obj	f97f0cfd60276a25
+879	3173	7727277608653513	CMakeFiles/SlayTheShrike.dir/SlayTheShrike_autogen/mocs_compilation.cpp.obj	1323ca11d4b2364a
+2777	9419	7727276425642655	CMakeFiles/SlayTheShrike.dir/SlayTheShrike_autogen/EWIEGA46WW/qrc_res.cpp.obj	b1208dc20891d3ef
+502	2331	7727278699519241	CMakeFiles/SlayTheShrike.dir/mainwindow.cpp.obj	a22b22bb4782ccd9
+2331	3023	7727278706420811	SlayTheShrike.exe	192a2a40f427bfa2
+3	925	7727280424806315	SlayTheShrike_autogen/timestamp	fe93ced1c8aff490
+3	925	7727280424806315	SlayTheShrike_autogen/mocs_compilation.cpp	fe93ced1c8aff490
+3	925	7727280424806315	E:/SlayTheShrike/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/SlayTheShrike_autogen/timestamp	fe93ced1c8aff490
+3	925	7727280424806315	E:/SlayTheShrike/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/SlayTheShrike_autogen/mocs_compilation.cpp	fe93ced1c8aff490
+925	3214	7727280449645507	CMakeFiles/SlayTheShrike.dir/main.cpp.obj	f97f0cfd60276a25
+1015	3617	7727280453650636	CMakeFiles/SlayTheShrike.dir/SlayTheShrike_autogen/mocs_compilation.cpp.obj	1323ca11d4b2364a
+1198	3705	7727280454472970	CMakeFiles/SlayTheShrike.dir/mainwindow.cpp.obj	a22b22bb4782ccd9
+1442	7783	7727280495324055	CMakeFiles/SlayTheShrike.dir/SlayTheShrike_autogen/EWIEGA46WW/qrc_res.cpp.obj	b1208dc20891d3ef
+7783	8673	7727280504157045	SlayTheShrike.exe	f44751ac19da6ecd
+3	411	7727280626654906	SlayTheShrike_autogen/timestamp	fe93ced1c8aff490
+3	411	7727280626654906	SlayTheShrike_autogen/mocs_compilation.cpp	fe93ced1c8aff490
+3	411	7727280626654906	E:/SlayTheShrike/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/SlayTheShrike_autogen/timestamp	fe93ced1c8aff490
+3	411	7727280626654906	E:/SlayTheShrike/build/Desktop_Qt_6_9_1_MinGW_64_bit-Debug/SlayTheShrike_autogen/mocs_compilation.cpp	fe93ced1c8aff490
+413	2166	7727280730648421	CMakeFiles/SlayTheShrike.dir/mainwindow.cpp.obj	a22b22bb4782ccd9
+2166	2784	7727280736750741	SlayTheShrike.exe	f44751ac19da6ecd
