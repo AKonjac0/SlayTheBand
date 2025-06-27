@@ -5,14 +5,13 @@
 #include <QParallelAnimationGroup>
 #include <QDebug>
 #include <QRandomGenerator>
-#include <vector>
-#include <string>
 #include <QTimer>
 #include <QHBoxLayout>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsProxyWidget>
 #include <QGraphicsOpacityEffect>
+#include "Card_Manager.h"
 
 using namespace std;
 
@@ -26,19 +25,9 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle("按钮动画效果演示");
     resize(1920, 1080);
 
-    vector<string> cardNames = {"strike", "defend", "bash", "second_wind", "power_through"};
+    Card_Manager card_manager(this);
+    card_manager.show_cards();
     // 添加一些按钮用于演示
-    int cardNum = QRandomGenerator::global()->bounded(10);
-    for(int i = 0; i < 5; ++i){
-        int cardType = QRandomGenerator::global()->bounded(5);
-        QPushButton *card = new QPushButton("card", this);
-        card->setGeometry(50 + 320 * i, 50, 310, 410);
-
-        string cardName = "QPushButton{border-image: url(:image/images/" + cardNames[cardType] + ".png);}";
-
-        card->setStyleSheet(cardName.c_str());
-    }
-
     QPushButton *next_round =new QPushButton("next_round", this);
     next_round->setGeometry(50, 460, 100, 60);
     // 设置所有按钮的动画效果
