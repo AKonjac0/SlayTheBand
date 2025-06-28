@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QPushButton>
 
+#include "Card_Manager.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -18,11 +20,13 @@ public:
 
 private slots:
     // void onButtonClicked();
-    void applyButtonAnimation(QPushButton *button);
-    void applyDrawCardAnimation(QList<QPushButton*> cards);
+    // void applyButtonAnimation(QPushButton *button);
+    void applyDrawCardAnimation();
+    void applyDisCardAnimation();
 
 private:
     Ui::MainWindow *ui;
+    Card_Manager *card_manager;
     void setupButtonAnimations();
 };
 #endif // MAINWINDOW_H

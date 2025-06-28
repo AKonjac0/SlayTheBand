@@ -25,8 +25,8 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle("按钮动画效果演示");
     resize(1920, 1080);
 
-    Card_Manager card_manager(this);
-    card_manager.show_cards();
+    card_manager = new Card_Manager(this);
+    // card_manager->drawcard();
     // 添加一些按钮用于演示
     QPushButton *next_round =new QPushButton("next_round", this);
     next_round->setGeometry(50, 460, 100, 60);
@@ -37,81 +37,97 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    // delete ui;
+    delete card_manager;
 }
 
 void MainWindow::setupButtonAnimations()
 {
-    // 查找所有按钮
-    // QList<Card*> Cards = findChildren<Card*>();
-    QList<QPushButton*> buttons = findChildren<QPushButton*>();
-
-
 
 
     // 为每个按钮连接点击事件
-    QPushButton *next_round = nullptr;
-    QList<QPushButton*> cards;
-    foreach (QPushButton *button, buttons) {
-        if(button->text() == "card"){
-            cards.push_back(button);
-        }else if(button->text() == "next_round"){
-            next_round = button;
-        }
-    }
-    foreach (QPushButton *button, cards){
-        connect(button, &QPushButton::clicked, this, [this, button]() {
-            // 应用动画效果
-            applyButtonAnimation(button);
-
-            // 这里可以添加按钮原有的点击逻辑
-            qDebug() << "按钮被点击:" << button->text();
-        });
+    QList<QPushButton *> button_list = findChildren<QPushButton*>();
+    QPushButton *next_round;
+    // QList<QPushButton *> card_list;
+    foreach (QPushButton *button, button_list){
+        if(button->text() == "next_round") next_round = button;
+        // else card_list.push_back(button);
     }
 
-    connect(next_round, &QPushButton::clicked, this, [this, cards]() {
+
+
+    // foreach (QPushButton *button, card_list){
+    //     connect(button, &QPushButton::clicked, this, [this, button]() {
+    //         // 应用动画效果
+    //         applyButtonAnimation(button);
+
+    //         // 这里可以添加按钮原有的点击逻辑
+    //         qDebug() << "按钮被点击:" << button->text();
+    //     });
+    // }
+
+
+    applyDrawCardAnimation();
+
+    connect(next_round, &QPushButton::clicked, this, [this]() {
         // 应用动画效果
-        applyDrawCardAnimation(cards);
+        applyDisCardAnimation();
+        applyDrawCardAnimation();
+
 
         // 这里可以添加按钮原有的点击逻辑
-        qDebug() << "牌堆被洗混";
+        qDebug() << "下一回合";
     });
 
 }
 
-void MainWindow::applyDrawCardAnimation(QList<QPushButton*> cards){
+void MainWindow::applyDisCardAnimation(){
+    // animation first
+    card_manager->discard();
+}
+
+void MainWindow::applyDrawCardAnimation(){
+    static bool isAnimating = false;
+    if(isAnimating == false) isAnimating = true;
+    else return;
+
+    card_manager->drawcard();
+    // qDebug() << "!" << card_manager->get_handcard().size();
+
 
     const QSize startSize(31, 41);
     const QSize endSize(310, 410);
-    const int parentWidth = this->width();
-    const int parentHeight = this->height();
+    const int parentWidth = 1920 - 200;
+    const int parentHeight = 1080;
     const int spacing = -70; // 卡片间距
+    QVector<Card *> cards = card_manager->get_handcard();
 
     // 计算卡片排列的总宽度
     int totalWidth = cards.size() * endSize.width() + (cards.size() - 1) * spacing;
-    int startX = this->width() - totalWidth - 50; // 右侧起始位置
+    int startX = parentWidth - totalWidth - 50; // 右侧起始位置
     int yPos = 50;
     // 使用并行动画组管理所有卡片动画
     QParallelAnimationGroup *mainGroup = new QParallelAnimationGroup(this);
     const int animationDuration = 600; // 每个卡片动画总时长
     const int overlapDelay = animationDuration / 2; // 卡片间重叠延迟（前一个动画执行一半时开始下一个）
 
-    for(QPushButton *card : cards){
 
 
+    for(Card *i : cards){
+        QPushButton *card = i->getButton();
 
         // 设置初始状态：左下角外、小尺寸、完全透明
         card->setGeometry(0, parentHeight, startSize.width(), startSize.height());
 
         // 设置透明度效果
         QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(card);
-        opacityEffect->setOpacity(0.0);
+        opacityEffect->setOpacity(1.0);
         card->setGraphicsEffect(opacityEffect);
     }
+    QParallelAnimationGroup *final_group;
+    int card_size = cards.size();
+    for (int i = 0; i < card_size; ++i) {
+        QPushButton *card = cards[i]->getButton();
 
-    for (int i = 0; i < cards.size(); ++i) {
-        QPushButton *card = cards[i];
-        // card->show();
 
         // 设置初始状态：左下角外、小尺寸、完全透明
         card->setGeometry(0, parentHeight, startSize.width(), startSize.height());
@@ -162,59 +178,63 @@ void MainWindow::applyDrawCardAnimation(QList<QPushButton*> cards){
         if(!loop.isRunning()){
             cardGroup->start(QAbstractAnimation::DeleteWhenStopped);
         }
+        if(i == cards.size() - 1) final_group = cardGroup;
+        // qDebug() << "animation:" << i;
     }
-
-}
-
-void MainWindow::applyButtonAnimation(QPushButton *button)
-{
-
-    static bool isAnimating = false;
-    if(isAnimating == false) isAnimating = true;
-    else return;
-
-    // QPushButton* button = ui->pushButton;
-    QSequentialAnimationGroup* group = new QSequentialAnimationGroup(this);
-
-    // 1. 缩小按钮
-    QPropertyAnimation* shrink = new QPropertyAnimation(button, "geometry", this);
-    shrink->setDuration(80);
-    shrink->setStartValue(button->geometry());
-    shrink->setEndValue(button->geometry().adjusted(5, 5, -5, -5));
-
-    // 2. 向上弹跳+放大
-    QParallelAnimationGroup* jumpGroup = new QParallelAnimationGroup(this);
-
-    // 位置动画
-    QPropertyAnimation* posAnim = new QPropertyAnimation(button, "pos", this);
-    posAnim->setDuration(150);
-    posAnim->setStartValue(button->pos());
-    posAnim->setEndValue(button->pos() + QPoint(0, -20));
-    posAnim->setEasingCurve(QEasingCurve::OutBack);
-
-    // 缩放动画
-    QPropertyAnimation* grow = new QPropertyAnimation(button, "geometry", this);
-    grow->setDuration(150);
-    grow->setStartValue(button->geometry().adjusted(5, 5, -5, -5));
-    grow->setEndValue(button->geometry().adjusted(-10, -10, 10, 10));
-
-    jumpGroup->addAnimation(posAnim);
-    jumpGroup->addAnimation(grow);
-
-    // 3. 返回原位
-    QPropertyAnimation* reset = new QPropertyAnimation(button, "geometry", this);
-    reset->setDuration(100);
-    reset->setEndValue(button->geometry());
-
-    // 组合所有动画
-    group->addAnimation(shrink);
-    group->addAnimation(jumpGroup);
-    group->addAnimation(reset);
-    group->start(QAbstractAnimation::DeleteWhenStopped);
-
-    connect(group, &QPropertyAnimation::finished, []() {
+    connect(final_group, &QParallelAnimationGroup::finished, []() {
         isAnimating = false;
-        // sender()->deleteLater();
     });
-
 }
+
+// void MainWindow::applyButtonAnimation(QPushButton *button)
+// {
+
+//     static bool isAnimating = false;
+//     if(isAnimating == false) isAnimating = true;
+//     else return;
+
+//     // QPushButton* button = ui->pushButton;
+//     QSequentialAnimationGroup* group = new QSequentialAnimationGroup(this);
+
+//     // 1. 缩小按钮
+//     QPropertyAnimation* shrink = new QPropertyAnimation(button, "geometry", this);
+//     shrink->setDuration(80);
+//     shrink->setStartValue(button->geometry());
+//     shrink->setEndValue(button->geometry().adjusted(5, 5, -5, -5));
+
+//     // 2. 向上弹跳+放大
+//     QParallelAnimationGroup* jumpGroup = new QParallelAnimationGroup(this);
+
+//     // 位置动画
+//     QPropertyAnimation* posAnim = new QPropertyAnimation(button, "pos", this);
+//     posAnim->setDuration(150);
+//     posAnim->setStartValue(button->pos());
+//     posAnim->setEndValue(button->pos() + QPoint(0, -20));
+//     posAnim->setEasingCurve(QEasingCurve::OutBack);
+
+//     // 缩放动画
+//     QPropertyAnimation* grow = new QPropertyAnimation(button, "geometry", this);
+//     grow->setDuration(150);
+//     grow->setStartValue(button->geometry().adjusted(5, 5, -5, -5));
+//     grow->setEndValue(button->geometry().adjusted(-10, -10, 10, 10));
+
+//     jumpGroup->addAnimation(posAnim);
+//     jumpGroup->addAnimation(grow);
+
+//     // 3. 返回原位
+//     QPropertyAnimation* reset = new QPropertyAnimation(button, "geometry", this);
+//     reset->setDuration(100);
+//     reset->setEndValue(button->geometry());
+
+//     // 组合所有动画
+//     group->addAnimation(shrink);
+//     group->addAnimation(jumpGroup);
+//     group->addAnimation(reset);
+//     group->start(QAbstractAnimation::DeleteWhenStopped);
+
+//     connect(group, &QPropertyAnimation::finished, []() {
+//         isAnimating = false;
+//         // sender()->deleteLater();
+//     });
+
+// }
