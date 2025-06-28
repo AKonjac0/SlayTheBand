@@ -1,14 +1,12 @@
 #include "Card_Manager.h"
-#include <QRandomGenerator>
 #include <QString>
 #include <algorithm>
 #include <random>
-#include <QPushButton>
 
 Card_Manager::Card_Manager(QWidget* parent) : parent(parent)
 {
     drawcard_num = 5; // default
-    // int cardNum = QRandomGenerator::global()->bounded(10);
+
     for (int i = 0; i < 5; i++) {
         drawcard_pile.push_back(new_strike());
     }
@@ -42,6 +40,7 @@ void Card_Manager::transfer(QVector<Card_Meta *> &to, QVector<Card_Meta *> &from
     for(auto &i : from){
         to.push_back(i);
     }
+    from.clear();
 }
 void Card_Manager::drawcard() {
     for(int i = 0; i < drawcard_num; ++i){
@@ -55,7 +54,6 @@ void Card_Manager::drawcard() {
         handcard.push_back(card);
         drawcard_pile.pop_back();
 
-        // card->getButton()->setGeometry(50 + 320 * i, 50, 310, 410);
 
     }
 }

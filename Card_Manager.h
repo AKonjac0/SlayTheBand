@@ -1,8 +1,6 @@
 #ifndef CARD_MANAGER_H
 #define CARD_MANAGER_H
 #include <QVector>
-#include <QString>
-#include <QWidget>
 #include "Card.h"
 #include "Card_Meta.h"
 

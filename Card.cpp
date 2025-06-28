@@ -1,4 +1,13 @@
 #include "Card.h"
+#include <QObject>
+#include <QPropertyAnimation>
+#include <QSequentialAnimationGroup>
+#include <QParallelAnimationGroup>
+#include <QDebug>
+#include <QRandomGenerator>
+#include <QTimer>
+#include <QHBoxLayout>
+#include <QGraphicsView>
 
 Card::Card(Card_Meta *meta, QWidget *parent) :meta(meta), parent(parent) {
     button = new QPushButton("card", parent);
@@ -81,7 +90,6 @@ void Card::applyButtonAnimation()
 
     QObject::connect(group, &QPropertyAnimation::finished, []() {
         isAnimating = false;
-        // sender()->deleteLater();
     });
 
 }
