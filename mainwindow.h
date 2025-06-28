@@ -16,13 +16,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private slots:
-    void applyDrawCardAnimation();
-    void applyDisCardAnimation();
 
 private:
     Ui::MainWindow *ui;
     Card_Manager *card_manager;
-    void setupButtonAnimations();
+
 };
 #endif // MAINWINDOW_H

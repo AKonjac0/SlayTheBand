@@ -1,6 +1,6 @@
 #ifndef BUFF_H
 #define BUFF_H
-enum BuffType {No, Defence, Vulnerability};
+enum BuffType {No, Weak, Vulnerable};
 
 class Buff{
 public:
