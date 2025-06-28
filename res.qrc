@@ -9,5 +9,6 @@
         <file>images/power_through.png</file>
         <file>images/second_wind.png</file>
         <file>images/defend.png</file>
+        <file>images/slime_balloon.png</file>
     </qresource>
 </RCC>

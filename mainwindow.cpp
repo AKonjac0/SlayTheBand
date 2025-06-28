@@ -10,6 +10,11 @@
 #include <QGraphicsProxyWidget>
 #include <QGraphicsOpacityEffect>
 #include "Card_Manager.h"
+#include "Player.h"
+#include "Enemy.h"
+
+#define PLAYER_MAX_HP 100
+#define PLAYER_MAX_MP 3
 
 using namespace std;
 
@@ -24,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent)
     resize(1920, 1080);
 
     card_manager = new Card_Manager(this);
+    Player* player = new Player("slime_balloon", PLAYER_MAX_HP, this, PLAYER_MAX_MP);
+    player->show_character(100,700,100,200);
     // 添加一些按钮用于演示
     QPushButton *next_round =new QPushButton("next_round", this);
     next_round->setGeometry(50, 460, 100, 60);
