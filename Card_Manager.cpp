@@ -32,15 +32,17 @@ Card_Manager::~Card_Manager() {
 
 void Card_Manager::show_cards() {
     for(int i = 0; i < 5; ++i){
-        // Card *card = new Card(total_cards[i], parent);
-        // showed_cards.push_back(card);
+
         //TODO
-        QPushButton *card = new QPushButton("card", parent);
-        card->setGeometry(50 + 320 * i, 50, 310, 410);
+
+        Card *card = new Card(total_cards[i], parent);
+        showed_cards.push_back(card);
+        card->getbutton()->setGeometry(50 + 320 * i, 50, 310, 410);
 
         QString cardPic = "QPushButton{border-image: url(:image/images/" + total_cards[i] -> get_card_name() + ".png);}";
 
-        card->setStyleSheet(cardPic);
+        card->getbutton()->setStyleSheet(cardPic);
+
     }
 }
 

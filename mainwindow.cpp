@@ -43,7 +43,11 @@ MainWindow::~MainWindow()
 void MainWindow::setupButtonAnimations()
 {
     // 查找所有按钮
+    // QList<Card*> Cards = findChildren<Card*>();
     QList<QPushButton*> buttons = findChildren<QPushButton*>();
+
+
+
 
     // 为每个按钮连接点击事件
     QPushButton *next_round = nullptr;
