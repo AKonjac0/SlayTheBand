@@ -10,5 +10,6 @@ private:
     QWidget *parent;
     QPushButton *next_round;
     CardController *control;
+    bool next_round_click;
 };
 #endif // CARD_BUTTON_H

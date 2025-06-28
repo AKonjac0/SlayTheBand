@@ -13,7 +13,8 @@ Card::Card(Card_Meta *meta, QWidget *parent) :meta(meta), parent(parent) {
     button = new QPushButton("card", parent);
     QString cardPic = "QPushButton{border-image: url(:image/images/" + meta -> get_card_name() + ".png);}";
     button->setStyleSheet(cardPic);
-    button->show();
+    // button->show();
+    button->hide();
 
     QObject::connect(button, &QPushButton::clicked, parent, [this]() {
         // 应用动画效果

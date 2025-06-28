@@ -92,73 +92,56 @@ Card_Meta *CardController::new_bash() {
 }
 
 void CardController::applyDisCardAnimation(){
-    static bool isAnimating = false;
-    if(isAnimating == false) isAnimating = true;
-    else return;
 
-    const QSize startSize(31, 41);
-    const QSize endSize(310, 410);
+
+    const QSize endSize(31, 41);
+    const QSize startSize(310, 410);
     const int parentWidth = 1920 - 200;
     const int parentHeight = 1080;
     const int spacing = -70; // 卡片间距
     QVector<Card *> cards = get_handcard();
 
     // 计算卡片排列的总宽度
-    int totalWidth = cards.size() * endSize.width() + (cards.size() - 1) * spacing;
-    int startX = parentWidth - totalWidth - 50; // 右侧起始位置
-    int yPos = 50;
+
+    int endX = parentWidth; // 右侧起始位置
+    int yPos = parentHeight;
     // 使用并行动画组管理所有卡片动画
     const int animationDuration = 600; // 每个卡片动画总时长
 
-    for(Card *i : cards){
-        QPushButton *card = i->getButton();
 
-        // 设置初始状态：左下角外、小尺寸、完全透明
-        card->setGeometry(0, parentHeight, startSize.width(), startSize.height());
+    int card_size = cards.size();
+    for (int i = card_size - 1; i >= 0; --i) {
+        QPushButton *card = cards[i]->getButton();
 
-        // 设置透明度效果
         QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(card);
         opacityEffect->setOpacity(1.0);
         card->setGraphicsEffect(opacityEffect);
-    }
-    QParallelAnimationGroup *final_group;
-    int card_size = cards.size();
-    for (int i = 0; i < card_size; ++i) {
-        QPushButton *card = cards[i]->getButton();
-
-        // 设置初始状态：左下角外、小尺寸、完全透明
-        card->setGeometry(0, parentHeight, startSize.width(), startSize.height());
-
-        // 设置透明度效果
-        QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(card);
-        opacityEffect->setOpacity(0.0);
-        card->setGraphicsEffect(opacityEffect);
 
         // 目标位置（从右向左排列）
-        int targetX = startX + i * (endSize.width() + spacing);
+        int targetX = endX;
         QPoint endPos(targetX, yPos);
 
-        // 位置动画（左下角 -> 目标位置）
+        // 位置动画
         QPropertyAnimation *posAnim = new QPropertyAnimation(card, "pos", parent);
         posAnim->setDuration(animationDuration);
-        posAnim->setStartValue(QPoint(0, parentHeight));
+        posAnim->setStartValue(card->pos());
         posAnim->setEndValue(endPos);
         posAnim->setEasingCurve(QEasingCurve::OutBack);
 
-        // 大小动画（31x41 -> 310x410）
+        // 大小动画（310x410 -> 31x41）
         QPropertyAnimation *sizeAnim = new QPropertyAnimation(card, "geometry", parent);
         sizeAnim->setDuration(animationDuration);
-        sizeAnim->setStartValue(QRect(0, parentHeight, startSize.width(), startSize.height()));
+        sizeAnim->setStartValue(QRect(card->pos().x(), card->pos().y(), startSize.width(), startSize.height()));
         sizeAnim->setEndValue(QRect(endPos, endSize));
         sizeAnim->setEasingCurve(QEasingCurve::OutBack);
 
-        // 透明度动画（0 -> 1）
+        // 透明度动画（1 -> 0）
         QPropertyAnimation *opacityAnim = new QPropertyAnimation(opacityEffect, "opacity", parent);
         opacityAnim->setDuration(animationDuration);
-        opacityAnim->setStartValue(0.0);
-        opacityAnim->setEndValue(1.0);
+        opacityAnim->setStartValue(0.5);
+        opacityAnim->setEndValue(0.0);
 
-        opacityAnim->setEasingCurve(QEasingCurve::InQuad);
+        // opacityAnim->setEasingCurve(QEasingCurve::InQuad);
 
         // 组合动画（位置+大小+透明度同步）
         QParallelAnimationGroup *cardGroup = new QParallelAnimationGroup(parent);
@@ -173,11 +156,9 @@ void CardController::applyDisCardAnimation(){
         if(!loop.isRunning()){
             cardGroup->start(QAbstractAnimation::DeleteWhenStopped);
         }
-        if(i == cards.size() - 1) final_group = cardGroup;
+
     }
-    QObject::connect(final_group, &QParallelAnimationGroup::finished, []() {
-        isAnimating = false;
-    });
+
 
     discard();
 }
@@ -185,9 +166,7 @@ void CardController::applyDisCardAnimation(){
 
 void CardController::applyDrawCardAnimation(){
 
-    static bool isAnimating = false;
-    if(isAnimating == false) isAnimating = true;
-    else return;
+
 
     drawcard();
 
@@ -206,25 +185,14 @@ void CardController::applyDrawCardAnimation(){
     // 使用并行动画组管理所有卡片动画
     const int animationDuration = 600; // 每个卡片动画总时长
 
-    for(Card *i : cards){
-        QPushButton *card = i->getButton();
 
-        // 设置初始状态：左下角外、小尺寸、完全透明
-        card->setGeometry(0, parentHeight, startSize.width(), startSize.height());
-
-        // 设置透明度效果
-        QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(card);
-        opacityEffect->setOpacity(1.0);
-        card->setGraphicsEffect(opacityEffect);
-    }
-    QParallelAnimationGroup *final_group;
     int card_size = cards.size();
-    for (int i = 0; i < card_size; ++i) {
+    for (int i = card_size - 1; i >= 0; --i) {
         QPushButton *card = cards[i]->getButton();
 
         // 设置初始状态：左下角外、小尺寸、完全透明
         card->setGeometry(0, parentHeight, startSize.width(), startSize.height());
-
+        card->show();
         // 设置透明度效果
         QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(card);
         opacityEffect->setOpacity(0.0);
@@ -269,9 +237,7 @@ void CardController::applyDrawCardAnimation(){
         if(!loop.isRunning()){
             cardGroup->start(QAbstractAnimation::DeleteWhenStopped);
         }
-        if(i == cards.size() - 1) final_group = cardGroup;
+
     }
-    QObject::connect(final_group, &QParallelAnimationGroup::finished, []() {
-        isAnimating = false;
-    });
+
 }
