@@ -48,6 +48,16 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Card_Key.h
         Music_Manager.cpp
         Music_Manager.h
+        Animation.cpp
+        Animation.h
+        CardView.cpp
+        CardView.h
+        CardAnimation.cpp
+        CardAnimation.h
+        CardPileAnimation.cpp
+        CardPileAnimation.h
+        CardPile.cpp
+        CardPile.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SlayTheShrike APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

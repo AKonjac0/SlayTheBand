@@ -3,7 +3,7 @@
 #include <QPushButton>
 #include <QWidget>
 #include "Card_Meta.h"
-
+#include "CardAnimation.h"
 class Card{
 public:
     Card(Card_Meta *meta, QWidget *parent);
@@ -14,7 +14,7 @@ private:
     Card_Meta *meta;
     QPushButton *button;
     QWidget *parent;
-    void applyButtonAnimation();
+    CardAnimation *animation;
 };
 
 #endif //CARD_H

@@ -10,7 +10,7 @@
 #include <QEventLoop>
 #include <algorithm>
 #include <random>
-#include "Card.h"
+
 #include "Card_Meta.h"
 
 class CardController{
@@ -21,7 +21,7 @@ public:
     void discard();
     QVector<Card_Meta *> get_drawcard_pile() const;
     QVector<Card_Meta *> get_discard_pile() const;
-    QVector<Card *> get_handcard() const;
+    QVector<Card_Meta *> get_handcard() const;
 public slots:
     void applyDrawCardAnimation();
     void applyDisCardAnimation();
@@ -39,7 +39,7 @@ private:
     QWidget *parent;
     QVector<Card_Meta *> drawcard_pile;
     QVector<Card_Meta *> discard_pile;
-    QVector<Card *> handcard;
+    QVector<Card_Meta *> handcard;
 };
 
 #endif // CARD_CONTROLLER_H

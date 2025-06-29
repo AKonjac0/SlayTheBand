@@ -11,4 +11,7 @@
         <file>images/defend.png</file>
         <file>images/slime_balloon.png</file>
     </qresource>
+    <qresource prefix="/music">
+        <file>OST/haruhikage.wav</file>
+    </qresource>
 </RCC>

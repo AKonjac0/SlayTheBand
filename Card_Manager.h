@@ -2,19 +2,22 @@
 #define CARD_MANAGER_H
 
 #include "CardController.h"
-#include "Card_Button.h"
-#include "Card_Key.h"
+
+
 
 
 class Card_Manager{
 public:
     Card_Manager(QWidget* parent);
     ~Card_Manager();
-
+    void drawcard();
+    void discard();
+    QVector<Card_Meta *> get_drawcard_pile() const;
+    QVector<Card_Meta *> get_discard_pile() const;
+    QVector<Card_Meta *> get_handcard() const;
 private:
     CardController *control;
-    Card_Button *card_button;
-    Card_Key *card_key;
+
 private:
     QWidget *parent;
 };
