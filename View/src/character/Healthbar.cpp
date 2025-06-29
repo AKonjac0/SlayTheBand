@@ -1,4 +1,4 @@
-#include "healthbar.h"
+#include "Healthbar.h"
 #include <QPainter>
 #include <QLinearGradient>
 

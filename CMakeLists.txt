@@ -20,6 +20,18 @@ set(PROJECT_SOURCES
         mainwindow.ui
 )
 
+include_directories(View/include/character/)
+include_directories(View/include/card/)
+include_directories(View/src/character/)
+include_directories(View/src/card/)
+include_directories(ViewModel/include/card/)
+include_directories(ViewModel/src/card/)
+include_directories(Model/include/card/)
+include_directories(Model/src/card/)
+include_directories(Model/include/buff/)
+include_directories(Model/src/buff/)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
@@ -27,37 +39,28 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         res.qrc
-        Card.cpp
-        Card.h
-        Buff.h
-        Buff.cpp
-        Card_Manager.h
-        Card_Manager.cpp
-        Card_Meta.h
-        Card_Meta.cpp
-        Player.h
-        Player.h Player.cpp
-        Enemy.h Enemy.cpp
-        Character.h Character.cpp
-        Healthbar.h Healthbar.cpp
-        Card_Button.cpp
-        Card_Button.h
-        CardController.cpp
-        CardController.h
-        Card_Key.cpp
-        Card_Key.h
+        View/include/card/Card.h View/src/card/Card.cpp
+        Model/include/buff/Buff.h Model/src/buff/Buff.cpp
+        ViewModel/include/card/Card_Manager.h ViewModel/src/card/Card_Manager.cpp
+        Model/include/card/Card_Meta.h Model/src/card/Card_Meta.cpp
+        View/include/character/Player.h View/src/character/Player.cpp
+        View/include/character/Enemy.h View/src/character/Enemy.cpp
+        View/include/character/Character.h View/src/character/Character.cpp
+        View/include/character/Healthbar.h View/src/character/Healthbar.cpp
+        View/src/card/Card_Button.cpp
+        View/include/card/Card_Button.h
+        Model/src/card/CardController.cpp
+        Model/include/card/CardController.h
         Music_Manager.cpp
         Music_Manager.h
-        Animation.cpp
-        Animation.h
-        CardView.cpp
-        CardView.h
-        CardAnimation.cpp
-        CardAnimation.h
-        CardPileAnimation.cpp
-        CardPileAnimation.h
-        CardPile.cpp
-        CardPile.h
+        View/src/card/CardView.cpp
+        View/include/card/CardView.h
+        View/src/card/CardAnimation.cpp
+        View/include/card/CardAnimation.h
+        View/src/card/CardPileAnimation.cpp
+        View/include/card/CardPileAnimation.h
+        View/src/card/CardPile.cpp
+        View/include/card/CardPile.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SlayTheShrike APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
