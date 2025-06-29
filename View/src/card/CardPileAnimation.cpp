@@ -5,17 +5,18 @@
 #include <QParallelAnimationGroup>
 #include <QEventLoop>
 #include <QTimer>
-// CardPileAnimation::CardPileAnimation(Card_Manager *manager, QWidget *parent) : manager(manager), parent(parent) {}
+
 CardPileAnimation::CardPileAnimation(QWidget *parent) : parent(parent) {}
 
 
 void CardPileAnimation::applyDisCardAnimation(QVector<Card *> cards){
 
-
     const QSize endSize(31, 41);
-    const QSize startSize(310, 410);
-    const int parentWidth = 1920 - 200;
-    const int parentHeight = 1080;
+    const int card_size_x = 248;
+    const int card_size_y = 328;
+    const QSize startSize(card_size_x, card_size_y);
+    const int parentWidth = parent->width();
+    const int parentHeight = parent -> height();
     const int spacing = -70; // 卡片间距
 
     // 计算卡片排列的总宽度
@@ -24,7 +25,6 @@ void CardPileAnimation::applyDisCardAnimation(QVector<Card *> cards){
     int yPos = parentHeight;
     // 使用并行动画组管理所有卡片动画
     const int animationDuration = 600; // 每个卡片动画总时长
-
 
     int card_size = cards.size();
     for (int i = card_size - 1; i >= 0; --i) {
@@ -55,10 +55,9 @@ void CardPileAnimation::applyDisCardAnimation(QVector<Card *> cards){
         // 透明度动画（1 -> 0）
         QPropertyAnimation *opacityAnim = new QPropertyAnimation(opacityEffect, "opacity", parent);
         opacityAnim->setDuration(animationDuration);
-        opacityAnim->setStartValue(0.5);
+        opacityAnim->setStartValue(1.0);
         opacityAnim->setEndValue(0.0);
-
-        // opacityAnim->setEasingCurve(QEasingCurve::InQuad);
+        opacityAnim->setEasingCurve(QEasingCurve::OutBack);
 
         // 组合动画（位置+大小+透明度同步）
         QParallelAnimationGroup *cardGroup = new QParallelAnimationGroup(parent);
@@ -76,31 +75,28 @@ void CardPileAnimation::applyDisCardAnimation(QVector<Card *> cards){
 
     }
 
-
     // manager->discard();
 }
 
 void CardPileAnimation::applyDrawCardAnimation(QVector<Card *> cards){
 
-
-
     // manager->drawcard();
 
-
     const QSize startSize(31, 41);
-    const QSize endSize(310, 410);
-    const int parentWidth = 1920 - 200;
-    const int parentHeight = 1080;
+    const int card_size_x = 248;
+    const int card_size_y = 328;
+    const QSize endSize(card_size_x, card_size_y);
+    const int parentWidth = parent->width();
+    const int parentHeight = parent -> height();
     const int spacing = -70; // 卡片间距
     // QVector<Card *> cards = control->get_handcard();
 
     // 计算卡片排列的总宽度
     int totalWidth = cards.size() * endSize.width() + (cards.size() - 1) * spacing;
-    int startX = parentWidth - totalWidth - 50; // 右侧起始位置
-    int yPos = 50;
+    int startX = (parentWidth - totalWidth) / 2; // 右侧起始位置
+    int yPos = parentHeight - 328;
     // 使用并行动画组管理所有卡片动画
     const int animationDuration = 600; // 每个卡片动画总时长
-
 
     int card_size = cards.size();
     for (int i = card_size - 1; i >= 0; --i) {

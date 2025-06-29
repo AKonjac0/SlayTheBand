@@ -1,16 +1,16 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include "Buff.h"
-#include "mainwindow.h"
-#include "Card.h"
+#include "QWidget"
 #include <QLabel>
+#include <QString>
+#include <QMovie>
 #include "healthbar.h"
 
 class Character
 {
 public:
-    Character(QString _name, int _HP, MainWindow* _parent);
+    Character(QString _name, int _HP, QWidget* _parent);
     virtual ~Character();
 
     int getHP() const { return HP; }
@@ -21,13 +21,12 @@ public:
     QLabel* getAvatar() { return character_avatar; }
 
 private:
-    MainWindow* parent;
-    QVector<Buff> buff;
-    QVector<Card*> hand_cards;
+    QWidget* parent;
     int HP;
     int maxHP;
     QString name;
     QLabel* character_avatar;
+    QMovie* illustration;
     HealthBar* healthBar;  // 血条控件
 };
 

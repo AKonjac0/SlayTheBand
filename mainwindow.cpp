@@ -9,10 +9,7 @@
 #include <QGraphicsView>
 #include <QGraphicsProxyWidget>
 #include <QGraphicsOpacityEffect>
-#include "Card_Manager.h"
-#include "Player.h"
-#include "Enemy.h"
-#include "Music_Manager.h"
+
 #define PLAYER_MAX_HP 100
 #define PLAYER_MAX_MP 3
 
@@ -25,16 +22,23 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     // 设置窗口标题和大小
-    setWindowTitle("按钮动画效果演示");
-    resize(1920, 1080);
+    setWindowTitle("SlayTheBand");
+    setFixedSize(1920, 1080);
+    QPixmap bkgnd(":/image/images/Background1.jpg");
+    bkgnd = bkgnd.scaled(this -> size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+    QPalette palette;
+    palette.setBrush(QPalette::Window, bkgnd);
+
+    this -> setPalette(palette);
 
     card_manager = new Card_Manager(this);
     card_view = new CardView(card_manager, this);
 
 
-    Player* player = new Player("slime_balloon", PLAYER_MAX_HP, this, PLAYER_MAX_MP);
-    player->show_character(100,700,100,200);
-    Music_Manager *music = new Music_Manager();
+    player = new Player("uika", PLAYER_MAX_HP, this, PLAYER_MAX_MP);
+    player->show_character(300, 280, 248, 328);
+    music = new Music_Manager();
     music->play(":/music/OST/haruhikage.wav");
 
 }
@@ -43,6 +47,8 @@ MainWindow::~MainWindow()
 {
     delete card_manager;
     delete card_view;
+    delete player;
+    delete music;
     delete ui;
 }
 

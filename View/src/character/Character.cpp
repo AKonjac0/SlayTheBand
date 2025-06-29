@@ -1,13 +1,16 @@
 #include "Character.h"
 #include <QDebug>
 #include <QTimer>
+#include <QRect>
 
-Character::Character(QString _name, int _HP, MainWindow* _parent)
+Character::Character(QString _name, int _HP, QWidget* _parent)
     : name(_name), HP(_HP), maxHP(_HP), parent(_parent)
 {
     // 创建角色头像标签
     character_avatar = new QLabel(parent);
     character_avatar->setObjectName("character_avatar_" + name);
+    QString pic_path = ":image/images/" + _name + ".gif";
+    illustration = new QMovie(pic_path);
 
     // 创建血条控件
     healthBar = new HealthBar(character_avatar);
@@ -19,7 +22,9 @@ Character::~Character()
     if (character_avatar) {
         delete character_avatar;
     }
-    // healthBar是character_avatar的子控件，会自动删除
+    if (illustration) {
+        delete illustration;
+    }
 }
 
 void Character::setHP(int newHP)
@@ -35,22 +40,11 @@ void Character::show_character(int x, int y, int width, int height)
         return;
     }
 
-    // 设置角色头像大小
-    character_avatar->setFixedSize(310, 410);
+    // 设置角色头像大小和位置
+    character_avatar->setGeometry(x, y, width, height);
 
-    // 设置角色图片
-    QString imagePath = ":image/images/" + this->getname() + ".png";
-    QPixmap pixmap(imagePath);
-
-    if (pixmap.isNull()) {
-        qWarning() << "Failed to load character image:" << imagePath;
-        character_avatar->setStyleSheet("background-color: #2c3e50; border: 2px solid #7f8c8d;");
-        character_avatar->setAlignment(Qt::AlignCenter);
-        character_avatar->setText("Image not found:\n" + this->getname());
-    } else {
-        QString characterPic = "QLabel { border-image: url(" + imagePath + "); }";
-        character_avatar->setStyleSheet(characterPic);
-    }
+    character_avatar -> setMovie(illustration);
+    illustration -> start();
 
     // 定位血条
     healthBar->setMaxHealth(maxHP);
@@ -60,10 +54,4 @@ void Character::show_character(int x, int y, int width, int height)
     // 确保显示在最上层
     character_avatar->raise();
     character_avatar->show();
-
-    // 调试信息
-    qDebug() << "Displaying character:" << name
-             << "| Position:" << character_avatar->geometry()
-             << "| Parent size:" << parent->size()
-             << "| Image path:" << imagePath;
 }

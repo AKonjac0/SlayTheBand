@@ -3,6 +3,7 @@
 #include <QPushButton>
 #include "Card_Manager.h"
 #include "CardPileAnimation.h"
+#include "CardAnimation.h"
 #include "CardPile.h"
 class Card_Button{
 public:
@@ -16,6 +17,7 @@ private:
     QPushButton *next_round;
     Card_Manager *manager;
     CardPileAnimation *animation;
+    CardAnimation *next_round_button_animation;
     CardPile *pile;
     bool next_round_click;
 };

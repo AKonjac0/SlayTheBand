@@ -3,15 +3,19 @@
 // View
 
 Card_Button::Card_Button(Card_Manager *manager, QWidget *parent, CardPile *pile) : manager(manager), parent(parent), next_round_click(true), pile(pile){
-    next_round = new QPushButton("next_round", parent);
-    next_round->setGeometry(50, 460, 100, 60);
+    next_round = new QPushButton("下一回合", parent);
+    next_round->setGeometry(1600, 650, 200, 200);
+    next_round->setFont(QFont("Microsoft YaHei UI", 16, QFont::Bold));
+    QString next_round_button_pic = "QPushButton{color: white; border-image: url(:image/images/endTurnButton.png);}";
+    next_round->setStyleSheet(next_round_button_pic);
     animation = new CardPileAnimation(parent);
-
+    next_round_button_animation = new CardAnimation(parent);
 
     drawcards();
 
     QObject::connect(next_round, &QPushButton::clicked, parent, [this]() {
         // 应用动画效果
+        next_round_button_animation->applyButtonAnimation(next_round);
         if(next_round_click){
             next_round_click = false;
             this->discards();

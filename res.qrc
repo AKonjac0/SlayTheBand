@@ -10,6 +10,10 @@
         <file>images/second_wind.png</file>
         <file>images/defend.png</file>
         <file>images/slime_balloon.png</file>
+        <file>images/uika.gif</file>
+        <file>images/soyo.gif</file>
+        <file>images/Background1.jpg</file>
+        <file>images/endTurnButton.png</file>
     </qresource>
     <qresource prefix="/music">
         <file>OST/haruhikage.wav</file>

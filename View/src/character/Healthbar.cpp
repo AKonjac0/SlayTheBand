@@ -5,7 +5,8 @@
 HealthBar::HealthBar(QWidget *parent)
     : QWidget(parent)
 {
-    setFixedHeight(20);
+    setFixedHeight(15);
+    setFixedWidth(248);
     m_animation = new QPropertyAnimation(this, "value", this);
     m_animation->setDuration(500); // 动画时长500ms
     m_animation->setEasingCurve(QEasingCurve::OutQuad);
