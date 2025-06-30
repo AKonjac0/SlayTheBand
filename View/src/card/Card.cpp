@@ -10,7 +10,7 @@
 #include <QGraphicsView>
 
 Card::Card(Card_Meta *meta, QWidget *parent) :meta(meta), parent(parent) {
-    button = new QPushButton("card", parent);
+    button = new HoverButton("card", parent, true);
     QString cardPic = "QPushButton{border-image: url(:image/images/" + meta -> get_card_name() + ".png);}";
     button->setStyleSheet(cardPic);
     // button->show();
@@ -38,7 +38,7 @@ Card::~Card(){
     delete animation;
 }
 
-QPushButton* Card::getButton() const {
+HoverButton* Card::getButton() const {
     return button;
 }
 

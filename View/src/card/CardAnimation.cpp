@@ -6,12 +6,13 @@
 CardAnimation::CardAnimation(QWidget *parent) : parent(parent) {}
 
 
-void CardAnimation::applyButtonAnimation(QPushButton *button)
+void CardAnimation::applyButtonAnimation(HoverButton *button)
 {
 
-    static bool isAnimating = false;
-    if(isAnimating == false) isAnimating = true;
-    else return;
+
+    if(button->Animating()) return;
+    button->Animating() = true;
+
 
 
     QSequentialAnimationGroup* group = new QSequentialAnimationGroup(parent);
@@ -52,8 +53,11 @@ void CardAnimation::applyButtonAnimation(QPushButton *button)
     group->addAnimation(reset);
     group->start(QAbstractAnimation::DeleteWhenStopped);
 
-    QObject::connect(group, &QPropertyAnimation::finished, []() {
-        isAnimating = false;
+    QObject::connect(group, &QPropertyAnimation::finished, [button]() {
+
+        button->Animating() = false;
+
     });
+
 
 }

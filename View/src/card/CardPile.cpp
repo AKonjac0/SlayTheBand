@@ -12,6 +12,7 @@ void CardPile::create_cards(){
         Card *card = new Card(meta, parent);
         cards.push_back(card);
     }
+    setHover(false);
 }
 void CardPile::clear_cards(){
     for(Card *card : cards) delete card;
@@ -19,4 +20,29 @@ void CardPile::clear_cards(){
 }
 QVector<Card *> CardPile::get_cards(){
     return cards;
+}
+
+void CardPile::setAnimating(bool isAnimating){
+    for(Card *card : cards){
+        card->getButton()->Animating() = isAnimating;
+    }
+}
+
+bool CardPile::isAnimating(){
+    for(Card *card : cards){
+        if(card->getButton()->Animating()) return true;
+    }
+    return false;
+}
+void CardPile::setHover(bool isHover){
+    for(Card *card : cards){
+        card->getButton()->Hover() = isHover;
+    }
+}
+
+bool CardPile::isHover(){
+    for(Card *card : cards){
+        if(card->getButton()->Hover()) return true;
+    }
+    return false;
 }

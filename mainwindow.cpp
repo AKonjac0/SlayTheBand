@@ -10,6 +10,7 @@
 #include <QGraphicsProxyWidget>
 #include <QGraphicsOpacityEffect>
 
+#include "HoverButton.h"
 #define PLAYER_MAX_HP 100
 #define PLAYER_MAX_MP 3
 
@@ -21,7 +22,13 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle("SlayTheBand");
+
     setFixedSize(1920, 1080);
+
+    // setFixedSize(1440, 1080);
+    // QPixmap bkgnd(":/image/images/Background1.jpg");
+    // bkgnd = bkgnd.scaled(this -> size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
 
     page_manager = new PageManager(this, this->width(), this->height());
     QWidget *page = page_manager->get_now_page();
@@ -35,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     // 音乐播放器
     music = new Music_Manager();
     music->play(":/music/OST/haruhikage.wav");
+
 }
 
 MainWindow::~MainWindow()

@@ -63,8 +63,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         View/include/card/CardPileAnimation.h
         View/src/card/CardPile.cpp
         View/include/card/CardPile.h
+
         View/include/page/PageManager.h
         View/src/page/PageManager.cpp
+
+        View/src/card/HoverButton.cpp
+        View/include/card/HoverButton.h
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SlayTheShrike APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

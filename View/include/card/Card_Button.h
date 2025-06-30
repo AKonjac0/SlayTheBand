@@ -1,6 +1,6 @@
 #ifndef CARD_BUTTON_H
 #define CARD_BUTTON_H
-#include <QPushButton>
+#include "HoverButton.h"
 #include "Card_Manager.h"
 #include "CardPileAnimation.h"
 #include "CardAnimation.h"
@@ -14,7 +14,7 @@ private:
     void discards();
 private:
     QWidget *parent;
-    QPushButton *next_round;
+    HoverButton *next_round;
     Card_Manager *manager;
     CardPileAnimation *animation;
     CardAnimation *next_round_button_animation;

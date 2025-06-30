@@ -11,6 +11,10 @@ CardPileAnimation::CardPileAnimation(QWidget *parent) : parent(parent) {}
 
 void CardPileAnimation::applyDisCardAnimation(QVector<Card *> cards){
 
+    // isAnimating, prevent other animations
+
+
+
     const QSize endSize(31, 41);
     const int card_size_x = 248;
     const int card_size_y = 328;
@@ -94,7 +98,7 @@ void CardPileAnimation::applyDrawCardAnimation(QVector<Card *> cards){
     // 计算卡片排列的总宽度
     int totalWidth = cards.size() * endSize.width() + (cards.size() - 1) * spacing;
     int startX = (parentWidth - totalWidth) / 2; // 右侧起始位置
-    int yPos = parentHeight - 328;
+    int yPos = parentHeight - card_size_y + 100;
     // 使用并行动画组管理所有卡片动画
     const int animationDuration = 600; // 每个卡片动画总时长
 

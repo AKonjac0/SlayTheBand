@@ -10,7 +10,10 @@ public:
     void create_cards();
     void clear_cards();
     QVector<Card *> get_cards();
-
+    void setAnimating(bool isAnimating);
+    bool isAnimating();
+    void setHover(bool isHover);
+    bool isHover();
 private:
     Card_Manager *manager;
     QWidget *parent;
