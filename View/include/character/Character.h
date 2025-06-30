@@ -15,10 +15,12 @@ public:
 
     int getHP() const { return HP; }
     QString getname() const { return name; }
-    void setHP(int newHP);
-
-    void show_character(int, int, int, int);
-    QLabel* getAvatar() { return character_avatar; }
+    int getmaxHP() const { return maxHP;}
+    void HP_change(int amount);
+    virtual void show_character(int, int, int, int) = 0;
+    QLabel* getAvatar() const { return character_avatar; }
+    HealthBar* getHealthBar() const { return healthBar; }
+    QMovie* getIllustration() const { return illustration; }
 
 private:
     QWidget* parent;
