@@ -12,19 +12,13 @@ ManaBar::ManaBar(QWidget *parent)
     m_animation->setDuration(300); // 动画时长300ms
     m_animation->setEasingCurve(QEasingCurve::OutCubic);
 
-    // 加载法力粒子效果
-    m_manaParticle = QPixmap(":/image/images/mana_particle.png");
-    if (m_manaParticle.isNull()) {
-        qWarning() << "Failed to load mana particle image";
-        // 创建默认粒子效果
-        m_manaParticle = QPixmap(16, 16);
-        m_manaParticle.fill(Qt::transparent);
-        QPainter p(&m_manaParticle);
-        p.setRenderHint(QPainter::Antialiasing);
-        p.setBrush(QColor(100, 200, 255, 200));
-        p.setPen(Qt::NoPen);
-        p.drawEllipse(0, 0, 16, 16);
-    }
+    m_manaParticle = QPixmap(16, 16);
+    m_manaParticle.fill(Qt::transparent);
+    QPainter p(&m_manaParticle);
+    p.setRenderHint(QPainter::Antialiasing);
+    p.setBrush(QColor(100, 200, 255, 200));
+    p.setPen(Qt::NoPen);
+    p.drawEllipse(0, 0, 16, 16);
 }
 
 void ManaBar::setMaxMana(int max)

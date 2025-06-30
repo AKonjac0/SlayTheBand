@@ -28,7 +28,7 @@ void Player::show_character(int x, int y, int width, int height)
     getHealthBar()->setMaxHealth(getmaxHP());
     getHealthBar()->setCurrentHealth(getHP());
     getHealthBar()->setFixedWidth(getAvatar()->width() - 40); // 血条宽度
-    getHealthBar()->move(20, getAvatar()->height() - 50); // 血条位置（底部）
+    getHealthBar()->move(20, getAvatar()->height() - 60); // 血条位置（底部）
 
     getManaBar()->setMaxMana(getMaxMP());
     getManaBar()->setCurrentMana(getMP());

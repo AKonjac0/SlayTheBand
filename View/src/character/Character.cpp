@@ -11,7 +11,8 @@ Character::Character(QString _name, int _HP, QWidget* _parent)
     character_avatar->setObjectName("character_avatar_" + name);
     QString pic_path = ":image/images/" + _name + ".gif";
     illustration = new QMovie(pic_path);
-
+    QImageReader reader(pic_path);
+    size = reader.size();
     // 创建血条控件
     healthBar = new HealthBar(character_avatar);
 }

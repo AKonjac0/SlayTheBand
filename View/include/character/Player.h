@@ -17,7 +17,6 @@ public:
 private:
     int MP;
     int maxMP;
-    QMovie* illustration;
     ManaBar* manaBar;
 };
 

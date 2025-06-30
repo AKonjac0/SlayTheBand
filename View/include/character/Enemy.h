@@ -2,12 +2,12 @@
 #define ENEMY_H
 
 #include "Character.h"
-#include "mainwindow.h"
+#include <QWidget>
 
 class Enemy : public Character
 {
 public:
-    Enemy(QString _name, int _HP, MainWindow* _parent);
+    Enemy(QString _name, int _HP, QWidget* _parent);
     void show_character (int, int, int, int) override;
 };
 

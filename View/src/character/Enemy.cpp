@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-Enemy::Enemy(QString _name, int _HP, MainWindow* _parent): Character(_name, _HP, _parent) {}
+Enemy::Enemy(QString _name, int _HP, QWidget* _parent): Character(_name, _HP, _parent) {}
 
 void Enemy::show_character(int x, int y, int width, int height)
 {

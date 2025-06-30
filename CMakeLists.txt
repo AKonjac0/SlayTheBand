@@ -71,6 +71,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         View/include/card/HoverButton.h
         View/src/character/Manabar.cpp
         View/include/character/Manabar.h
+        View/include/character/CharacterAnimation.h
+        View/src/character/CharacterAnimation.cpp
+        Defs.h
 
     )
 # Define target properties for Android with Qt 6 as:
