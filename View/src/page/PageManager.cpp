@@ -1,11 +1,12 @@
 #include "PageManager.h"
+#include "Arrow.h"
 #include <QPushButton>
 #include <QParallelAnimationGroup>
 #include <QPropertyAnimation>
 PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     : parent(parent), page_width(page_width), page_height(page_height) {
     // 创建页面1
-    page1 = new QWidget(parent);
+    page1 = new Arrow(parent);
     page1->setGeometry(0, 0, page_width, page_height);
     page1->setAutoFillBackground(true);
 

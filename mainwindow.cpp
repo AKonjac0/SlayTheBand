@@ -9,16 +9,11 @@
 #include <QGraphicsView>
 #include <QGraphicsProxyWidget>
 #include <QGraphicsOpacityEffect>
-<<<<<<< HEAD
-#include "Arrow.h"
-// #include "HoverButton.h"
-#define PLAYER_MAX_HP 100
-#define PLAYER_MAX_MP 3
-=======
 
+#include "Arrow.h"
 #include "HoverButton.h"
 #include "Defs.h"
->>>>>>> 0352b240a741bca3425bdd66fd47b0f58104fd4b
+
 
 using namespace std;
 
@@ -39,6 +34,9 @@ MainWindow::MainWindow(QWidget *parent)
     page_manager = new PageManager(this, this->width(), this->height());
     QWidget *page = page_manager->get_now_page();
 
+    // Arrow *arrow = new Arrow(this);
+    // arrow->show();
+
     card_manager = new Card_Manager(page);
     card_view = new CardView(card_manager, page);
     QPair<Player*,Enemy*>* opponents = new QPair(
@@ -52,10 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
     music = new Music_Manager();
     music->play(":/music/OST/haruhikage.wav");
 
-    Arrow *arrow = new Arrow(this);
 
-    arrow->raise();
-    arrow->show();
 }
 
 MainWindow::~MainWindow()

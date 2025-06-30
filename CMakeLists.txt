@@ -71,17 +71,15 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         View/src/card/HoverButton.cpp
         View/include/card/HoverButton.h
-<<<<<<< HEAD
+
         View/src/play/Arrow.cpp
         View/src/play/Arrow.h
-=======
+
         View/src/character/Manabar.cpp
         View/include/character/Manabar.h
         View/include/character/CharacterAnimation.h
         View/src/character/CharacterAnimation.cpp
         Defs.h
->>>>>>> 0352b240a741bca3425bdd66fd47b0f58104fd4b
-
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SlayTheShrike APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

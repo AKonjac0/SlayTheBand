@@ -17,5 +17,6 @@ private:
 
     Card_Button *card_button;
     CardPile *card_pile;
+    // Arrow *arrow;
 };
 #endif // CARDVIEW_H

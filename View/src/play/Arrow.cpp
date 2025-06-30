@@ -7,6 +7,7 @@ Arrow::Arrow(QWidget *parent) : QWidget(parent), mousePos(100, 100)
     blockImg.load(":image/images/reticleBlock.png");
     arrowImg.load(":image/images/reticleArrow.png");
     setFixedSize(1920, 1080);
+    // setAttribute(Qt::WA_TransparentForMouseEvents, true);
 
     // 如果加载失败，使用彩色方块替代
     if(blockImg.isNull()) {
