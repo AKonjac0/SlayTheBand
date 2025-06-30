@@ -14,7 +14,7 @@ class HoverButton : public QPushButton
 
 public:
     explicit HoverButton(const QString &name, QWidget *parent = nullptr, bool isHover = false)
-        : QPushButton(name, parent), m_originalPos(this->pos()), m_posOffset(QPoint(0, 0)), parent(parent), isAnimating(false), isHover(isHover)
+        : QPushButton(name, parent), m_originalPos(this->pos()), m_posOffset(QPoint(0, 0)), parent(parent), isAnimating(false), isHover(isHover), isSelected(false)
     {
         // if(isHover)
         installEventFilter(this);  // 安装事件过滤器
@@ -32,6 +32,9 @@ public:
     bool &Hover(){
         return isHover;
     }
+    bool &Selected(){
+        return isSelected;
+    }
 
 protected:
     // 事件过滤器处理鼠标进入/离开
@@ -48,6 +51,7 @@ private:
     QPropertyAnimation *m_animation = nullptr; // 动画指针
     bool isAnimating = false;
     bool isHover = false;
+    bool isSelected = false;
 };
 
 #endif // HOVERBUTTON_H

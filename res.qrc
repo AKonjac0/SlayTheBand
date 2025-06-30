@@ -15,6 +15,8 @@
         <file>images/Background1.jpg</file>
         <file>images/endTurnButton.png</file>
         <file>images/map.png</file>
+        <file>images/reticleArrow.png</file>
+        <file>images/reticleBlock.png</file>
     </qresource>
     <qresource prefix="/music">
         <file>OST/haruhikage.wav</file>

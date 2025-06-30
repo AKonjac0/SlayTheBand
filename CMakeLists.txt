@@ -32,6 +32,8 @@ include_directories(Model/include/buff/)
 include_directories(Model/src/buff/)
 include_directories(View/include/page/)
 include_directories(View/src/page/)
+include_directories(View/include/play/)
+include_directories(View/src/play/)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -69,6 +71,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         View/src/card/HoverButton.cpp
         View/include/card/HoverButton.h
+        View/src/play/Arrow.cpp
+        View/src/play/Arrow.h
 
     )
 # Define target properties for Android with Qt 6 as:

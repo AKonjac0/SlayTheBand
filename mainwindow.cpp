@@ -9,8 +9,8 @@
 #include <QGraphicsView>
 #include <QGraphicsProxyWidget>
 #include <QGraphicsOpacityEffect>
-
-#include "HoverButton.h"
+#include "Arrow.h"
+// #include "HoverButton.h"
 #define PLAYER_MAX_HP 100
 #define PLAYER_MAX_MP 3
 
@@ -43,6 +43,10 @@ MainWindow::MainWindow(QWidget *parent)
     music = new Music_Manager();
     music->play(":/music/OST/haruhikage.wav");
 
+    Arrow *arrow = new Arrow(this);
+
+    arrow->raise();
+    arrow->show();
 }
 
 MainWindow::~MainWindow()
