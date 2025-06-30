@@ -3,10 +3,6 @@
 
 #include <QMainWindow>
 #include <QStackedWidget>
-#include "Card_Manager.h"
-#include "CardView.h"
-#include "CharacterAnimation.h"
-#include "Music_Manager.h"
 #include "PageManager.h"
 
 QT_BEGIN_NAMESPACE
@@ -25,9 +21,5 @@ public:
 private:
     Ui::MainWindow *ui;
     PageManager *page_manager;
-    Card_Manager *card_manager;
-    CardView *card_view;
-    CharacterAnimation* character_animation;
-    Music_Manager *music;
 };
 #endif // MAINWINDOW_H

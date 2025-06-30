@@ -1,10 +1,70 @@
-#include "PageManager.h"
-#include "Arrow.h"
 #include <QPushButton>
 #include <QParallelAnimationGroup>
+#include <QtMultimediaWidgets>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QGraphicsProxyWidget>
 #include <QPropertyAnimation>
+#include <QMediaPlayer>
+#include "Defs.h"
+#include "Arrow.h"
+#include "PageManager.h"
+
 PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     : parent(parent), page_width(page_width), page_height(page_height) {
+
+    music = new Music_Manager();
+    music->play("../../OST/ready_to_go.wav");
+
+    page0 = new QWidget(parent);
+    page0->setGeometry(0, 0, page_width, page_height);
+    page0->setAutoFillBackground(true);
+
+    QGraphicsScene *scene = new QGraphicsScene(page0);
+    QGraphicsView *graphicsView = new QGraphicsView(scene, page0);
+    graphicsView->setGeometry(0, 0, 1920, 1080);
+    graphicsView->setFrameShape(QFrame::NoFrame);
+    graphicsView->setStyleSheet("background: transparent; border: none;");
+    graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    // 创建视频项
+    QGraphicsVideoItem *videoItem = new QGraphicsVideoItem;
+    videoItem->setSize(QSizeF(1920, 1080));
+    scene->addItem(videoItem);
+
+    QAudioOutput *audioOutput = new QAudioOutput();
+
+    // 创建媒体播放器
+    QMediaPlayer *videoPlayer = new QMediaPlayer(page0);
+    videoPlayer->setVideoOutput(videoItem);
+    videoPlayer->setAudioOutput(audioOutput);
+    videoPlayer->setLoops(-1);
+    videoPlayer->setSource(QUrl::fromLocalFile("../../Videos/video1.mp4"));
+    videoPlayer->play();
+
+    // 创建按钮（作为图形代理控件）
+    QPushButton *btn = new QPushButton("开始游戏");
+    btn->setStyleSheet(
+        "QPushButton {"
+        "   background-color: rgba(50, 150, 250, 200);"
+        "   color: white;"
+        "   font-size: 16px;"
+        "   border-radius: 10px;"
+        "   padding: 10px;"
+        "}"
+        );
+    QGraphicsProxyWidget *buttonProxy = scene->addWidget(btn);
+    buttonProxy->setPos(100, 100); // 按钮位置
+
+    // 连接信号
+    QAbstractButton::connect(btn, &QPushButton::clicked, [this, videoPlayer](){
+        qDebug() << "Game Start";
+        enterGame();
+        switchToPage(page1, PageAnimationDirection::RightToLeft);
+        videoPlayer->stop();
+    });
+
     // 创建页面1
     page1 = new Arrow(parent);
     page1->setGeometry(0, 0, page_width, page_height);
@@ -31,14 +91,14 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     page2->move(page_width, 0);
 
     // 创建切换按钮1
-    switchBtn1 = new QPushButton(page1);
+    QPushButton *switchBtn1 = new QPushButton(page1);
     switchBtn1->move(1830, 20);
     switchBtn1->resize(64, 64);
     QString BtnPic = "QPushButton{border-image: url(:image/images/map.png);}";
     switchBtn1->setStyleSheet(BtnPic);
 
     // 创建切换按钮2
-    switchBtn2 = new QPushButton(page2);
+    QPushButton *switchBtn2 = new QPushButton(page2);
     switchBtn2->move(1830, 20);
     switchBtn2->resize(64, 64);
     switchBtn2->setStyleSheet(BtnPic);
@@ -52,9 +112,30 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
         switchToPage(page1, PageAnimationDirection::LeftToRight);
     });
 
+    card_manager = new Card_Manager(page1);
+    card_view = new CardView(card_manager, page1);
+    player = new Player("uika", PLAYER_MAX_HP, page1, PLAYER_MAX_MP);
+    enemy = new Enemy("soyo", ENEMY_MAX_HP, page1);
+    QPair<Player*,Enemy*>* opponents = new QPair<Player*,Enemy*>(player, enemy);
+    character_animation = new CharacterAnimation(opponents);
+    page0->show();
     page1->show();
     page2->show();
-    now_page = page1;
+
+    page0->raise();
+    now_page = page0;
+}
+
+PageManager::~PageManager() {
+    if (card_manager) delete card_manager;
+    if (card_view) delete card_view;
+    if (character_animation) delete character_animation;
+    if (music) delete music;
+    if (player) delete player;
+    if (enemy) delete enemy;
+    if (page0) delete page0;
+    if (page1) delete page1;
+    if (page2) delete page2;
 }
 
 void PageManager::switchToPage(QWidget *targetPage, PageAnimationDirection direction) {
@@ -132,13 +213,7 @@ void PageManager::switchToPage(QWidget *targetPage, PageAnimationDirection direc
     targetPage->raise();
 }
 
-PageManager::~PageManager() {
-    delete switchBtn1;
-    delete page1;
-    delete switchBtn2;
-    delete page2;
-}
-
-QWidget *PageManager::get_now_page() {
-    return now_page;
+void PageManager::enterGame() {
+    music->play("../../OST/haruhikage.wav");
+    character_animation->show();
 }

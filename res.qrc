@@ -18,7 +18,4 @@
         <file>images/reticleArrow.png</file>
         <file>images/reticleBlock.png</file>
     </qresource>
-    <qresource prefix="/music">
-        <file>OST/haruhikage.wav</file>
-    </qresource>
 </RCC>

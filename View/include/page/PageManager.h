@@ -2,7 +2,10 @@
 #define PAGEMANAGER_H
 #include <QVector>
 #include <QWidget>
-#include <QPushButton>
+#include "Card_Manager.h"
+#include "CardView.h"
+#include "CharacterAnimation.h"
+#include "Music_Manager.h"
 
 enum class PageAnimationDirection {
     LeftToRight,
@@ -13,18 +16,26 @@ class PageManager{
 public:
     PageManager(QWidget *parent, int page_width, int page_height);
     ~PageManager();
-    QWidget *get_now_page();
 private:
     void switchToPage(QWidget *targetPage, PageAnimationDirection direction);
+    void enterGame();
+
     QWidget *now_page;
     QWidget *parent;
     int page_width;
     int page_height;
+    QWidget *page0;
     QWidget *page1;
-    QPushButton *switchBtn1;
     QWidget *page2;
-    QPushButton *switchBtn2;
     bool animationInProgress = false;
+
+    Player *player;
+    Enemy *enemy;
+
+    Card_Manager *card_manager;
+    CardView *card_view;
+    CharacterAnimation* character_animation;
+    Music_Manager *music;
 };
 
 #endif // PAGEMANAGER_H

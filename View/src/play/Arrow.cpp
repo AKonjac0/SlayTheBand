@@ -38,7 +38,7 @@ void Arrow::paintEvent(QPaintEvent *) {
     if(mousePos.x() - width() / 2 == 0){
         return;
     }
-    qDebug() << mousePos.x() << " " << width() / 2.0;
+    // qDebug() << mousePos.x() << " " << width() / 2.0;
     double d = 160000.0 / abs(mousePos.x() - width() / 2.0);
 
 
