@@ -11,7 +11,7 @@ QPoint HoverButton::posOffset() const
 void HoverButton::setPosOffset(const QPoint &offset)
 {
     m_posOffset = offset;
-    if(isHover) move(m_originalPos + offset);
+    move(m_originalPos + offset);
 }
 
 
@@ -20,10 +20,10 @@ bool HoverButton::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == this) {
         if (event->type() == QEvent::Enter) {
-            if(isHover) startHoverAnimation(-100); // 向上移动100像素
+            startHoverAnimation(-100); // 向上移动100像素
             return true;
         } else if (event->type() == QEvent::Leave) {
-            if(isHover) startHoverAnimation(0);   // 回到原始位置
+            startHoverAnimation(0);   // 回到原始位置
             return true;
         }
     }
@@ -35,17 +35,13 @@ bool HoverButton::eventFilter(QObject *obj, QEvent *event)
 void HoverButton::startHoverAnimation(int yOffset)
 {
     // 停止当前动画（如果正在运行）
-    // if (m_animation) {
-    //     m_animation->stop();
-    //     delete m_animation;
-    // }
 
 
     if(!isHover){
-        qDebug() << "error:can't hover";
+        // qDebug() << "error:can't hover";
         return;
     }
-    // isAnimating = true;
+    isAnimating = true;
     // 创建新动画
     m_animation = new QPropertyAnimation(this, "posOffset");
     m_animation->setDuration(300); // 动画时长300ms
@@ -60,10 +56,10 @@ void HoverButton::startHoverAnimation(int yOffset)
     m_animation->setEndValue(point);
 
     // 启动动画
-    if(isHover) m_animation->start(QAbstractAnimation::DeleteWhenStopped);
-    // QObject::connect(m_animation, &QPropertyAnimation::finished, [this]() {
-    //     this->isAnimating = false;
-    // });
+    m_animation->start(QAbstractAnimation::DeleteWhenStopped);
+    QObject::connect(m_animation, &QPropertyAnimation::finished, [this]() {
+        this->isAnimating = false;
+    });
 }
 
 

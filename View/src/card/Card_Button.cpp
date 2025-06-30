@@ -5,7 +5,7 @@
 Card_Button::Card_Button(Card_Manager *manager, QWidget *parent, CardPile *pile) : manager(manager), parent(parent), next_round_click(true), pile(pile){
     next_round = new HoverButton("下一回合", parent, false);
     next_round->setGeometry(parent->width() - 400, parent->height() - 400, 200, 200);
-    next_round->setFont(QFont("Microsoft YaHei UI", 16, QFont::Bold));
+    next_round->setFont(QFont("Microsoft YaHei", 16, QFont::Bold));
     QString next_round_button_pic = "QPushButton{color: white; border-image: url(:image/images/endTurnButton.png);}";
     next_round->setStyleSheet(next_round_button_pic);
     animation = new CardPileAnimation(parent);
@@ -13,6 +13,7 @@ Card_Button::Card_Button(Card_Manager *manager, QWidget *parent, CardPile *pile)
 
     drawcards();
     pile->setHover(true);
+    pile->setAnimating(false);
 
     QObject::connect(next_round, &QPushButton::clicked, parent, [this]() {
         // 应用动画效果
@@ -49,6 +50,8 @@ void Card_Button::drawcards(){
 
     this->manager->drawcard();
     this->pile->create_cards();
+    this->pile->setHover(false);
+    this->pile->setAnimating(true);
     this->animation->applyDrawCardAnimation(this->pile->get_cards());
 }
 

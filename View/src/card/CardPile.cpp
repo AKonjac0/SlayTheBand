@@ -12,7 +12,7 @@ void CardPile::create_cards(){
         Card *card = new Card(meta, parent);
         cards.push_back(card);
     }
-    setHover(false);
+
 }
 void CardPile::clear_cards(){
     for(Card *card : cards) delete card;
