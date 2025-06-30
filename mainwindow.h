@@ -5,7 +5,7 @@
 #include <QStackedWidget>
 #include "Card_Manager.h"
 #include "CardView.h"
-#include "Player.h"
+#include "CharacterAnimation.h"
 #include "Music_Manager.h"
 #include "PageManager.h"
 
@@ -27,7 +27,7 @@ private:
     PageManager *page_manager;
     Card_Manager *card_manager;
     CardView *card_view;
-    Player *player;
+    CharacterAnimation* character_animation;
     Music_Manager *music;
 };
 #endif // MAINWINDOW_H

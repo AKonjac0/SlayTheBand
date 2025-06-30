@@ -15,19 +15,26 @@ public:
 
     int getHP() const { return HP; }
     QString getname() const { return name; }
-    void setHP(int newHP);
-
-    void show_character(int, int, int, int);
-    QLabel* getAvatar() { return character_avatar; }
+    int getmaxHP() const { return maxHP;}
+    void HP_change(int amount);
+    virtual void show_character(int, int, int, int) = 0;
+    QLabel* getAvatar() const { return character_avatar; }
+    HealthBar* getHealthBar() const { return healthBar; }
+    QMovie* getIllustration() const { return illustration; }
+    QSize getSize() const { return size; }
 
 private:
     QWidget* parent;
     int HP;
     int maxHP;
     QString name;
+
     QLabel* character_avatar;
     QMovie* illustration;
     HealthBar* healthBar;  // 血条控件
+
+    // Literally size of avatar
+    QSize size;
 };
 
 #endif // CHARACTER_H
