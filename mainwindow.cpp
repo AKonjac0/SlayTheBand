@@ -20,27 +20,21 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    // 设置窗口标题和大小
     setWindowTitle("SlayTheBand");
     setFixedSize(1920, 1080);
-    QPixmap bkgnd(":/image/images/Background1.jpg");
-    bkgnd = bkgnd.scaled(this -> size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
-    QPalette palette;
-    palette.setBrush(QPalette::Window, bkgnd);
+    page_manager = new PageManager(this, this->width(), this->height());
+    QWidget *page = page_manager->get_now_page();
 
-    this -> setPalette(palette);
+    card_manager = new Card_Manager(page);
+    card_view = new CardView(card_manager, page);
 
-    card_manager = new Card_Manager(this);
-    card_view = new CardView(card_manager, this);
-
-
-    player = new Player("uika", PLAYER_MAX_HP, this, PLAYER_MAX_MP);
+    player = new Player("uika", PLAYER_MAX_HP, page, PLAYER_MAX_MP);
     player->show_character(300, 280, 248, 328);
+
+    // 音乐播放器
     music = new Music_Manager();
     music->play(":/music/OST/haruhikage.wav");
-
 }
 
 MainWindow::~MainWindow()
@@ -48,6 +42,7 @@ MainWindow::~MainWindow()
     delete card_manager;
     delete card_view;
     delete player;
+    delete page_manager;
     delete music;
     delete ui;
 }

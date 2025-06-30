@@ -2,10 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QStackedWidget>
 #include "Card_Manager.h"
 #include "CardView.h"
 #include "Player.h"
 #include "Music_Manager.h"
+#include "PageManager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,6 +24,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    PageManager *page_manager;
     Card_Manager *card_manager;
     CardView *card_view;
     Player *player;
