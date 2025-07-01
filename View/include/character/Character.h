@@ -5,7 +5,7 @@
 #include <QLabel>
 #include <QString>
 #include <QMovie>
-#include "healthbar.h"
+#include "Healthbar.h"
 
 class Character
 {

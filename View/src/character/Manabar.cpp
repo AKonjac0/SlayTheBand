@@ -1,4 +1,4 @@
-#include "manabar.h"
+#include "Manabar.h"
 #include <QPainter>
 #include <QLinearGradient>
 #include <QDebug>
