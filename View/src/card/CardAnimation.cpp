@@ -8,12 +8,6 @@ CardAnimation::CardAnimation(QWidget *parent) : parent(parent) {}
 
 void CardAnimation::applyButtonClickAnimation(HoverButton *button)
 {
-
-
-
-
-
-
     QSequentialAnimationGroup* group = new QSequentialAnimationGroup(parent);
 
     // 1. 缩小按钮

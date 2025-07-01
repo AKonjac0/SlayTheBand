@@ -1,11 +1,7 @@
 #include "EnemyAnimation.h"
 
-EnemyAnimation::~EnemyAnimation()
-{
-    if (character_avatar) delete character_avatar;
-    if (illustration) delete illustration;
-    if (healthBar) delete healthBar;
-}
+EnemyAnimation::~EnemyAnimation() = default;
+
 
 EnemyAnimation::EnemyAnimation(EnemyMeta *_enemyMeta, QWidget *_parent): CharacterAnimation(_enemyMeta, _parent){}
 

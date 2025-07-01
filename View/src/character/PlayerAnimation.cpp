@@ -44,15 +44,6 @@ void PlayerAnimation::setHealthBarAnimation(int HP)
 }
 
 PlayerAnimation::~PlayerAnimation(){
-    if (character_avatar) {
-        delete character_avatar;
-    }
-    if (illustration) {
-        delete illustration;
-    }
-    if (healthBar) {
-        delete healthBar;
-    }
     if (manaBar) {
         delete manaBar;
     }

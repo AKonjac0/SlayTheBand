@@ -79,7 +79,9 @@ CMakeLists.txt.user*
 .pch/
 .rcc/
 .uic/
+build/
 /build*/
+*build/
 .idea/
 
 # Visual Studio Code Config

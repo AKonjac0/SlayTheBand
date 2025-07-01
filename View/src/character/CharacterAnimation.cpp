@@ -7,7 +7,4 @@ CharacterAnimation::~CharacterAnimation(){
     if (illustration != nullptr){
         delete illustration;
     }
-    if (healthBar != nullptr){
-        delete healthBar;
-    }
 }
