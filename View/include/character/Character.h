@@ -5,7 +5,10 @@
 #include <QLabel>
 #include <QString>
 #include <QMovie>
+#include <QVector>
 #include "Healthbar.h"
+#include "Card_Meta.h"
+#include "Buff.h"
 
 class Character
 {
@@ -13,6 +16,7 @@ public:
     Character(QString _name, int _HP, QWidget* _parent);
     virtual ~Character();
 
+    // basic attribute getters
     int getHP() const { return HP; }
     QString getname() const { return name; }
     int getmaxHP() const { return maxHP;}
@@ -23,18 +27,26 @@ public:
     QMovie* getIllustration() const { return illustration; }
     QSize getSize() const { return size; }
 
+    // ready to play cards
+    void AffectedBy(Card_Meta* cardMeta);
+    void PlayCard(Card_Meta* cardUsed, Character* target);
+
 private:
     QWidget* parent;
+
+    // Model
     int HP;
     int maxHP;
     QString name;
+    QVector<Buff*> buff;
 
+    // View
     QLabel* character_avatar;
     QMovie* illustration;
-    HealthBar* healthBar;  // 血条控件
-
+    HealthBar* healthBar;
     // Literally size of avatar
     QSize size;
+
 };
 
 #endif // CHARACTER_H

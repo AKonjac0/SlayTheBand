@@ -12,7 +12,7 @@
 
 Card::Card(Card_Meta *meta, QWidget *parent) :meta(meta), parent(parent) {
     button = new HoverButton("card", parent, true);
-    QString cardPic = "QPushButton{border-image: url(:image/images/" + meta -> get_card_name() + ".png);}";
+    QString cardPic = "QPushButton{border-image: url(:image/images/" + meta -> getCardName() + ".png);}";
     button->setStyleSheet(cardPic);
     // button->show();
     button->hide();

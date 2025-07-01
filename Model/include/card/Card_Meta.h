@@ -8,7 +8,11 @@ enum CardType {attack, skill, power};
 class Card_Meta{
 public:
     Card_Meta(QString card_name, CardType card_type, int energy_consume, int hurt, BuffType buff_type, int buff_level);
-    QString get_card_name();
+    QString getCardName();
+    CardType getCardType();
+    int getEnergyConsumption();
+    int getHurt();
+    Buff getBuff();
 private:
     QString card_name;
     CardType card_type;

@@ -4,6 +4,8 @@
 #include "Character.h"
 #include <QWidget>
 #include "Manabar.h"
+// #include "Card_Manager.h"
+// #include "CardView.h"
 
 class Player : public Character
 {
@@ -18,6 +20,11 @@ private:
     int MP;
     int maxMP;
     ManaBar* manaBar;
+
+    // TBD: encapsule card logic into player
+    // Card_Manager* cardManager;
+    // CardView* cardView;
+
 };
 
 #endif // PLAYER_H

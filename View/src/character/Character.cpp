@@ -34,3 +34,23 @@ void Character::HP_change(int amount)
     HP = qBound(0, HP, maxHP);
     healthBar->setCurrentHealth(HP);
 }
+
+void Character::AffectedBy(Card_Meta* cardMeta){
+    switch (cardMeta->getCardType()) {
+    case attack:
+        HP_change(-cardMeta->getHurt());
+        break;
+    case skill:
+        // TBD
+        break;
+    case power:
+        // TBD
+        break;
+    default:
+        break;
+    }
+}
+
+void Character::PlayCard(Card_Meta* cardMeta, Character* target){
+    // TBD
+}
