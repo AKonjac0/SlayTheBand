@@ -22,6 +22,8 @@ public:
     QVector<Card_Meta *> get_drawcard_pile() const;
     QVector<Card_Meta *> get_discard_pile() const;
     QVector<Card_Meta *> get_handcard() const;
+    void select_card(Card_Meta *meta);
+    Card_Meta *get_selected() const;
 public slots:
     void applyDrawCardAnimation();
     void applyDisCardAnimation();
@@ -36,6 +38,7 @@ private:
 
 private:
     int drawcard_num;
+    Card_Meta *selected = nullptr;
     QWidget *parent;
     QVector<Card_Meta *> drawcard_pile;
     QVector<Card_Meta *> discard_pile;

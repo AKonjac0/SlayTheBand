@@ -17,8 +17,10 @@ public:
 
 protected:
     void mouseMoveEvent(QMouseEvent *event) override;
-
     void paintEvent(QPaintEvent *) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+
 private:
     // 在指定位置绘制旋转后的图像
     void drawRotatedImage(QPainter &painter, const QImage &img, const QPointF &pos, qreal rotation);

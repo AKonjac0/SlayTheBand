@@ -90,3 +90,10 @@ Card_Meta *CardController::new_bash() {
     return new Card_Meta("bash", attack, 2, 8, Vulnerable, 2);
 }
 
+void CardController::select_card(Card_Meta *meta){
+    selected = meta;
+}
+
+Card_Meta *CardController::get_selected() const {
+    return selected;
+}
