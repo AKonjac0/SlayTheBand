@@ -14,4 +14,6 @@
 
 // 位置可以固定，图像大小由贴图大小决定，就不宏定义了
 
+#define LOG qDebug() << __FILE__ << ":" << __LINE__ << ":"
+
 #endif // DEFS_H

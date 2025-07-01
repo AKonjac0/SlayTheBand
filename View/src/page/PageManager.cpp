@@ -80,6 +80,7 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
         page1->setPalette(palette1);
     }
 
+
     // 创建页面2
     page2 = new QWidget(parent);
     page2->setGeometry(0, 0, page_width, page_height);
@@ -164,8 +165,7 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
 
     player = new Player("uika", PLAYER_MAX_HP, page1, PLAYER_MAX_MP);
     enemy = new Enemy("soyo", ENEMY_MAX_HP, page1);
-    QPair<Player*,Enemy*>* opponents = new QPair<Player*,Enemy*>(player, enemy);
-    character_animation = new CharacterAnimation(opponents);
+
     page0->show();
     page1->show();
     page2->show();
@@ -177,7 +177,6 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
 PageManager::~PageManager() {
     delete card_manager;
     delete card_view;
-    delete character_animation;
     delete music;
     delete player;
     delete enemy;
@@ -271,8 +270,20 @@ void PageManager::switchToPage(QWidget *targetPage, PageAnimationDirection direc
 }
 
 void PageManager::enterGame() {
-    music->play("../.../OST/haruhikage.wav");
-    character_animation->show();
+    music->play("../../OST/haruhikage.wav");
+    player->show(
+        PLAYER_POSITION_X,
+        SCREEN_HEIGHT-PLAYER_POSITION_Y-player->getSize().height(),
+        player->getSize().width(),
+        player->getSize().height()
+    );
+
+    enemy->show(
+        SCREEN_WIDTH-PLAYER_POSITION_X-enemy->getSize().width(),
+        SCREEN_HEIGHT-PLAYER_POSITION_Y-enemy->getSize().height(),
+        enemy->getSize().width(),
+        enemy->getSize().height()
+    );
 }
 
 Card_Manager *PageManager::getCardManager() {

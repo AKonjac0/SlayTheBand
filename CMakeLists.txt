@@ -31,10 +31,14 @@ include_directories(Model/include/card/)
 include_directories(Model/src/card/)
 include_directories(Model/include/buff/)
 include_directories(Model/src/buff/)
+include_directories(Model/include/character/)
+include_directories(Model/src/character/)
 include_directories(View/include/page/)
 include_directories(View/src/page/)
 include_directories(View/include/play/)
 include_directories(View/src/play/)
+include_directories(ViewModel/include/character/)
+include_directories(ViewModel/src/character/)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -48,9 +52,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Model/include/buff/Buff.h Model/src/buff/Buff.cpp
         ViewModel/include/card/Card_Manager.h ViewModel/src/card/Card_Manager.cpp
         Model/include/card/Card_Meta.h Model/src/card/Card_Meta.cpp
-        View/include/character/Player.h View/src/character/Player.cpp
-        View/include/character/Enemy.h View/src/character/Enemy.cpp
-        View/include/character/Character.h View/src/character/Character.cpp
+
         View/include/character/Healthbar.h View/src/character/Healthbar.cpp
         View/src/card/Card_Button.cpp
         View/include/card/Card_Button.h
@@ -80,14 +82,28 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         View/include/character/Manabar.h
         View/include/character/CharacterAnimation.h
         View/src/character/CharacterAnimation.cpp
+        View/include/character/PlayerAnimation.h
+        View/src/character/PlayerAnimation.cpp
+        View/include/character/EnemyAnimation.h
+        View/src/character/EnemyAnimation.cpp
         Defs.h
-            View/include/page/CardRewardPage.h
-            View/src/page/CardRewardPage.cpp
-            View/src/card/CardReward.cpp
-            View/src/card/CardReward.h
-            Model/src/card/CardGenerator.cpp
-            Model/src/card/CardGenerator.h
+        View/include/page/CardRewardPage.h
+        View/src/page/CardRewardPage.cpp
+        View/src/card/CardReward.cpp
+        View/src/card/CardReward.h
+        Model/src/card/CardGenerator.cpp
+        Model/src/card/CardGenerator.h
+        Model/include/character/CharacterMeta.h
+        Model/include/character/PlayerMeta.h
+        Model/include/character/EnemyMeta.h
+        Model/src/character/CharacterMeta.cpp
+        Model/src/character/PlayerMeta.cpp
+        Model/src/character/EnemyMeta.cpp
 
+        ViewModel/include/character/Enemy.h
+        ViewModel/src/character/Enemy.cpp
+        ViewModel/include/character/Player.h
+        ViewModel/src/character/Player.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SlayTheShrike APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

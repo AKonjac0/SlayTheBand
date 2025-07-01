@@ -2,7 +2,8 @@
 #define PAGEMANAGER_H
 #include "Card_Manager.h"
 #include "CardView.h"
-#include "CharacterAnimation.h"
+#include "Player.h"
+#include "Enemy.h"
 #include "Music_Manager.h"
 #include "CardRewardPage.h"
 
@@ -36,7 +37,6 @@ private:
 
     Card_Manager *card_manager;
     CardView *card_view;
-    CharacterAnimation* character_animation;
     Music_Manager *music;
 
     friend class CardRewardPage;
