@@ -129,6 +129,7 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
 
     QAbstractButton::connect(level1, &QPushButton::clicked, [this, switchBtn2](){
         qDebug() << "Level 1";
+        // card_view->getButton()->init_combat();
         switchToPage(page1, PageAnimationDirection::LeftToRight);
         switchBtn2->show();
     });
@@ -256,8 +257,16 @@ void PageManager::switchToPage(QWidget *targetPage, PageAnimationDirection direc
 
         if(targetPage == page3) page3->newReward();
         else if(targetPage == page1){
-            card_view->getButton()->init_combat();
             qDebug() << "return to page1";
+            card_view->getButton()->init_combat();
+
+            // QEventLoop loop;
+            // QTimer::singleShot(1000, &loop, SLOT(quit()));
+            // loop.exec();
+            // if(!loop.isRunning()){
+
+            // }
+
         }
     });
 
@@ -271,6 +280,7 @@ void PageManager::switchToPage(QWidget *targetPage, PageAnimationDirection direc
 
 void PageManager::enterGame() {
     music->play("../../OST/haruhikage.wav");
+
     player->show(
         PLAYER_POSITION_X,
         SCREEN_HEIGHT-PLAYER_POSITION_Y-player->getSize().height(),
@@ -284,6 +294,9 @@ void PageManager::enterGame() {
         enemy->getSize().width(),
         enemy->getSize().height()
     );
+
+    // character_animation->show();
+
 }
 
 Card_Manager *PageManager::getCardManager() {

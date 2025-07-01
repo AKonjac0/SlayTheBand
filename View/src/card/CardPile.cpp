@@ -11,6 +11,7 @@ void CardPile::create_cards(){
     for(Card_Meta *meta : hands){
         Card *card = new Card(meta, manager, parent);
         cards.push_back(card);
+        // card->getButton()->show();
     }
 
     for(Card *card : cards){

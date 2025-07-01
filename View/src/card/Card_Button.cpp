@@ -49,8 +49,7 @@ Card_Button::Card_Button(Card_Manager *manager, QWidget *parent, CardPile *pile)
             // this->manager->unselect();
 
             next_round_click = false;
-            this->pile->setAnimating(true);
-            this->pile->setHover(false);
+
 
             this->discards();
             this->drawcards();
@@ -94,6 +93,8 @@ void Card_Button::drawcards(){
 }
 
 void Card_Button::discards(){
+    this->pile->setAnimating(true);
+    this->pile->setHover(false);
     this->animation->applyDisCardAnimation(this->pile->get_cards());
     this->manager->discard();
     this->pile->clear_cards();
@@ -101,10 +102,17 @@ void Card_Button::discards(){
 }
 
 void Card_Button::init_combat(){
+    next_round_click = false;
     pile->clear_cards();
     manager->new_combat();
     drawcards();
-    pile->setHover(true);
-    pile->setAnimating(false);
-
+    QEventLoop loop;
+    QTimer::singleShot(1000, &loop, SLOT(quit()));
+    loop.exec();
+    if(!loop.isRunning()){
+        qDebug() << "战斗开始";
+        next_round_click = true;
+        pile->setHover(true);
+        pile->setAnimating(false);
+    }
 }
