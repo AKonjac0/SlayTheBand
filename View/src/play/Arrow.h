@@ -12,7 +12,7 @@ class Arrow : public QWidget
     Q_OBJECT
 
 public:
-    Arrow(QWidget *parent = nullptr);
+    Arrow(const QPointF &pos, QWidget *parent = nullptr);
 
 
 protected:
@@ -26,6 +26,7 @@ private:
     void drawRotatedImage(QPainter &painter, const QImage &img, const QPointF &pos, qreal rotation);
 private:
     QPointF mousePos;
+    QPointF basePos;
     QImage blockImg;
     QImage arrowImg;
 };

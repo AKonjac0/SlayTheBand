@@ -1,6 +1,6 @@
 #include "Arrow.h"
 
-Arrow::Arrow(QWidget *parent) : QWidget(parent), mousePos(100, 100)
+Arrow::Arrow(const QPointF &pos, QWidget *parent) : QWidget(parent), mousePos(pos), basePos(pos)
 {
     setMouseTracking(true);
     // 加载图片资源 (确保图片文件在可执行文件目录或正确路径)
@@ -18,6 +18,9 @@ Arrow::Arrow(QWidget *parent) : QWidget(parent), mousePos(100, 100)
         arrowImg = QImage(20, 20, QImage::Format_ARGB32);
         arrowImg.fill(Qt::red);
     }
+
+    raise();
+    show();
 }
 void Arrow::mouseMoveEvent(QMouseEvent *event) {
     mousePos = event->pos();
@@ -29,18 +32,18 @@ void Arrow::paintEvent(QPaintEvent *) {
     painter.setRenderHint(QPainter::Antialiasing);
 
     // 1. 计算起点（屏幕底部中心）
-    QPointF startPoint(width() / 2.0, height());
+    QPointF startPoint(basePos);
     QPointF endPoint = mousePos;
 
     // 2. 计算直线和中点
     QLineF line(startPoint, endPoint);
     painter.drawLine(line);
     QPointF midPoint = line.center();
-    if(mousePos.x() - width() / 2 == 0){
+    if(mousePos.x() - basePos.x() == 0){
         return;
     }
     // qDebug() << mousePos.x() << " " << width() / 2.0;
-    double d = 160000.0 / abs(mousePos.x() - width() / 2.0);
+    double d = 160000.0 / abs(mousePos.x() - basePos.x());
 
 
     // 3. 计算圆心（中点垂直上方100单位）
@@ -162,17 +165,12 @@ void Arrow::mouseReleaseEvent(QMouseEvent *event)
 {
     if (this->parentWidget())
     {
-        //点下去的那一刻屏蔽当前窗口及其所有子部件的事件，此时被当前窗口遮挡住的父窗口的控件的事件被响应
-        //为什么不到这里就结束，因为如果这样做，只要点击过一次，当前窗口及其子部件就再也不会响应鼠标事件，比如移入移出
-        //因此点击之后还必须要把这个屏蔽取消掉
-        //但如果中间什么也不做的话，这个属性的设置就没有意义，因为最终是false
-        //所以需要手动将鼠标点击事件下发给父窗口中的对应部件
         this->setAttribute(Qt::WA_TransparentForMouseEvents, true);
-        QPoint point = this->mapTo(this->parentWidget(), event->pos());    //将点击事件在当前部件的坐标转换为在父窗口坐标系中的坐标
-        QWidget *widget = this->parentWidget()->childAt(point);   //判断当前点击的位置是否是父窗口的一个子部件
+        QPoint point = this->mapTo(this->parentWidget(), event->pos());
+        QWidget *widget = this->parentWidget()->childAt(point);
         if (widget)
         {
-            point = widget->mapFrom(this->parentWidget(), point);    //将当前部件在父窗口的坐标转为在当前部件自己的坐标系中的坐标
+            point = widget->mapFrom(this->parentWidget(), point);
             QMouseEvent *mouseEvent = new QMouseEvent(event->type(), point, event->button(), event->buttons(), event->modifiers());
             QApplication::postEvent(widget, mouseEvent);
         }

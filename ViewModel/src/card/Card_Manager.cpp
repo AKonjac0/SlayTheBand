@@ -28,3 +28,14 @@ QVector<Card_Meta *> Card_Manager::get_discard_pile() const{
 QVector<Card_Meta *> Card_Manager::get_handcard() const{
     return control->get_handcard();
 }
+
+void Card_Manager::select_card(Card_Meta *meta){
+    control->select_card(meta);
+}
+
+void Card_Manager::unselect(){
+    control->unselect();
+}
+Card_Meta *Card_Manager::get_selected() const {
+    return control->get_selected();
+}

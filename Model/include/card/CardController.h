@@ -23,6 +23,7 @@ public:
     QVector<Card_Meta *> get_discard_pile() const;
     QVector<Card_Meta *> get_handcard() const;
     void select_card(Card_Meta *meta);
+    void unselect();
     Card_Meta *get_selected() const;
 public slots:
     void applyDrawCardAnimation();

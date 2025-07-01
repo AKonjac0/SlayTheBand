@@ -9,7 +9,9 @@ class CardAnimation {
 public:
     CardAnimation(QWidget *parent);
     ~CardAnimation() = default;
-    void applyButtonAnimation(HoverButton *button);
+    void applyButtonClickAnimation(HoverButton *button);
+    void applyHighLightAnimation(HoverButton *button);
+    void applyDeHighLightAnimation(HoverButton *button);
 private:
     QWidget *parent;
 

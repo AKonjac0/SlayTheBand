@@ -2,11 +2,11 @@
 #include <QSequentialAnimationGroup>
 #include <QParallelAnimationGroup>
 #include <QPropertyAnimation>
-
+#include <QGraphicsColorizeEffect>
 CardAnimation::CardAnimation(QWidget *parent) : parent(parent) {}
 
 
-void CardAnimation::applyButtonAnimation(HoverButton *button)
+void CardAnimation::applyButtonClickAnimation(HoverButton *button)
 {
 
 
@@ -60,4 +60,37 @@ void CardAnimation::applyButtonAnimation(HoverButton *button)
     });
 
 
+}
+void CardAnimation::applyHighLightAnimation(HoverButton *button){
+
+    QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect(button);
+    effect->setColor(Qt::white);      // 高光颜色
+    effect->setStrength(0.0);         // 初始不可见
+    button->setGraphicsEffect(effect);
+
+    QPropertyAnimation* anim = new QPropertyAnimation(effect, "strength");
+    anim->setDuration(100);           // 动画时长(毫秒)
+
+
+    anim->stop();
+    anim->setStartValue(0.0);
+    anim->setEndValue(0.3);       // 释放时消失
+    anim->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+void CardAnimation::applyDeHighLightAnimation(HoverButton *button){
+
+    QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect(button);
+    effect->setColor(Qt::white);      // 高光颜色
+    effect->setStrength(0.0);         // 初始不可见
+    button->setGraphicsEffect(effect);
+
+    QPropertyAnimation* anim = new QPropertyAnimation(effect, "strength");
+    anim->setDuration(100);           // 动画时长(毫秒)
+
+
+    anim->stop();
+    anim->setStartValue(0.3);
+    anim->setEndValue(0.0);       // 释放时消失
+    anim->start(QAbstractAnimation::DeleteWhenStopped);
 }

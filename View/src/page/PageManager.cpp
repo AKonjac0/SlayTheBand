@@ -7,7 +7,7 @@
 #include <QPropertyAnimation>
 #include <QMediaPlayer>
 #include "Defs.h"
-#include "Arrow.h"
+// #include "Arrow.h"
 #include "PageManager.h"
 
 PageManager::PageManager(QWidget *parent, int page_width, int page_height)
@@ -61,8 +61,6 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     QAbstractButton::connect(btn, &QPushButton::clicked, [this, videoPlayer](){
         qDebug() << "Game Start";
         enterGame();
-
-        pageArrow->raise();
         // switchToPage(pageArrow, PageAnimationDirection::RightToLeft);
         videoPlayer->stop();
         switchToPage(page1, PageAnimationDirection::RightToLeft);
@@ -75,7 +73,7 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     page1 = new QWidget(parent);
     page1->setGeometry(0, 0, page_width, page_height);
     page1->setAutoFillBackground(true);
-    pageArrow = new Arrow(page1);
+    // pageArrow = new Arrow(page1);
     // 加载并设置背景图片
     QPixmap bkgnd(":/image/images/Background1.jpg");
     if(bkgnd.isNull()) {
@@ -117,7 +115,7 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     QAbstractButton::connect(switchBtn2, &QPushButton::clicked, [this](){
         switchToPage(page1, PageAnimationDirection::LeftToRight);
         // switchToPage(pageArrow, PageAnimationDirection::LeftToRight);
-        pageArrow->raise();
+        // pageArrow->raise();
     });
 
     card_manager = new Card_Manager(page1);
@@ -129,7 +127,7 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     page0->show();
     page1->show();
     page2->show();
-    pageArrow->show();
+    // pageArrow->show();
     page0->raise();
     now_page = page0;
 }

@@ -27,7 +27,7 @@ private:
     QWidget *page0;
     QWidget *page1;
     QWidget *page2;
-    QWidget *pageArrow;
+    // QWidget *pageArrow;
     bool animationInProgress = false;
 
     Player *player;
