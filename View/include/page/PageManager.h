@@ -6,6 +6,9 @@
 #include "Enemy.h"
 #include "Music_Manager.h"
 #include "CardRewardPage.h"
+#include "HomePage.h"
+#include "MapPage.h"
+#include "BattlePage.h"
 
 enum class PageAnimationDirection {
     LeftToRight,
@@ -26,9 +29,9 @@ private:
     QWidget *parent;
     int page_width;
     int page_height;
-    QWidget *page0;
-    QWidget *page1;
-    QWidget *page2;
+    HomePage *page0;
+    BattlePage *page1;
+    MapPage *page2;
     CardRewardPage *page3;
     bool animationInProgress = false;
 

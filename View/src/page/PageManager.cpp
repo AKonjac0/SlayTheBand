@@ -1,14 +1,11 @@
 #include <QPushButton>
-#include <QParallelAnimationGroup>
 #include <QtMultimediaWidgets>
-#include <QGraphicsScene>
-#include <QGraphicsView>
 #include <QGraphicsProxyWidget>
 #include <QPropertyAnimation>
-#include <QMediaPlayer>
 #include "Defs.h"
 #include "PageManager.h"
 #include "CardRewardPage.h"
+#include "HomePage.h"
 
 PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     : parent(parent), page_width(page_width), page_height(page_height) {
@@ -16,141 +13,43 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     music = new Music_Manager();
     music->play("../../OST/ready_to_go.wav");
 
-    page0 = new QWidget(parent);
-    page0->setGeometry(0, 0, page_width, page_height);
-    page0->setAutoFillBackground(true);
-
-    QGraphicsScene *scene = new QGraphicsScene(page0);
-    QGraphicsView *graphicsView = new QGraphicsView(scene, page0);
-    graphicsView->setGeometry(0, 0, 1920, 1080);
-    graphicsView->setFrameShape(QFrame::NoFrame);
-    graphicsView->setStyleSheet("background: transparent; border: none;");
-    graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-    // 创建视频项
-    QGraphicsVideoItem *videoItem = new QGraphicsVideoItem;
-    videoItem->setSize(QSizeF(1920, 1080));
-    scene->addItem(videoItem);
-
-    QAudioOutput *audioOutput = new QAudioOutput();
-
-    // 创建媒体播放器
-    QMediaPlayer *videoPlayer = new QMediaPlayer(page0);
-    videoPlayer->setVideoOutput(videoItem);
-    videoPlayer->setAudioOutput(audioOutput);
-    videoPlayer->setLoops(-1);
-    videoPlayer->setSource(QUrl::fromLocalFile("../../Videos/video1.mp4"));
-    videoPlayer->play();
-
-    // 创建按钮（作为图形代理控件）
-    QPushButton *btn = new QPushButton("开始游戏");
-    btn->setStyleSheet(
-        "QPushButton {"
-        "   background-color: rgba(50, 150, 250, 200);"
-        "   color: white;"
-        "   font-size: 16px;"
-        "   border-radius: 10px;"
-        "   padding: 10px;"
-        "}"
-        );
-    QGraphicsProxyWidget *buttonProxy = scene->addWidget(btn);
-    buttonProxy->setPos(100, 100); // 按钮位置
-
-    // 连接信号
-    QAbstractButton::connect(btn, &QPushButton::clicked, [this, videoPlayer](){
+    //创建页面0 主界面
+    page0 = new HomePage(parent);
+    QAbstractButton::connect(page0->startButton, &QPushButton::clicked, [this](){
         qDebug() << "Game Start";
         enterGame();
-        videoPlayer->stop();
+        page0->videoPlayer->stop();
         switchToPage(page2, PageAnimationDirection::RightToLeft);
     });
 
-    // 创建页面1
-    page1 = new QWidget(parent);
-    page1->setGeometry(0, 0, page_width, page_height);
-    page1->setAutoFillBackground(true);
-    // 加载并设置背景图片
-    QPixmap bkgnd1(":/image/images/Background1.jpg");
-    if(bkgnd1.isNull()) {
-        qDebug() << "[page]: Failed to load background image!";
-    } else {
-        bkgnd1 = bkgnd1.scaled(page1->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        QPalette palette1;
-        palette1.setBrush(QPalette::Window, bkgnd1);
-        page1->setPalette(palette1);
-    }
+    // 创建页面2 地图界面
+    page2 = new MapPage(parent);
 
-
-    // 创建页面2
-    page2 = new QWidget(parent);
-    page2->setGeometry(0, 0, page_width, page_height);
-    page2->setAutoFillBackground(true);
-    QPixmap bkgnd2(":/image/images/map_page.png");
-    if (bkgnd2.isNull()) {
-        qDebug() << "[page2]: Failed to load background image!";
-    } else {
-        bkgnd2 = bkgnd2.scaled(page2->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        QPalette palette2;
-        palette2.setBrush(QPalette::Window, bkgnd2);
-        page2->setPalette(palette2);
-    }
-
-    QPushButton *level1 = new QPushButton(page2);
-    level1->resize(128, 128);
-    level1->move(500, 500);
-    level1->setStyleSheet("QPushButton{border-image: url(:image/images/monster.png);}");
-
-    // 初始化页面2为透明并隐藏在右侧
-    page2->setWindowOpacity(0.0);
-    page2->move(page_width, 0);
-
-    // 创建切换按钮1
-    QPushButton *switchBtn1 = new QPushButton(page1);
-    switchBtn1->move(1830, 20);
-    switchBtn1->resize(64, 64);
-    QString BtnPic = "QPushButton{border-image: url(:image/images/map.png);}";
-    switchBtn1->setStyleSheet(BtnPic);
-
-    // 创建切换按钮2
-    QPushButton *switchBtn2 = new QPushButton(page2);
-    switchBtn2->move(1830, 20);
-    switchBtn2->resize(64, 64);
-    switchBtn2->setStyleSheet(BtnPic);
-    switchBtn2->hide();
-
-    // 连接按钮信号到动画切换
-    QAbstractButton::connect(switchBtn1, &QPushButton::clicked, [this](){
-        switchToPage(page2, PageAnimationDirection::RightToLeft);
-    });
-
-    QAbstractButton::connect(switchBtn2, &QPushButton::clicked, [this](){
-        switchToPage(page1, PageAnimationDirection::LeftToRight);
-    });
-
-    QAbstractButton::connect(level1, &QPushButton::clicked, [this, switchBtn2](){
-        qDebug() << "Level 1";
-        // card_view->getButton()->init_combat();
-        switchToPage(page1, PageAnimationDirection::LeftToRight);
-        switchBtn2->show();
-    });
-
-
+    // 创建页面1 战斗界面
+    page1 = new BattlePage(parent);
     card_manager = new Card_Manager(page1);
     card_view = new CardView(card_manager, page1);
 
+    QAbstractButton::connect(page1->switchBtn, &QPushButton::clicked, [this](){
+        switchToPage(page2, PageAnimationDirection::RightToLeft);
+    });
+
+    QAbstractButton::connect(page2->switchBtn, &QPushButton::clicked, [this](){
+        switchToPage(page1, PageAnimationDirection::LeftToRight);
+    });
+
+    QAbstractButton::connect(page2->level1, &QPushButton::clicked, [this](){
+        qDebug() << "Level 1";
+        // card_view->getButton()->init_combat();
+        switchToPage(page1, PageAnimationDirection::LeftToRight);
+        page2->switchBtn->show();
+    });
 
     page3 = new CardRewardPage(card_manager, parent);
-    page3->setGeometry(0, 0, page_width, page_height);
-    page3->setAutoFillBackground(true);
-    QPushButton *confirm_btn = new QPushButton(page3);
-    confirm_btn->setText("确定");
-    confirm_btn->resize(64, 64);
-    confirm_btn->move(10, 10);
-    QAbstractButton::connect(confirm_btn, &QPushButton::clicked, [this]() {
+    QAbstractButton::connect(page3->confirmBtn, &QPushButton::clicked, [this]() {
         // page3->deleteReward();
         // card_manager->new_combat();
         // card_view->getButton()->init_combat();
-
         switchToPage(page1, PageAnimationDirection::RightToLeft);
     });
 
@@ -162,7 +61,6 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
         // page3->newReward();
         switchToPage(page3, PageAnimationDirection::LeftToRight);
     });
-
 
     player = new Player("uika", PLAYER_MAX_HP, page1, PLAYER_MAX_MP);
     enemy = new Enemy("soyo", ENEMY_MAX_HP, page1);
@@ -259,14 +157,11 @@ void PageManager::switchToPage(QWidget *targetPage, PageAnimationDirection direc
         else if(targetPage == page1){
             qDebug() << "return to page1";
             card_view->getButton()->init_combat();
-
             // QEventLoop loop;
             // QTimer::singleShot(1000, &loop, SLOT(quit()));
             // loop.exec();
             // if(!loop.isRunning()){
-
             // }
-
         }
     });
 
