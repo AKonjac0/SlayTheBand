@@ -10,8 +10,7 @@ void CardAnimation::applyButtonClickAnimation(HoverButton *button)
 {
 
 
-    if(button->Animating()) return;
-    button->Animating() = true;
+
 
 
 

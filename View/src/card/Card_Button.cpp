@@ -8,13 +8,43 @@ Card_Button::Card_Button(Card_Manager *manager, QWidget *parent, CardPile *pile)
     next_round->setFont(QFont("Microsoft YaHei", 16, QFont::Bold));
     QString next_round_button_pic = "QPushButton{color: white; border-image: url(:image/images/endTurnButton.png);}";
     next_round->setStyleSheet(next_round_button_pic);
+
+    discard_pile = new HoverButton("", parent, false);
+    discard_pile->setGeometry(parent->width() - 130, parent->height() - 130, 100, 100);
+    discard_pile->setFont(QFont("Microsoft YaHei", 16, QFont::Bold));
+    discard_pile->setStyleSheet("QPushButton{color: white; border-image: url(:image/images/discard_pile.png);}");
+
+    drawcard_pile = new HoverButton("", parent, false);
+    drawcard_pile->setGeometry(30, parent->height() - 130, 100, 100);
+    drawcard_pile->setFont(QFont("Microsoft YaHei", 16, QFont::Bold));
+    drawcard_pile->setStyleSheet("QPushButton{color: white; border-image: url(:image/images/drawcard_pile.png);}");
+
+
+    discard_num = new CountButton(QPointF(parent->width() - 110, parent->height() - 100), parent);
+    discard_num->setFont(QFont("Microsoft YaHei", 16, QFont::Bold));
+    discard_num->setStyleSheet("QPushButton{color: white; border-image: url(:image/images/countCircle.png);}");
+    drawcard_num = new CountButton(QPointF(70, parent->height() - 100), parent);
+    drawcard_num->setFont(QFont("Microsoft YaHei", 16, QFont::Bold));
+    drawcard_num->setStyleSheet("QPushButton{color: white; border-image: url(:image/images/countCircle.png);}");
+
     animation = new CardPileAnimation(parent);
     next_round_button_animation = new CardAnimation(parent);
+    discard_pile_animation = new CardAnimation(parent);
+    drawcard_pile_animation = new CardAnimation(parent);
+
 
     drawcards();
     pile->setHover(true);
     pile->setAnimating(false);
 
+
+    QObject::connect(discard_pile, &QPushButton::clicked, parent, [this]() {
+        discard_pile_animation->applyButtonClickAnimation(discard_pile);
+    });
+
+    QObject::connect(drawcard_pile, &QPushButton::clicked, parent, [this]() {
+        drawcard_pile_animation->applyButtonClickAnimation(drawcard_pile);
+    });
     QObject::connect(next_round, &QPushButton::clicked, parent, [this]() {
         // 应用动画效果
         next_round_button_animation->applyButtonClickAnimation(next_round);
@@ -46,7 +76,14 @@ Card_Button::Card_Button(Card_Manager *manager, QWidget *parent, CardPile *pile)
 
 Card_Button::~Card_Button(){
     delete next_round;
+    delete discard_pile;
+    delete drawcard_pile;
+    delete discard_num;
+    delete drawcard_num;
     delete animation;
+    delete next_round_button_animation;
+    delete discard_pile_animation;
+    delete drawcard_pile_animation;
 }
 
 void Card_Button::drawcards(){
@@ -56,10 +93,13 @@ void Card_Button::drawcards(){
     this->pile->setHover(false);
     this->pile->setAnimating(true);
     this->animation->applyDrawCardAnimation(this->pile->get_cards());
+    drawcard_num->setNumber(manager->get_drawcard_pile().count());
+    discard_num->setNumber(manager->get_discard_pile().count());
 }
 
 void Card_Button::discards(){
     this->animation->applyDisCardAnimation(this->pile->get_cards());
     this->manager->discard();
     this->pile->clear_cards();
+    // discard_num->setNumber(manager->get_discard_pile().count());
 }

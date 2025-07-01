@@ -37,7 +37,7 @@ void Arrow::paintEvent(QPaintEvent *) {
 
     // 2. 计算直线和中点
     QLineF line(startPoint, endPoint);
-    painter.drawLine(line);
+    // painter.drawLine(line);
     QPointF midPoint = line.center();
     if(mousePos.x() - basePos.x() == 0){
         return;
@@ -93,12 +93,12 @@ void Arrow::paintEvent(QPaintEvent *) {
         spanDeg += 360 * 16;
     }
 
-    painter.drawArc(arcRect, startDeg, spanDeg);
-    // paint center
+    // painter.drawArc(arcRect, startDeg, spanDeg);
+    // // paint center
 
-    painter.setPen(Qt::red);  // 设置红色画笔
-    painter.setBrush(Qt::red);  // 设置红色填充
-    painter.drawEllipse(circleCenter, 5, 5);  // 绘制半径为5的实心圆点
+    // painter.setPen(Qt::red);  // 设置红色画笔
+    // painter.setBrush(Qt::red);  // 设置红色填充
+    // painter.drawEllipse(circleCenter, 5, 5);  // 绘制半径为5的实心圆点
 
     // 6. 在圆弧上均匀分布10个Block - 关键修改在这里
     // 计算实际绘制的劣弧的结束角度

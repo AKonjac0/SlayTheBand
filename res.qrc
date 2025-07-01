@@ -17,5 +17,8 @@
         <file>images/map.png</file>
         <file>images/reticleArrow.png</file>
         <file>images/reticleBlock.png</file>
+        <file>images/discard_pile.png</file>
+        <file>images/drawcard_pile.png</file>
+        <file>images/countCircle.png</file>
     </qresource>
 </RCC>

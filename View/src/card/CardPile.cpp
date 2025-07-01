@@ -17,6 +17,8 @@ void CardPile::create_cards(){
         HoverButton *button = card->getButton();
         QObject::connect(button, &QPushButton::clicked, parent, [button, card, this]() {
             // 应用动画效果
+            if(button->Animating()) return;
+            button->Animating() = true;
             card->getAnimation()->applyButtonClickAnimation(button);
 
             if(this->manager->get_selected() == nullptr){ // unselected, select this
