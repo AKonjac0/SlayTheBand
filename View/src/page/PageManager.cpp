@@ -7,8 +7,8 @@
 #include <QPropertyAnimation>
 #include <QMediaPlayer>
 #include "Defs.h"
-// #include "Arrow.h"
 #include "PageManager.h"
+#include "CardRewardPage.h"
 
 PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     : parent(parent), page_width(page_width), page_height(page_height) {
@@ -61,34 +61,43 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     QAbstractButton::connect(btn, &QPushButton::clicked, [this, videoPlayer](){
         qDebug() << "Game Start";
         enterGame();
-        // switchToPage(pageArrow, PageAnimationDirection::RightToLeft);
         videoPlayer->stop();
-        switchToPage(page1, PageAnimationDirection::RightToLeft);
+        switchToPage(page2, PageAnimationDirection::RightToLeft);
     });
 
     // 创建页面1
-
-
-
     page1 = new QWidget(parent);
     page1->setGeometry(0, 0, page_width, page_height);
     page1->setAutoFillBackground(true);
-    // pageArrow = new Arrow(page1);
     // 加载并设置背景图片
-    QPixmap bkgnd(":/image/images/Background1.jpg");
-    if(bkgnd.isNull()) {
-        qDebug() << "Failed to load background image!";
+    QPixmap bkgnd1(":/image/images/Background1.jpg");
+    if(bkgnd1.isNull()) {
+        qDebug() << "[page]: Failed to load background image!";
     } else {
-        bkgnd = bkgnd.scaled(page1->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        QPalette palette;
-        palette.setBrush(QPalette::Window, bkgnd);
-        page1->setPalette(palette);
+        bkgnd1 = bkgnd1.scaled(page1->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        QPalette palette1;
+        palette1.setBrush(QPalette::Window, bkgnd1);
+        page1->setPalette(palette1);
     }
 
     // 创建页面2
     page2 = new QWidget(parent);
     page2->setGeometry(0, 0, page_width, page_height);
     page2->setAutoFillBackground(true);
+    QPixmap bkgnd2(":/image/images/map_page.png");
+    if (bkgnd2.isNull()) {
+        qDebug() << "[page2]: Failed to load background image!";
+    } else {
+        bkgnd2 = bkgnd2.scaled(page2->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        QPalette palette2;
+        palette2.setBrush(QPalette::Window, bkgnd2);
+        page2->setPalette(palette2);
+    }
+
+    QPushButton *level1 = new QPushButton(page2);
+    level1->resize(128, 128);
+    level1->move(500, 500);
+    level1->setStyleSheet("QPushButton{border-image: url(:image/images/monster.png);}");
 
     // 初始化页面2为透明并隐藏在右侧
     page2->setWindowOpacity(0.0);
@@ -106,6 +115,7 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     switchBtn2->move(1830, 20);
     switchBtn2->resize(64, 64);
     switchBtn2->setStyleSheet(BtnPic);
+    switchBtn2->hide();
 
     // 连接按钮信号到动画切换
     QAbstractButton::connect(switchBtn1, &QPushButton::clicked, [this](){
@@ -114,8 +124,31 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
 
     QAbstractButton::connect(switchBtn2, &QPushButton::clicked, [this](){
         switchToPage(page1, PageAnimationDirection::LeftToRight);
-        // switchToPage(pageArrow, PageAnimationDirection::LeftToRight);
-        // pageArrow->raise();
+    });
+
+    QAbstractButton::connect(level1, &QPushButton::clicked, [this, switchBtn2](){
+        qDebug() << "Level 1";
+        switchToPage(page1, PageAnimationDirection::LeftToRight);
+        switchBtn2->show();
+    });
+
+    page3 = new CardRewardPage(parent);
+    page3->setGeometry(0, 0, page_width, page_height);
+    page3->setAutoFillBackground(true);
+    QPushButton *confirm_btn = new QPushButton(page3);
+    confirm_btn->setText("确定");
+    confirm_btn->resize(64, 64);
+    confirm_btn->move(10, 10);
+    QAbstractButton::connect(confirm_btn, &QPushButton::clicked, [this]() {
+        switchToPage(page1, PageAnimationDirection::RightToLeft);
+    });
+
+    QPushButton *reward_btn = new QPushButton(page1);
+    reward_btn->setText("奖励");
+    reward_btn->resize(64, 64);
+    reward_btn->move(10, 10);
+    QAbstractButton::connect(reward_btn, &QPushButton::clicked, [this]() {
+        switchToPage(page3, PageAnimationDirection::LeftToRight);
     });
 
     card_manager = new Card_Manager(page1);
@@ -127,21 +160,22 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     page0->show();
     page1->show();
     page2->show();
-    // pageArrow->show();
+    page3->show();
     page0->raise();
     now_page = page0;
 }
 
 PageManager::~PageManager() {
-    if (card_manager) delete card_manager;
-    if (card_view) delete card_view;
-    if (character_animation) delete character_animation;
-    if (music) delete music;
-    if (player) delete player;
-    if (enemy) delete enemy;
-    if (page0) delete page0;
-    if (page1) delete page1;
-    if (page2) delete page2;
+    delete card_manager;
+    delete card_view;
+    delete character_animation;
+    delete music;
+    delete player;
+    delete enemy;
+    delete page0;
+    delete page1;
+    delete page2;
+    delete page3;
 }
 
 void PageManager::switchToPage(QWidget *targetPage, PageAnimationDirection direction) {
@@ -222,6 +256,14 @@ void PageManager::switchToPage(QWidget *targetPage, PageAnimationDirection direc
 }
 
 void PageManager::enterGame() {
-    music->play("../../OST/haruhikage.wav");
+    music->play("../.../OST/haruhikage.wav");
     character_animation->show();
+}
+
+Card_Manager *PageManager::getCardManager() {
+    return card_manager;
+}
+
+CardView *PageManager::getCardView() {
+    return card_view;
 }

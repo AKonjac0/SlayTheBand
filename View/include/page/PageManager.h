@@ -1,7 +1,5 @@
 #ifndef PAGEMANAGER_H
 #define PAGEMANAGER_H
-#include <QVector>
-#include <QWidget>
 #include "Card_Manager.h"
 #include "CardView.h"
 #include "CharacterAnimation.h"
@@ -16,6 +14,8 @@ class PageManager{
 public:
     PageManager(QWidget *parent, int page_width, int page_height);
     ~PageManager();
+    Card_Manager *getCardManager();
+    CardView *getCardView();
 private:
     void switchToPage(QWidget *targetPage, PageAnimationDirection direction);
     void enterGame();
@@ -27,7 +27,7 @@ private:
     QWidget *page0;
     QWidget *page1;
     QWidget *page2;
-    // QWidget *pageArrow;
+    QWidget *page3;
     bool animationInProgress = false;
 
     Player *player;
@@ -37,6 +37,8 @@ private:
     CardView *card_view;
     CharacterAnimation* character_animation;
     Music_Manager *music;
+
+    friend class CardRewardPage;
 };
 
 #endif // PAGEMANAGER_H

@@ -20,5 +20,7 @@
         <file>images/discard_pile.png</file>
         <file>images/drawcard_pile.png</file>
         <file>images/countCircle.png</file>
+        <file>images/map_page.png</file>
+        <file>images/monster.png</file>
     </qresource>
 </RCC>
