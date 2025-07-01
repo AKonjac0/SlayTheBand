@@ -4,25 +4,40 @@
 // Model
 CardController::CardController(QWidget *parent) : parent(parent), drawcard_num(5) {
     for (int i = 0; i < 5; i++) {
-        drawcard_pile.push_back(new_strike());
+        card_deck.push_back(new_strike());
     }
     for (int i = 0; i < 4; i++) {
-        drawcard_pile.push_back(new_defend());
+        card_deck.push_back(new_defend());
     }
-    drawcard_pile.push_back(new_bash());
-
-
-    shuffle(drawcard_pile);
+    card_deck.push_back(new_bash());
 }
 
+void CardController::new_combat(){
+    drawcard_pile.clear();
+    discard_pile.clear();
+    handcard.clear();
+    for(Card_Meta *meta : card_deck){
+        drawcard_pile.push_back(meta);
+    }
+    shuffle(drawcard_pile);
+    // drawcard();
+}
+void CardController::new_card(Card_Meta *meta){
+    // copy
+    Card_Meta *new_meta = new Card_Meta(*meta);
+    card_deck.push_back(new_meta);
+}
 CardController::~CardController() {
-    for(auto &i : discard_pile) {
-        delete i;
-    }
-    for (auto &i : drawcard_pile) {
-        delete i;
-    }
-    for (auto &i : handcard) {
+    // for(auto &i : discard_pile) {
+    //     delete i;
+    // }
+    // for (auto &i : drawcard_pile) {
+    //     delete i;
+    // }
+    // for (auto &i : handcard) {
+    //     delete i;
+    // }
+    for (auto &i : card_deck) {
         delete i;
     }
 }
@@ -75,7 +90,9 @@ QVector<Card_Meta *> CardController::get_discard_pile() const{
 QVector<Card_Meta *> CardController::get_handcard() const{
     return handcard;
 }
-
+QVector<Card_Meta *> CardController::get_card_deck() const{
+    return card_deck;
+}
 
 Card_Meta *CardController::new_strike() {
     return new Card_Meta("strike", attack, 1, 6, No, 0);

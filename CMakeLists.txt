@@ -83,6 +83,11 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Defs.h
             View/include/page/CardRewardPage.h
             View/src/page/CardRewardPage.cpp
+            View/src/card/CardReward.cpp
+            View/src/card/CardReward.h
+            Model/src/card/CardGenerator.cpp
+            Model/src/card/CardGenerator.h
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SlayTheShrike APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

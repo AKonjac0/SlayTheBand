@@ -132,7 +132,12 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
         switchBtn2->show();
     });
 
-    page3 = new CardRewardPage(parent);
+
+    card_manager = new Card_Manager(page1);
+    card_view = new CardView(card_manager, page1);
+
+
+    page3 = new CardRewardPage(card_manager, parent);
     page3->setGeometry(0, 0, page_width, page_height);
     page3->setAutoFillBackground(true);
     QPushButton *confirm_btn = new QPushButton(page3);
@@ -140,6 +145,10 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     confirm_btn->resize(64, 64);
     confirm_btn->move(10, 10);
     QAbstractButton::connect(confirm_btn, &QPushButton::clicked, [this]() {
+        // page3->deleteReward();
+        // card_manager->new_combat();
+        // card_view->getButton()->init_combat();
+
         switchToPage(page1, PageAnimationDirection::RightToLeft);
     });
 
@@ -148,11 +157,11 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     reward_btn->resize(64, 64);
     reward_btn->move(10, 10);
     QAbstractButton::connect(reward_btn, &QPushButton::clicked, [this]() {
+        // page3->newReward();
         switchToPage(page3, PageAnimationDirection::LeftToRight);
     });
 
-    card_manager = new Card_Manager(page1);
-    card_view = new CardView(card_manager, page1);
+
     player = new Player("uika", PLAYER_MAX_HP, page1, PLAYER_MAX_MP);
     enemy = new Enemy("soyo", ENEMY_MAX_HP, page1);
     QPair<Player*,Enemy*>* opponents = new QPair<Player*,Enemy*>(player, enemy);
@@ -235,7 +244,7 @@ void PageManager::switchToPage(QWidget *targetPage, PageAnimationDirection direc
     animationGroup->addAnimation(slideIn);
 
     // 动画完成后的处理
-    QAbstractButton::connect(animationGroup, &QParallelAnimationGroup::finished, [this, animationGroup, currentPage]() {
+    QAbstractButton::connect(animationGroup, &QParallelAnimationGroup::finished, [this, animationGroup, currentPage, targetPage]() {
         // 重置当前页面位置和透明度
         currentPage->move(0, 0);
         currentPage->setWindowOpacity(1.0);
@@ -245,6 +254,12 @@ void PageManager::switchToPage(QWidget *targetPage, PageAnimationDirection direc
 
         animationInProgress = false;
         if(currentPage == page0) delete page0, page0 = nullptr;
+
+        if(targetPage == page3) page3->newReward();
+        else if(targetPage == page1){
+            card_view->getButton()->init_combat();
+            qDebug() << "return to page1";
+        }
     });
 
     // 开始动画

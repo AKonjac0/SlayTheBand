@@ -32,11 +32,7 @@ Card_Button::Card_Button(Card_Manager *manager, QWidget *parent, CardPile *pile)
     discard_pile_animation = new CardAnimation(parent);
     drawcard_pile_animation = new CardAnimation(parent);
 
-
-    drawcards();
-    pile->setHover(true);
-    pile->setAnimating(false);
-
+    // init_combat();
 
     QObject::connect(discard_pile, &QPushButton::clicked, parent, [this]() {
         discard_pile_animation->applyButtonClickAnimation(discard_pile);
@@ -102,4 +98,13 @@ void Card_Button::discards(){
     this->manager->discard();
     this->pile->clear_cards();
     // discard_num->setNumber(manager->get_discard_pile().count());
+}
+
+void Card_Button::init_combat(){
+    pile->clear_cards();
+    manager->new_combat();
+    drawcards();
+    pile->setHover(true);
+    pile->setAnimating(false);
+
 }

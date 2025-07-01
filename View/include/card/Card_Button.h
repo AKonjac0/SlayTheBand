@@ -17,6 +17,7 @@ public:
     void setNumber(int num) {
         setText(QString::number(num));
     }
+
 };
 
 
@@ -24,6 +25,7 @@ class Card_Button{
 public:
     Card_Button(Card_Manager *manager, QWidget *parent, CardPile *pile);
     ~Card_Button();
+    void init_combat();
 private:
     void drawcards();
     void discards();

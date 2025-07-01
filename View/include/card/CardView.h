@@ -9,7 +9,7 @@ class CardView{
 public:
     CardView(Card_Manager *manager, QWidget *parent);
     ~CardView();
-
+    Card_Button *getButton() const;
 
 private:
     Card_Manager *manager;

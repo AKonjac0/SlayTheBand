@@ -4,6 +4,7 @@
 #include "CardView.h"
 #include "CharacterAnimation.h"
 #include "Music_Manager.h"
+#include "CardRewardPage.h"
 
 enum class PageAnimationDirection {
     LeftToRight,
@@ -27,7 +28,7 @@ private:
     QWidget *page0;
     QWidget *page1;
     QWidget *page2;
-    QWidget *page3;
+    CardRewardPage *page3;
     bool animationInProgress = false;
 
     Player *player;

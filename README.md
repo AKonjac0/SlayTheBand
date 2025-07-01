@@ -1,1 +1,3 @@
 # SlayTheShrike
+
+$\star$

@@ -10,14 +10,22 @@
 #include <QGraphicsView>
 #include <QGraphicsColorizeEffect>
 
-Card::Card(Card_Meta *meta, Card_Manager *manager, QWidget *parent) :meta(meta), manager(manager), parent(parent) {
-    button = new HoverButton("card", parent, true);
+Card::Card(Card_Meta *meta, Card_Manager *manager, QWidget *parent, bool isHover) :meta(meta), manager(manager), parent(parent) {
+    button = new HoverButton("card", parent, isHover);
     QString cardPic = "QPushButton{border-image: url(:image/images/" + meta -> getCardName() + ".png);}";
     button->setStyleSheet(cardPic);
     // button->show();
     button->hide();
     animation = new CardAnimation(parent);
     // connect moved into CardPile
+}
+
+Card::Card(const Card &c){
+    meta = c.meta;
+    manager = c.manager;
+    parent = c.parent;
+    button = c.button;
+    animation = c.animation;
 }
 
 /**

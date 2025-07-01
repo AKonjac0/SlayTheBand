@@ -9,7 +9,8 @@
 
 class Card{
 public:
-    Card(Card_Meta *meta, Card_Manager *manager, QWidget *parent);
+    Card(Card_Meta *meta, Card_Manager *manager, QWidget *parent, bool isHover = true);
+    Card(const Card &c);
     ~Card();
     HoverButton* getButton() const;
     Card_Meta* getMeta() const;

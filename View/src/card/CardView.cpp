@@ -12,5 +12,7 @@ CardView::~CardView(){
     delete card_button;
 }
 
-
+Card_Button *CardView::getButton() const{
+    return card_button;
+}
 
