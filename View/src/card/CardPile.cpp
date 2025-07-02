@@ -1,10 +1,15 @@
 #include "CardPile.h"
+
 CardPile::CardPile(Card_Manager *manager, QWidget *parent) : manager(manager), parent(parent){
     create_cards();
 }
 
 CardPile::~CardPile(){
     clear_cards();
+}
+
+Card_Meta *CardPile::get_selected(){
+    return manager->get_selected();
 }
 void CardPile::create_cards(){
     QVector<Card_Meta *> hands = manager->get_handcard();
@@ -16,6 +21,10 @@ void CardPile::create_cards(){
 
     for(Card *card : cards){
         HoverButton *button = card->getButton();
+        // QObject::connect(button, &QPushButton::clicked, parent, [this, combat, card](){
+        //     qDebug() << "Card";
+        //     combat->setCard(card->getMeta());
+        // });
         QObject::connect(button, &QPushButton::clicked, parent, [button, card, this]() {
             // 应用动画效果
             if(this->manager->get_selected() == nullptr){ // unselected, select this

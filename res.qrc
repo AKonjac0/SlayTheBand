@@ -25,5 +25,6 @@
         <file>images/carnage.png</file>
         <file>images/iron_wave.png</file>
         <file>images/whirlwind.png</file>
+        <file>images/mapCompleteIcon.png</file>
     </qresource>
 </RCC>

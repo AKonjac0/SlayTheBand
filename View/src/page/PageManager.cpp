@@ -21,6 +21,7 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
         enterGame();
         page0->videoPlayer->stop();
         switchToPage(page2, PageAnimationDirection::RightToLeft);
+
     });
 
     // 创建页面2 地图界面
@@ -34,14 +35,14 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     enemy = new Enemy("soyo", ENEMY_MAX_HP, page1);
     Combat *combat = new Combat(page1, card_view, player);
 
+
     QVector<Card *> cards = card_view->getCardPile()->get_cards();
-    for (auto &i : cards) {
-        HoverButton *temp = i->getButton();
-        QObject::connect(temp, &QPushButton::clicked, page1, [this, combat, i](){
-            qDebug() << "Card";
-            combat->setCard(i->getMeta());
-        });
-    }
+    // card_view->getCardPile();
+    // for (Card *i : cards) {
+    //     HoverButton *temp = i->getButton();
+    //     // qDebug() << "!" << i->getMeta()->getCardName();
+
+    // }
 
     QPushButton *enemy_btn = enemy->getAvatar();
     QObject::connect(enemy_btn, &QPushButton::clicked, [this, combat](){
@@ -57,17 +58,30 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     QAbstractButton::connect(page2->switchBtn, &QPushButton::clicked, [this](){
         switchToPage(page1, PageAnimationDirection::LeftToRight);
     });
+    auto spire_tower = page2->spire_tower;
+    for(auto &level : spire_tower){
+        for(RoomButton *room : level){
+            QAbstractButton::connect(room, &QPushButton::clicked, [room, this](){
+                qDebug() << "next Level";
+                card_view->getButton()->init_combat();
+                switchToPage(page1, PageAnimationDirection::LeftToRight);
+                page2->switchBtn->show();
+            });
+        }
+    }
 
-    QAbstractButton::connect(page2->level1, &QPushButton::clicked, [this](){
-        qDebug() << "Level 1";
-        card_view->getButton()->init_combat();
-        switchToPage(page1, PageAnimationDirection::LeftToRight);
-        // opacity
-        // page2->level1->setGraphicsEffect();
+
+    // QAbstractButton::connect(page2->level1, &QPushButton::clicked, [this](){
+    //     qDebug() << "Level 1";
+    //     card_view->getButton()->init_combat();
+    //     switchToPage(page1, PageAnimationDirection::LeftToRight);
+    //     // opacity
+    //     // page2->level1->setGraphicsEffect();
 
 
-        page2->switchBtn->show();
-    });
+    //     page2->switchBtn->show();
+    // });
+
 
     page3 = new CardRewardPage(card_manager, parent);
     QAbstractButton::connect(page3->confirmBtn, &QPushButton::clicked, [this]() {

@@ -19,6 +19,7 @@ public:
     void select_card(Card_Meta *meta);
     void unselect();
     void playACard(Card_Meta *meta);
+    Card_Meta* get_selected();
 private:
     Card_Manager *manager;
     QWidget *parent;

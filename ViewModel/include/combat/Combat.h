@@ -12,7 +12,7 @@ class Combat : public QObject
 public:
     Combat(QObject *parent, CardView *cardView, Player *player);
     ~Combat() = default;
-    void setCard(Card_Meta *card);
+    // void setCard(Card_Meta *card);
     void setEnemy(Enemy *enemy);
     bool playACard();
 private:

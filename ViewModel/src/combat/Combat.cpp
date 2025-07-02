@@ -3,9 +3,7 @@
 Combat::Combat(QObject *parent, CardView *cardView, Player *player)
     : QObject(parent), cardView(cardView), player(player), cardMeta(nullptr), enemy(nullptr) {}
 
-void Combat::setCard(Card_Meta *card) {
-    this->cardMeta = card;
-}
+
 
 void Combat::setEnemy(Enemy *enemy) {
     this->enemy = enemy;
@@ -15,6 +13,7 @@ bool Combat::playACard() {
     if (!check()) {
         return false;
     }
+    Card_Meta *cardMeta = cardView->getCardPile()->get_selected();
     if (player->getMP() < cardMeta->getEnergyConsumption()) {
         return false;
     }
@@ -29,7 +28,7 @@ bool Combat::playACard() {
 }
 
 bool Combat::check() {
-    if (cardMeta == nullptr || enemy == nullptr){
+    if (cardView->getCardPile()->get_selected() == nullptr || enemy == nullptr){
         return false;
     }
     return true;
