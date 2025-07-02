@@ -28,7 +28,7 @@ protected:
     QSize size;
 };
 
-// 哦对了，模板构造函数必须和类本身一块实现在头文件里，泛型毁了OOP
+// 哦牛批，模板构造函数必须和类本身一块实现在头文件里，泛型毁了OOP
 template<typename MetaType>
 CharacterAnimation::CharacterAnimation(MetaType* _meta, QWidget*_parent){
     // 创建角色头像标签

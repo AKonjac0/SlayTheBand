@@ -10,7 +10,11 @@ public:
     ~EnemyAnimation();
     void show(int, int, int, int, int, int);
 
+
+    // set current HP
     void setHealthBarAnimation(int HP);
+    // set max HP
+    void setMaxHealthBarAnimation(int maxHP);
 
 private:
     

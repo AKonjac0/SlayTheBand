@@ -16,6 +16,9 @@ public:
         return maxMP;
     }
     void MP_change(int);
+    void maxMP_change(int);
+    void setMP(int mp);
+    void setMaxMP(int mmp);
 private:
     // Player Only
     int MP = 0;

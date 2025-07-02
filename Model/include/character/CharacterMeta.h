@@ -33,6 +33,15 @@ public:
     }
 
     void HP_change(int);
+    void maxHP_change(int);
+    void setHP(int hp)
+    {
+        HP = hp;
+    }
+    void setMaxHP(int mhp)
+    {
+        maxHP = mhp;
+    }
 
 private:
 

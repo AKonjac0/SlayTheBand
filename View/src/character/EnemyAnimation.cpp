@@ -34,3 +34,7 @@ void EnemyAnimation::setHealthBarAnimation(int HP)
     healthBar->setCurrentHealth(HP);
 }
 
+void EnemyAnimation::setMaxHealthBarAnimation(int maxHP)
+{
+    healthBar->setMaxHealth(maxHP);
+}

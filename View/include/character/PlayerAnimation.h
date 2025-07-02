@@ -11,8 +11,14 @@ public:
     ~PlayerAnimation();
     void show(int, int, int, int, int, int, int, int);
     ManaBar* getManaBar(){ return manaBar;}
+
+    // set current MP, HP
     void setManaBarAnimation(int MP);
     void setHealthBarAnimation(int HP);
+
+    // set max MP, HP
+    void setMaxManaBarAnimation(int maxMP);
+    void setMaxHealthBarAnimation(int maxHP);
 
 private:
     ManaBar* manaBar;

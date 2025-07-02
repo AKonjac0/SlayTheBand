@@ -43,6 +43,16 @@ void PlayerAnimation::setHealthBarAnimation(int HP)
     healthBar->setCurrentHealth(HP);
 }
 
+void PlayerAnimation::setMaxManaBarAnimation(int maxMP)
+{
+    manaBar->setMaxMana(maxMP);
+}
+
+void PlayerAnimation::setMaxHealthBarAnimation(int maxHP)
+{
+    healthBar->setMaxHealth(maxHP);
+}
+
 PlayerAnimation::~PlayerAnimation(){
     if (manaBar) {
         delete manaBar;

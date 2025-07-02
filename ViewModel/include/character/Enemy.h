@@ -10,9 +10,21 @@ class Enemy
 public:
     Enemy(QString _name, int _HP, QWidget* _parent);
     ~Enemy();
+
+    // Same as Player, basically
     void HP_change(int amount);
-    void show(int x, int y, int width, int height);
+    void setHP(int hp);
+    void maxHP_change(int amount);
+    void setMaxHP(int maxhp);
+
+    // get meta
+    int getHP() const { return enemyMeta->getHP(); }
+    int getMaxHP() const { return enemyMeta->getmaxHP(); }
+    QString getName() const { return enemyMeta->getname(); }
+    QVector<Buff *> *getBuff() const { return enemyMeta->getBuff(); }
     QSize getSize() const { return enemyAnimation->getSize(); }
+
+    void show(int x, int y, int width, int height);
 private:
     // Model
     EnemyMeta* enemyMeta;

@@ -23,3 +23,22 @@ void Enemy::HP_change(int amount)
     int tempHP = enemyMeta->getHP();
     enemyAnimation->setHealthBarAnimation(tempHP);
 }
+
+void Enemy::maxHP_change(int amount)
+{
+    enemyMeta->maxHP_change(amount);
+    int tempMaxHP = enemyMeta->getmaxHP();
+    enemyAnimation->setMaxHealthBarAnimation(tempMaxHP);
+}
+
+void Enemy::setHP(int hp)
+{
+    enemyMeta->setHP(hp);
+    enemyAnimation->setHealthBarAnimation(enemyMeta->getHP());
+}
+
+void Enemy::setMaxHP(int maxhp)
+{
+    enemyMeta->setMaxHP(maxhp);
+    enemyAnimation->setMaxHealthBarAnimation(enemyMeta->getmaxHP());
+}

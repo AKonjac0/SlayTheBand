@@ -63,7 +63,33 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     });
 
     player = new Player("uika", PLAYER_MAX_HP, page1, PLAYER_MAX_MP);
+
+    // player->setHP(10);
+    // qDebug() << "Test setHP: Player HP set to:" << player->getHP();
+    // player->HP_change(-5);
+    // qDebug() << "Test HP_change: Player HP changed to:" << player->getHP();
+    // player->setMaxHP(200);
+    // qDebug() << "Test setMaxHP: Player max HP set to:" << player->getMaxHP();
+    // player->maxHP_change(50);
+    // qDebug() << "Test maxHP_change: Player max HP changed to:" << player->getMaxHP();
+    // player->setMP(5);
+    // qDebug() << "Test setMP: Player MP set to:" << player->getMP(); // 3
+    // player->MP_change(3);
+    // qDebug() << "Test MP_change: Player MP changed to:" << player->getMP();
+    // player->setMaxMP(100);
+    // qDebug() << "Test setMaxMP: Player max MP set to:" << player->getMaxMP();
+    // player->maxMP_change(20);
+    // qDebug() << "Test maxMP_change: Player max MP changed to:" << player->getMaxMP();
+
     enemy = new Enemy("soyo", ENEMY_MAX_HP, page1);
+    // enemy->setHP(10);
+    // qDebug() << "Test setHP: Enemy HP set to:" << enemy->getHP();
+    // enemy->HP_change(-5);
+    // qDebug() << "Test HP_change: Enemy HP changed to:" << enemy->getHP();
+    // enemy->setMaxHP(200);
+    // qDebug() << "Test setMaxHP: Enemy max HP set to:" << enemy->getMaxHP();
+    // enemy->maxHP_change(50);
+    // qDebug() << "Test maxHP_change: Enemy max HP changed to:" << enemy->getMaxHP();
 
     page0->show();
     page1->show();
