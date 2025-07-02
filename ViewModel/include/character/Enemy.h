@@ -25,6 +25,7 @@ public:
     QSize getSize() const { return enemyAnimation->getSize(); }
     void addBuff(Buff &buff) { enemyMeta->addBuff(buff);}
     QPushButton *getAvatar() { return enemyAnimation->getAvatar(); }
+    void clearBuff() { enemyMeta->clearBuff(); }
 
     void show(int x, int y, int width, int height);
 private:

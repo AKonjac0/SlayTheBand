@@ -3,8 +3,6 @@
 Combat::Combat(QObject *parent, CardView *cardView, Player *player)
     : QObject(parent), cardView(cardView), player(player), cardMeta(nullptr), enemy(nullptr) {}
 
-
-
 void Combat::setEnemy(Enemy *enemy) {
     this->enemy = enemy;
 }
@@ -40,5 +38,30 @@ void Combat::applyBuff(Buff &buff) {
         enemy->setHP(enemy->getHP() - buff.getLevel());
     } else if (buff.getType() == Block) {
         player->addBuff(buff);
+    }
+}
+
+void Combat::endOfRound() {
+    int enemyDamage = 2; //TODO: enemy attack logic
+    int lossHP = enemyDamage;
+    for (auto& buff : player->getBuff()) {
+        if (buff.getType() == Block) {
+            int gap = buff.getLevel() - enemyDamage;
+            if (gap < 0) {
+                lossHP = -gap;
+            } else {
+                lossHP = 0;
+            }
+            break;
+        }
+    }
+    player->clearBuff();
+    // enemy->clearBuff();
+    if ((player->getHP() - lossHP) <= 0) {
+        player->setHP(0);
+        //TODO: game over
+    } else {
+        player->setHP(player->getHP() - lossHP);
+        player->setMP(player->getMaxMP());
     }
 }

@@ -35,14 +35,10 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     enemy = new Enemy("soyo", ENEMY_MAX_HP, page1);
     Combat *combat = new Combat(page1, card_view, player);
 
-
-    QVector<Card *> cards = card_view->getCardPile()->get_cards();
-    // card_view->getCardPile();
-    // for (Card *i : cards) {
-    //     HoverButton *temp = i->getButton();
-    //     // qDebug() << "!" << i->getMeta()->getCardName();
-
-    // }
+    HoverButton *next_round = card_view->getButton()->get_next_round_button();
+    QObject::connect(next_round, &QPushButton::clicked, [this, combat](){
+        combat->endOfRound();
+    });
 
     QPushButton *enemy_btn = enemy->getAvatar();
     QObject::connect(enemy_btn, &QPushButton::clicked, [this, combat](){

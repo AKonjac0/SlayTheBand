@@ -42,10 +42,19 @@ public:
     {
         maxHP = mhp;
     }
-    void addBuff(Buff& buff)
+    void addBuff(Buff& new_buff)
     {
-        this->buff.push_back(std::move(buff));
+        for (auto &i : this->buff)
+        {
+            if (i.getType() == new_buff.getType())
+            {
+                i.changeLevel(new_buff.getLevel());
+                return;
+            }
+        }
+        this->buff.push_back(std::move(new_buff));
     }
+    void clearBuff();
 
 private:
 

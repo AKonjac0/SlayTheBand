@@ -26,6 +26,7 @@ public:
     Card_Button(Card_Manager *manager, QWidget *parent, CardPile *pile);
     ~Card_Button();
     void init_combat();
+    HoverButton *get_next_round_button() { return next_round; }
 private:
     QAbstractAnimation * drawcards();
     QAbstractAnimation * discards();

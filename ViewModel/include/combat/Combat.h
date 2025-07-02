@@ -15,6 +15,7 @@ public:
     // void setCard(Card_Meta *card);
     void setEnemy(Enemy *enemy);
     bool playACard();
+    void endOfRound();
 private:
     void applyBuff(Buff &buff);
     bool check();

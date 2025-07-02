@@ -44,6 +44,7 @@ public:
     QVector<Buff> getBuff() const { return playerMeta->getBuff(); }
     QSize getSize() const { return playerAnimation->getSize(); }
     void addBuff(Buff &buff) { playerMeta->addBuff(buff); }
+    void clearBuff() { playerMeta->clearBuff(); }
 
     // 通过 PlayerAnimation 控制 Player 的动画
     void show(int x, int y, int width, int height);

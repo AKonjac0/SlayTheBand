@@ -9,6 +9,7 @@ public:
     BuffType getType();
     int getLevel();
     bool getIsAll();
+    bool changeLevel(int delta);
 private:
     BuffType type;
     int level;
