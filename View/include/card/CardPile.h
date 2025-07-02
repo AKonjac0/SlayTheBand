@@ -18,6 +18,7 @@ public:
     bool isHover();
     void select_card(Card_Meta *meta);
     void unselect();
+    void playACard(Card_Meta *meta);
 private:
     Card_Manager *manager;
     QWidget *parent;

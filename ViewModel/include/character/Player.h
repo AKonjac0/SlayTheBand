@@ -41,8 +41,9 @@ public:
     int getMP() const { return playerMeta->getMP(); }
     int getMaxMP() const { return playerMeta->getmaxMP(); }
     QString getName() const { return playerMeta->getname(); }
-    QVector<Buff *> *getBuff() const { return playerMeta->getBuff(); }
+    QVector<Buff> getBuff() const { return playerMeta->getBuff(); }
     QSize getSize() const { return playerAnimation->getSize(); }
+    void addBuff(Buff &buff) { playerMeta->addBuff(buff); }
 
     // 通过 PlayerAnimation 控制 Player 的动画
     void show(int x, int y, int width, int height);

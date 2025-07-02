@@ -1,7 +1,5 @@
 #ifndef CARD_CONTROLLER_H
 #define CARD_CONTROLLER_H
-
-
 #include <QVector>
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
@@ -28,12 +26,11 @@ public:
     void new_card(Card_Meta *meta);
     void unselect();
     Card_Meta *get_selected() const;
+    void playACard(Card_Meta *meta);
 public slots:
     void applyDrawCardAnimation();
     void applyDisCardAnimation();
 private:
-
-
     void shuffle(QVector<Card_Meta *>&);
     void transfer(QVector<Card_Meta *>&, QVector<Card_Meta *>&);
     Card_Meta *new_strike();

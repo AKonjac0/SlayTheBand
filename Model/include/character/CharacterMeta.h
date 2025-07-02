@@ -27,7 +27,7 @@ public:
     {
         return maxHP;
     }
-    QVector<Buff *> *getBuff() const
+    QVector<Buff> getBuff() const
     {
         return buff;
     }
@@ -42,6 +42,10 @@ public:
     {
         maxHP = mhp;
     }
+    void addBuff(Buff& buff)
+    {
+        this->buff.push_back(std::move(buff));
+    }
 
 private:
 
@@ -49,7 +53,7 @@ private:
     QString name;
     int HP;
     int maxHP;
-    QVector<Buff *> *buff = nullptr;
+    QVector<Buff> buff;
 
     // Enemy Only
     // Intention* intention; // TBD: Intention is not implemented yet

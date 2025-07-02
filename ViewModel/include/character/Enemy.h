@@ -21,8 +21,10 @@ public:
     int getHP() const { return enemyMeta->getHP(); }
     int getMaxHP() const { return enemyMeta->getmaxHP(); }
     QString getName() const { return enemyMeta->getname(); }
-    QVector<Buff *> *getBuff() const { return enemyMeta->getBuff(); }
+    QVector<Buff> getBuff() const { return enemyMeta->getBuff(); }
     QSize getSize() const { return enemyAnimation->getSize(); }
+    void addBuff(Buff &buff) { enemyMeta->addBuff(buff);}
+    QPushButton *getAvatar() { return enemyAnimation->getAvatar(); }
 
     void show(int x, int y, int width, int height);
 private:

@@ -6,6 +6,9 @@ class Buff{
 public:
     Buff(BuffType, int, bool isAll = false);
     ~Buff() = default;
+    BuffType getType();
+    int getLevel();
+    bool getIsAll();
 private:
     BuffType type;
     int level;

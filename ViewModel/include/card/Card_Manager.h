@@ -4,8 +4,6 @@
 #include "CardController.h"
 #include "CardGenerator.h"
 
-
-
 class Card_Manager{
 public:
     Card_Manager(QWidget* parent);
@@ -21,6 +19,7 @@ public:
     void new_combat();
     void select_card(Card_Meta *meta);
     void unselect();
+    void playACard(Card_Meta *meta);
     Card_Meta *get_selected() const;
 private:
     CardController *control;

@@ -12,7 +12,8 @@ CardView::~CardView(){
     delete card_button;
 }
 
-Card_Button *CardView::getButton() const{
-    return card_button;
-}
+Card_Button *CardView::getButton() const{ return card_button; }
 
+Card_Manager *CardView::getManager() const { return manager; }
+
+CardPile *CardView::getCardPile() const { return card_pile; }

@@ -124,3 +124,13 @@ void CardController::select_card(Card_Meta *meta){
 Card_Meta *CardController::get_selected() const {
     return selected;
 }
+
+void CardController::playACard(Card_Meta *meta) {
+    for (auto i = handcard.begin(); i != handcard.end(); ++i) {
+        if (*i == meta) {
+            handcard.erase(i);
+            break;
+        }
+    }
+    discard_pile.push_back(meta);
+}

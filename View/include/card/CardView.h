@@ -10,7 +10,8 @@ public:
     CardView(Card_Manager *manager, QWidget *parent);
     ~CardView();
     Card_Button *getButton() const;
-
+    Card_Manager *getManager() const;
+    CardPile *getCardPile() const;
 private:
     Card_Manager *manager;
     QWidget *parent;

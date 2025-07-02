@@ -18,9 +18,6 @@ void CardPile::create_cards(){
         HoverButton *button = card->getButton();
         QObject::connect(button, &QPushButton::clicked, parent, [button, card, this]() {
             // 应用动画效果
-
-
-
             if(this->manager->get_selected() == nullptr){ // unselected, select this
                 if(button->Animating()) return;
                 button->Animating() = true;
@@ -37,14 +34,8 @@ void CardPile::create_cards(){
             }else{ // selected other card, then can't select this
                 // select_card(card->getMeta());
             }
-
-
             if(this->manager->get_selected() == nullptr) qDebug() << "empty";
             else qDebug() << this->manager->get_selected()->getCardName();
-
-
-
-
             // 这里可以添加按钮原有的点击逻辑
             // qDebug() << "按钮被点击:" << button->text();
         });
@@ -117,6 +108,18 @@ void CardPile::unselect(){
     //     });
     // }
 }
-// Card *CardPile::get_selected(){
-//     find_card(manager->get_selected());
-// }
+
+void CardPile::playACard(Card_Meta *meta) {
+    unselect();
+    Card *toDel = nullptr;
+    for (auto i = cards.begin(); i != cards.end(); i++) {
+        if ((*i)->getMeta() == meta) {
+            toDel = *i;
+            cards.erase(i);
+            break;
+        }
+    }
+    if (toDel) {
+        delete toDel;
+    }
+}

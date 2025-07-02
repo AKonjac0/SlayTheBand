@@ -54,3 +54,9 @@ QVector<Card_Meta *> Card_Manager::gen(int num) const{
 void Card_Manager::new_combat(){
     control->new_combat();
 }
+
+void Card_Manager::playACard(Card_Meta *meta) {
+    unselect();
+    control->playACard(meta);
+
+}

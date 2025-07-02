@@ -6,6 +6,7 @@
 #include "PageManager.h"
 #include "CardRewardPage.h"
 #include "HomePage.h"
+#include "Combat.h"
 
 PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     : parent(parent), page_width(page_width), page_height(page_height) {
@@ -29,6 +30,25 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     page1 = new BattlePage(parent);
     card_manager = new Card_Manager(page1);
     card_view = new CardView(card_manager, page1);
+    player = new Player("uika", PLAYER_MAX_HP, page1, PLAYER_MAX_MP);
+    enemy = new Enemy("soyo", ENEMY_MAX_HP, page1);
+    Combat *combat = new Combat(page1, card_view, player);
+
+    QVector<Card *> cards = card_view->getCardPile()->get_cards();
+    for (auto &i : cards) {
+        HoverButton *temp = i->getButton();
+        QObject::connect(temp, &QPushButton::clicked, page1, [this, combat, i](){
+            qDebug() << "Card";
+            combat->setCard(i->getMeta());
+        });
+    }
+
+    QPushButton *enemy_btn = enemy->getAvatar();
+    QObject::connect(enemy_btn, &QPushButton::clicked, [this, combat](){
+        qDebug() << "Enemy";
+        combat->setEnemy(enemy);
+        combat->playACard();
+    });
 
     QAbstractButton::connect(page1->switchBtn, &QPushButton::clicked, [this](){
         switchToPage(page2, PageAnimationDirection::RightToLeft);
@@ -43,7 +63,7 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
         card_view->getButton()->init_combat();
         switchToPage(page1, PageAnimationDirection::LeftToRight);
         // opacity
-        page2->level1->setGraphicsEffect();
+        // page2->level1->setGraphicsEffect();
 
 
         page2->switchBtn->show();
@@ -66,8 +86,6 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
         switchToPage(page3, PageAnimationDirection::LeftToRight);
     });
 
-    player = new Player("uika", PLAYER_MAX_HP, page1, PLAYER_MAX_MP);
-
     // player->setHP(10);
     // qDebug() << "Test setHP: Player HP set to:" << player->getHP();
     // player->HP_change(-5);
@@ -85,7 +103,6 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     // player->maxMP_change(20);
     // qDebug() << "Test maxMP_change: Player max MP changed to:" << player->getMaxMP();
 
-    enemy = new Enemy("soyo", ENEMY_MAX_HP, page1);
     // enemy->setHP(10);
     // qDebug() << "Test setHP: Enemy HP set to:" << enemy->getHP();
     // enemy->HP_change(-5);

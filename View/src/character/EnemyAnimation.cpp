@@ -15,7 +15,9 @@ void EnemyAnimation::show(int x, int y, int width, int height, int maxHP, int HP
     // 设置角色头像大小和位置
     getAvatar()->setGeometry(x, y, width, height);
 
-    getAvatar() -> setMovie(getIllustration());
+    // getAvatar() -> setMovie(getIllustration());
+    getAvatar()->setStyleSheet("border-image: url(:/image/images/saki.gif);");
+    getAvatar()->setAutoFillBackground(true);
     getIllustration() -> start();
 
     // 定位血条
