@@ -1,8 +1,8 @@
 #include "Music_Manager.h"
 
 
-Music_Manager::Music_Manager() : effect (new QSoundEffect){
-
+Music_Manager::Music_Manager(QWidget *parent) : parent(parent){
+    effect = new QSoundEffect(parent);
 }
 
 Music_Manager::~Music_Manager(){

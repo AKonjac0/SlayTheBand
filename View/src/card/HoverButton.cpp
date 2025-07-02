@@ -38,7 +38,7 @@ void HoverButton::startHoverAnimation(int yOffset)
 
 
     if(!isHover){
-        // qDebug() << "error:can't hover";
+        qDebug() << "error:can't hover";
         return;
     }
     isAnimating = true;

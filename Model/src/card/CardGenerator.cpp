@@ -9,6 +9,9 @@ CardGenerator::CardGenerator(QWidget *parent) : parent(parent), rng(std::mt19937
     full_card_deck.push_back(new Card_Meta("bash", attack, 2, 8, Vulnerable, 2));
     full_card_deck.push_back(new Card_Meta("power_through", skill, 1, 0, No, 15));
     full_card_deck.push_back(new Card_Meta("second_wind", skill, 1, 0, No, 0));
+    full_card_deck.push_back(new Card_Meta("iron_wave", attack, 1, 5, No, 5));
+    full_card_deck.push_back(new Card_Meta("whirlwind", attack, -1, 5, No, 0)); // -1 means x energy
+    full_card_deck.push_back(new Card_Meta("carnage", attack, 1, 28, No, 0));
     new_gen();
 
 }

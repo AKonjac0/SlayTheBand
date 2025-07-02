@@ -27,8 +27,8 @@ public:
     ~Card_Button();
     void init_combat();
 private:
-    void drawcards();
-    void discards();
+    QAbstractAnimation * drawcards();
+    QAbstractAnimation * discards();
 private:
     QWidget *parent;
     HoverButton *next_round;

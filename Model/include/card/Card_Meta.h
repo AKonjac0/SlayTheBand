@@ -2,12 +2,12 @@
 #define CARD_META_H
 #include "Buff.h"
 #include <QString>
-
+#include <QVector>
 enum CardType {attack, skill, power};
 
 class Card_Meta{
 public:
-    Card_Meta(QString card_name, CardType card_type, int energy_consume, int hurt, BuffType buff_type, int buff_level);
+    Card_Meta(QString card_name, CardType card_type, int energy_consume, int hurt, BuffType type, int level);
     Card_Meta(const Card_Meta &);
     ~Card_Meta();
     QString getCardName();

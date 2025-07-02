@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    qDebug() << "mainwindow close";
     delete page_manager;
 }
 

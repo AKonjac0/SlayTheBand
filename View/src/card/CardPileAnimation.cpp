@@ -3,13 +3,15 @@
 #include <QGraphicsOpacityEffect>
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
+#include <QSequentialAnimationGroup>
 #include <QEventLoop>
 #include <QTimer>
 
 CardPileAnimation::CardPileAnimation(QWidget *parent) : parent(parent) {}
 
 
-void CardPileAnimation::applyDisCardAnimation(QVector<Card *> cards){
+
+QAbstractAnimation *CardPileAnimation::applyDisCardAnimation(QVector<Card *> cards){
 
     // isAnimating, prevent other animations
 
@@ -31,6 +33,7 @@ void CardPileAnimation::applyDisCardAnimation(QVector<Card *> cards){
     const int animationDuration = 600; // 每个卡片动画总时长
 
     int card_size = cards.size();
+    QParallelAnimationGroup *mainGroup = new QParallelAnimationGroup(parent);
     for (int i = card_size - 1; i >= 0; --i) {
         QPushButton *card = cards[i]->getButton();
 
@@ -70,19 +73,24 @@ void CardPileAnimation::applyDisCardAnimation(QVector<Card *> cards){
         cardGroup->addAnimation(opacityAnim);
 
         // 设置卡片动画的延迟启动（每个卡片比前一个卡片延迟overlapDelay毫秒）
-        QEventLoop loop;
-        QTimer::singleShot(100, &loop, SLOT(quit()));
-        loop.exec();
-        if(!loop.isRunning()){
-            cardGroup->start(QAbstractAnimation::DeleteWhenStopped);
-        }
-
+        // QEventLoop loop;
+        // QTimer::singleShot(100, &loop, SLOT(quit()));
+        // loop.exec();
+        // if(!loop.isRunning()){
+        //     cardGroup->start(QAbstractAnimation::DeleteWhenStopped);
+        // }
+        // cardGroup->start(QAbstractAnimation::DeleteWhenStopped);
+        QSequentialAnimationGroup *fullGroup = new QSequentialAnimationGroup(parent);
+        fullGroup->addPause(i * 100);
+        fullGroup->addAnimation(cardGroup);
+        mainGroup->addAnimation(fullGroup);
     }
-
+    mainGroup->start(QAbstractAnimation::DeleteWhenStopped);
+    return mainGroup;
     // manager->discard();
 }
 
-void CardPileAnimation::applyDrawCardAnimation(QVector<Card *> cards){
+QAbstractAnimation *CardPileAnimation::applyDrawCardAnimation(QVector<Card *> cards){
 
     // manager->drawcard();
 
@@ -103,6 +111,7 @@ void CardPileAnimation::applyDrawCardAnimation(QVector<Card *> cards){
     const int animationDuration = 600; // 每个卡片动画总时长
 
     int card_size = cards.size();
+    QParallelAnimationGroup *mainGroup = new QParallelAnimationGroup(parent);
     for (int i = card_size - 1; i >= 0; --i) {
         QPushButton *card = cards[i]->getButton();
 
@@ -147,15 +156,21 @@ void CardPileAnimation::applyDrawCardAnimation(QVector<Card *> cards){
         cardGroup->addAnimation(opacityAnim);
 
         // 设置卡片动画的延迟启动（每个卡片比前一个卡片延迟overlapDelay毫秒）
-        QEventLoop loop;
-        QTimer::singleShot(100, &loop, SLOT(quit()));
-        loop.exec();
-        if(!loop.isRunning()){
-            cardGroup->start(QAbstractAnimation::DeleteWhenStopped);
-        }
+        // QEventLoop loop;
+        // QTimer::singleShot(100, &loop, SLOT(quit()));
+        // loop.exec();
+        // if(!loop.isRunning()){
+        //     cardGroup->start(QAbstractAnimation::DeleteWhenStopped);
+        // }
+        // cardGroup->start(QAbstractAnimation::DeleteWhenStopped);
 
+        QSequentialAnimationGroup *fullGroup = new QSequentialAnimationGroup(parent);
+        fullGroup->addPause(i * 100);
+        fullGroup->addAnimation(cardGroup);
+        mainGroup->addAnimation(fullGroup);
     }
-
+    mainGroup->start(QAbstractAnimation::DeleteWhenStopped);
+    return mainGroup;
 }
 
 

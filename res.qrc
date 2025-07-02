@@ -22,5 +22,8 @@
         <file>images/countCircle.png</file>
         <file>images/map_page.png</file>
         <file>images/monster.png</file>
+        <file>images/carnage.png</file>
+        <file>images/iron_wave.png</file>
+        <file>images/whirlwind.png</file>
     </qresource>
 </RCC>

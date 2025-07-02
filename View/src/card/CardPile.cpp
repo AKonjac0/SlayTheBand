@@ -18,19 +18,32 @@ void CardPile::create_cards(){
         HoverButton *button = card->getButton();
         QObject::connect(button, &QPushButton::clicked, parent, [button, card, this]() {
             // 应用动画效果
-            if(button->Animating()) return;
-            button->Animating() = true;
-            card->getAnimation()->applyButtonClickAnimation(button);
+
+
 
             if(this->manager->get_selected() == nullptr){ // unselected, select this
+                if(button->Animating()) return;
+                button->Animating() = true;
+                QAbstractAnimation *anim = card->getAnimation()->applyButtonClickAnimation(button);
+                card->getButton()->Hover() = false;
                 select_card(card->getMeta());
+                QObject::connect(anim, &QAbstractAnimation::finished, [button]() {
+                    button->Animating() = false;
+                });
             }else if(this->manager->get_selected() == card->getMeta()){ // selected this card, then unselect it
+                if(button->Animating()) return;
                 unselect();
-            }else{ // selected other card, then select this
-                select_card(card->getMeta());
+                card->getButton()->Hover() = true;
+            }else{ // selected other card, then can't select this
+                // select_card(card->getMeta());
             }
+
+
             if(this->manager->get_selected() == nullptr) qDebug() << "empty";
             else qDebug() << this->manager->get_selected()->getCardName();
+
+
+
 
             // 这里可以添加按钮原有的点击逻辑
             // qDebug() << "按钮被点击:" << button->text();
@@ -81,24 +94,28 @@ bool CardPile::isHover(){
 }
 
 void CardPile::select_card(Card_Meta *meta){
-    Card *other_card = find_card(manager->get_selected());
+
+    // Card *other_card = find_card(manager->get_selected());
     Card *card = find_card(meta);
     manager->select_card(meta);
     if(arrow) delete arrow, arrow = nullptr;
 
     QPointF center = card->getButton()->posOffset() + QPointF(card->getButton()->width() / 2.0, card->getButton()->height() / 2.0);
     arrow = new Arrow(center, parent);
-    // qDebug() << center;
-    // this->arrow->raise();
-    if(other_card) other_card->getAnimation()->applyDeHighLightAnimation(other_card->getButton());
+    // if(other_card) other_card->getAnimation()->applyDeHighLightAnimation(other_card->getButton());
     card->getAnimation()->applyHighLightAnimation(card->getButton());
 }
 void CardPile::unselect(){
     Card *card = find_card(manager->get_selected());
     manager->unselect();
     if(arrow) delete arrow, arrow = nullptr;
-    if(card) card->getAnimation()->applyDeHighLightAnimation(card->getButton());
-
+    QAbstractAnimation *anim = nullptr;
+    if(card) anim = card->getAnimation()->applyDeHighLightAnimation(card->getButton());
+    // if(anim){
+    //     QObject::connect(anim, &QAbstractAnimation::finished, [card]() {
+    //         card->getButton()->Hover() = true;
+    //     });
+    // }
 }
 // Card *CardPile::get_selected(){
 //     find_card(manager->get_selected());

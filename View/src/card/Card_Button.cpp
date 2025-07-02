@@ -49,23 +49,19 @@ Card_Button::Card_Button(Card_Manager *manager, QWidget *parent, CardPile *pile)
             // this->manager->unselect();
 
             next_round_click = false;
-
-
-            this->discards();
-            this->drawcards();
-            // 这里可以添加按钮原有的点击逻辑
-            qDebug() << "下一回合";
-            QEventLoop loop;
-            QTimer::singleShot(1000, &loop, SLOT(quit()));
-            loop.exec();
-            if(!loop.isRunning()){
-                next_round_click = true;
-                this->pile->setAnimating(false);
-                this->pile->setHover(true);
-
-            }
+            // this->pile->setAnimating(true);
+            // this->pile->setHover(false);
+            QAbstractAnimation *disanim = this->discards();
+            QObject::connect(disanim, &QAbstractAnimation::finished, this->parent, [this](){
+                QAbstractAnimation *drawanim = this->drawcards();
+                QObject::connect(drawanim, &QAbstractAnimation::finished, this->parent, [this](){
+                    qDebug() << "下一回合";
+                    next_round_click = true;
+                    this->pile->setAnimating(false);
+                    this->pile->setHover(true);
+                });
+            });
         }
-
     });
 }
 
@@ -81,38 +77,40 @@ Card_Button::~Card_Button(){
     delete drawcard_pile_animation;
 }
 
-void Card_Button::drawcards(){
+QAbstractAnimation *Card_Button::drawcards(){
 
     this->manager->drawcard();
     this->pile->create_cards();
-    this->pile->setHover(false);
+    this->pile->setHover(false); // need this because cards are newly constructed
     this->pile->setAnimating(true);
-    this->animation->applyDrawCardAnimation(this->pile->get_cards());
+    QAbstractAnimation *anim = this->animation->applyDrawCardAnimation(this->pile->get_cards());
     drawcard_num->setNumber(manager->get_drawcard_pile().count());
     discard_num->setNumber(manager->get_discard_pile().count());
+    return anim;
 }
 
-void Card_Button::discards(){
-    this->pile->setAnimating(true);
+QAbstractAnimation * Card_Button::discards(){
     this->pile->setHover(false);
-    this->animation->applyDisCardAnimation(this->pile->get_cards());
-    this->manager->discard();
-    this->pile->clear_cards();
+    this->pile->setAnimating(true);
+    QAbstractAnimation *anim = this->animation->applyDisCardAnimation(this->pile->get_cards());
+    QObject::connect(anim, &QAbstractAnimation::finished, parent, [this, anim](){
+        this->manager->discard();
+        this->pile->clear_cards();
+    });
     // discard_num->setNumber(manager->get_discard_pile().count());
+    return anim;
 }
 
 void Card_Button::init_combat(){
+    this->pile->unselect();
     next_round_click = false;
     pile->clear_cards();
     manager->new_combat();
-    drawcards();
-    QEventLoop loop;
-    QTimer::singleShot(1000, &loop, SLOT(quit()));
-    loop.exec();
-    if(!loop.isRunning()){
+    QAbstractAnimation *anim = drawcards();
+    QObject::connect(anim, &QAbstractAnimation::finished, parent, [this](){
         qDebug() << "战斗开始";
         next_round_click = true;
         pile->setHover(true);
         pile->setAnimating(false);
-    }
+    });
 }

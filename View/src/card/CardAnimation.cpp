@@ -6,7 +6,7 @@
 CardAnimation::CardAnimation(QWidget *parent) : parent(parent) {}
 
 
-void CardAnimation::applyButtonClickAnimation(HoverButton *button)
+QAbstractAnimation *CardAnimation::applyButtonClickAnimation(HoverButton *button)
 {
     QSequentialAnimationGroup* group = new QSequentialAnimationGroup(parent);
 
@@ -46,15 +46,14 @@ void CardAnimation::applyButtonClickAnimation(HoverButton *button)
     group->addAnimation(reset);
     group->start(QAbstractAnimation::DeleteWhenStopped);
 
-    QObject::connect(group, &QPropertyAnimation::finished, [button]() {
+    // QObject::connect(group, &QPropertyAnimation::finished, [button]() {
+    //     button->Animating() = false;
+    //     // button->Hover() = true;
+    // });
 
-        button->Animating() = false;
-
-    });
-
-
+    return group;
 }
-void CardAnimation::applyHighLightAnimation(HoverButton *button){
+QAbstractAnimation *CardAnimation::applyHighLightAnimation(HoverButton *button){
 
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect(button);
     effect->setColor(Qt::white);      // 高光颜色
@@ -69,9 +68,10 @@ void CardAnimation::applyHighLightAnimation(HoverButton *button){
     anim->setStartValue(0.0);
     anim->setEndValue(0.3);       // 释放时消失
     anim->start(QAbstractAnimation::DeleteWhenStopped);
+    return anim;
 }
 
-void CardAnimation::applyDeHighLightAnimation(HoverButton *button){
+QAbstractAnimation *CardAnimation::applyDeHighLightAnimation(HoverButton *button){
 
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect(button);
     effect->setColor(Qt::white);      // 高光颜色
@@ -86,4 +86,5 @@ void CardAnimation::applyDeHighLightAnimation(HoverButton *button){
     anim->setStartValue(0.3);
     anim->setEndValue(0.0);       // 释放时消失
     anim->start(QAbstractAnimation::DeleteWhenStopped);
+    return anim;
 }

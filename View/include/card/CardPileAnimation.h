@@ -11,8 +11,8 @@ public:
     CardPileAnimation(QWidget *parent);
     ~CardPileAnimation() = default;
 
-    void applyDisCardAnimation(QVector<Card *> cards);
-    void applyDrawCardAnimation(QVector<Card *> cards);
+    QAbstractAnimation *applyDisCardAnimation(QVector<Card *> cards);
+    QAbstractAnimation *applyDrawCardAnimation(QVector<Card *> cards);
 private:
     QWidget *parent;
     // Card_Manager *manager;

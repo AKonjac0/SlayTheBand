@@ -10,7 +10,7 @@
 PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     : parent(parent), page_width(page_width), page_height(page_height) {
 
-    music = new Music_Manager();
+    music = new Music_Manager(parent);
     music->play("../../OST/ready_to_go.wav");
 
     //创建页面0 主界面
@@ -100,6 +100,7 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
 }
 
 PageManager::~PageManager() {
+    qDebug() << "dtor";
     delete card_manager;
     delete card_view;
     delete music;
