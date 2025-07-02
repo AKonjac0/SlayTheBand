@@ -117,6 +117,7 @@ QAbstractAnimation *CardPileAnimation::applyDrawCardAnimation(QVector<Card *> ca
 
         // 设置初始状态：左下角外、小尺寸、完全透明
         card->setGeometry(0, parentHeight, startSize.width(), startSize.height());
+
         card->show();
         // 设置透明度效果
         QGraphicsOpacityEffect *opacityEffect = new QGraphicsOpacityEffect(card);

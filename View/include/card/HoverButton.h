@@ -21,10 +21,10 @@ public:
     }
 
     // 获取当前偏移量
-    QPoint posOffset() const;
+    QPoint posOffset() const; // used only in moc
 
     // 设置偏移量并更新位置
-    void setPosOffset(const QPoint &offset);
+    void setPosOffset(const QPoint &offset); // used only in moc
 
     bool &Animating(){
         return isAnimating;

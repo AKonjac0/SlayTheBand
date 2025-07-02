@@ -7,20 +7,19 @@ enum CardType {attack, skill, power};
 
 class Card_Meta{
 public:
-    Card_Meta(QString card_name, CardType card_type, int energy_consume, int hurt, BuffType type, int level);
+    Card_Meta(QString card_name, CardType card_type, int energy_consume);
     Card_Meta(const Card_Meta &);
     ~Card_Meta();
     QString getCardName();
     CardType getCardType();
     int getEnergyConsumption();
-    int getHurt();
-    Buff *getBuff();
+    void addBuff(BuffType type, int level, bool isAll = false);
+    QVector<Buff> getBuff() const;
 private:
     QString card_name;
     CardType card_type;
     int energy_consume;
-    int hurt;
-    Buff *buff;
+    QVector<Buff> buff;
 };
 
 #endif // CARD_META_H

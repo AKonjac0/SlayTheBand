@@ -3,6 +3,13 @@
 #include <QWidget>
 #include <QPushButton>
 
+class RoomButton : public QPushButton{
+public:
+private:
+    bool canVisit;
+};
+
+
 class MapPage : public QWidget
 {
 public:

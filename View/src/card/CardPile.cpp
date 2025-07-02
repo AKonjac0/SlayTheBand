@@ -100,7 +100,7 @@ void CardPile::select_card(Card_Meta *meta){
     manager->select_card(meta);
     if(arrow) delete arrow, arrow = nullptr;
 
-    QPointF center = card->getButton()->posOffset() + QPointF(card->getButton()->width() / 2.0, card->getButton()->height() / 2.0);
+    QPointF center = card->getButton()->pos() + QPointF(card->getButton()->width() / 2.0, card->getButton()->height() / 2.0);
     arrow = new Arrow(center, parent);
     // if(other_card) other_card->getAnimation()->applyDeHighLightAnimation(other_card->getButton());
     card->getAnimation()->applyHighLightAnimation(card->getButton());

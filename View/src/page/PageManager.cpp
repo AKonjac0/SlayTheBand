@@ -40,8 +40,12 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
 
     QAbstractButton::connect(page2->level1, &QPushButton::clicked, [this](){
         qDebug() << "Level 1";
-        // card_view->getButton()->init_combat();
+        card_view->getButton()->init_combat();
         switchToPage(page1, PageAnimationDirection::LeftToRight);
+        // opacity
+        page2->level1->setGraphicsEffect();
+
+
         page2->switchBtn->show();
     });
 
@@ -49,7 +53,7 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     QAbstractButton::connect(page3->confirmBtn, &QPushButton::clicked, [this]() {
         // page3->deleteReward();
         // card_manager->new_combat();
-        // card_view->getButton()->init_combat();
+        card_view->getButton()->init_combat();
         switchToPage(page1, PageAnimationDirection::RightToLeft);
     });
 
@@ -183,7 +187,7 @@ void PageManager::switchToPage(QWidget *targetPage, PageAnimationDirection direc
         if(targetPage == page3) page3->newReward();
         else if(targetPage == page1){
             qDebug() << "return to page1";
-            card_view->getButton()->init_combat();
+
             // QEventLoop loop;
             // QTimer::singleShot(1000, &loop, SLOT(quit()));
             // loop.exec();

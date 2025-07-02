@@ -95,16 +95,22 @@ QVector<Card_Meta *> CardController::get_card_deck() const{
 }
 
 Card_Meta *CardController::new_strike() {
-    return new Card_Meta("strike", attack, 1, 6, No, 0);
-
+    Card_Meta *meta = new Card_Meta("strike", attack, 1);
+    meta->addBuff(BuffType::Damage, 6, false);
+    return meta;
 }
 
 Card_Meta *CardController::new_defend() {
-    return new Card_Meta("defend", skill, 1, 0, No, 5);
+    Card_Meta *meta = new Card_Meta("defend", skill, 1);
+    meta->addBuff(BuffType::Block, 5, false);
+    return meta;
 }
 
 Card_Meta *CardController::new_bash() {
-    return new Card_Meta("bash", attack, 2, 8, Vulnerable, 2);
+    Card_Meta *meta = new Card_Meta("bash", attack, 2);
+    meta->addBuff(BuffType::Damage, 8, false);
+    meta->addBuff(BuffType::Vulnerable, 2, false);
+    return meta;
 }
 
 void CardController::unselect(){

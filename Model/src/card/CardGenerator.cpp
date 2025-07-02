@@ -4,14 +4,42 @@
 
 
 CardGenerator::CardGenerator(QWidget *parent) : parent(parent), rng(std::mt19937(time(0))) {
-    full_card_deck.push_back(new Card_Meta("strike", attack, 1, 6, No, 0));
-    full_card_deck.push_back(new Card_Meta("defend", skill, 1, 0, No, 5));
-    full_card_deck.push_back(new Card_Meta("bash", attack, 2, 8, Vulnerable, 2));
-    full_card_deck.push_back(new Card_Meta("power_through", skill, 1, 0, No, 15));
-    full_card_deck.push_back(new Card_Meta("second_wind", skill, 1, 0, No, 0));
-    full_card_deck.push_back(new Card_Meta("iron_wave", attack, 1, 5, No, 5));
-    full_card_deck.push_back(new Card_Meta("whirlwind", attack, -1, 5, No, 0)); // -1 means x energy
-    full_card_deck.push_back(new Card_Meta("carnage", attack, 1, 28, No, 0));
+    Card_Meta *meta = new Card_Meta("strike", attack, 1);
+    meta->addBuff(BuffType::Damage, 6, false);
+    full_card_deck.push_back(meta);
+
+    meta = new Card_Meta("defend", skill, 1);
+    meta->addBuff(BuffType::Block, 5, false);
+    full_card_deck.push_back(meta);
+
+    meta = new Card_Meta("bash", attack, 2);
+    meta->addBuff(BuffType::Damage, 8, false);
+    meta->addBuff(BuffType::Vulnerable, 2, false);
+    full_card_deck.push_back(meta);
+
+    meta = new Card_Meta("power_through", skill, 1);
+    meta->addBuff(BuffType::Block, 15, false);
+    meta->addBuff(BuffType::Addcard, 2, false);
+    full_card_deck.push_back(meta);
+
+    meta = new Card_Meta("second_wind", skill, 1);
+    full_card_deck.push_back(meta);
+
+    meta = new Card_Meta("iron_wave", attack, 1);
+    meta->addBuff(BuffType::Damage, 5, false);
+    meta->addBuff(BuffType::Block, 5, false);
+    full_card_deck.push_back(meta);
+
+    meta = new Card_Meta("whirlwind", attack, -1);
+    meta->addBuff(BuffType::Damage, 5, false);
+    full_card_deck.push_back(meta);
+
+
+    meta = new Card_Meta("carnage", attack, 2);
+    meta->addBuff(BuffType::Damage, 28, false);
+    meta->addBuff(BuffType::Ethereal, 0, false);
+    full_card_deck.push_back(meta);
+
     new_gen();
 
 }
@@ -22,7 +50,7 @@ CardGenerator::~CardGenerator() {
 }
 
 QVector<Card_Meta*> CardGenerator::gen(int num){
-    qDebug() << num << " " << full_card_deck.size();
+    // qDebug() << num << " " << full_card_deck.size();
     assert(num <= full_card_deck.size());
     if(drawcard_pile.size() < num){
         new_gen();
