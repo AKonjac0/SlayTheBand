@@ -43,6 +43,8 @@ public:
     QString getName() const { return playerMeta->getname(); }
     QVector<Buff> getBuff() const { return playerMeta->getBuff(); }
     QSize getSize() const { return playerAnimation->getSize(); }
+
+    // 通过 PlayerMeta 控制 Player 的属性
     void addBuff(Buff &buff) { playerMeta->addBuff(buff); }
     void clearBuff() { playerMeta->clearBuff(); }
 
@@ -51,10 +53,6 @@ public:
 private:
     PlayerMeta* playerMeta;
     PlayerAnimation* playerAnimation;
-
-    // TBD: encapsule card logic into player
-    // Card_Manager* cardManager;
-    // CardView* cardView;
 
 };
 

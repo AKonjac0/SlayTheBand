@@ -57,11 +57,11 @@ void Combat::endOfRound() {
     }
     player->clearBuff();
     // enemy->clearBuff();
-    if ((player->getHP() - lossHP) <= 0) {
-        player->setHP(0);
-        //TODO: game over
+    player->setHP(player->getHP() - lossHP); // 已经在 setHP 实现中确保设置的 HP 会在 [0,maxHP] 之间，不会小于 0（MP 同理）
+    if (player->getHP() == 0) {
+        // GameOver()
     } else {
-        player->setHP(player->getHP() - lossHP);
+        // next round
         player->setMP(player->getMaxMP());
     }
 }

@@ -62,22 +62,3 @@ void Player::show(int x, int y, int width, int height)
     playerAnimation->show(x, y, width, height, playerMeta->getmaxHP(), playerMeta->getHP(), playerMeta->getmaxMP(), playerMeta->getMP());
 }
 
-// void Character::AffectedBy(Card_Meta* cardMeta){
-//     switch (cardMeta->getCardType()) {
-//     case attack:
-//         HP_change(-cardMeta->getHurt());
-//         break;
-//     case skill:
-//         // TBD
-//         break;
-//     case power:
-//         // TBD
-//         break;
-//     default:
-//         break;
-//     }
-// }
-
-// void Character::PlayCard(Card_Meta* cardMeta, Character* target){
-//     // TBD
-// }

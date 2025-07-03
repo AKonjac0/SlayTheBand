@@ -34,26 +34,9 @@ public:
 
     void HP_change(int);
     void maxHP_change(int);
-    void setHP(int hp)
-    {
-        HP = hp;
-    }
-    void setMaxHP(int mhp)
-    {
-        maxHP = mhp;
-    }
-    void addBuff(Buff& new_buff)
-    {
-        for (auto &i : this->buff)
-        {
-            if (i.getType() == new_buff.getType())
-            {
-                i.changeLevel(new_buff.getLevel());
-                return;
-            }
-        }
-        this->buff.push_back(std::move(new_buff));
-    }
+    void setHP(int hp);
+    void setMaxHP(int mhp);
+    void addBuff(Buff& new_buff);
     void clearBuff();
 
 private:
