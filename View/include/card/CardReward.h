@@ -3,6 +3,8 @@
 #include <QWidget>
 #include "Card.h"
 #include "Card_Manager.h"
+
+
 class CardReward{
 
 public:

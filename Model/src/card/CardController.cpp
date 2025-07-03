@@ -2,7 +2,7 @@
 
 
 // Model
-CardController::CardController(QWidget *parent) : parent(parent), drawcard_num(5) {
+CardController::CardController() : drawcard_num(5) {
     for (int i = 0; i < 5; i++) {
         card_deck.push_back(new_strike());
     }

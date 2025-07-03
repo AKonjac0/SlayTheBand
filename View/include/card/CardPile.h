@@ -2,11 +2,14 @@
 #define CARDPILE_H
 
 #include "Card.h"
-#include "Card_Manager.h"
+
 #include "Arrow.h"
-class CardPile{
+
+
+class CardPile : public QObject{
+    Q_OBJECT
 public:
-    CardPile(Card_Manager *manager, QWidget *parent);
+    CardPile(QWidget *parent);
     ~CardPile();
     void create_cards();
     void clear_cards();
@@ -19,11 +22,26 @@ public:
     void select_card(Card_Meta *meta);
     void unselect();
     void playACard(Card_Meta *meta);
-    Card_Meta* get_selected();
+public:
+    Card_Meta *get_selected() const { return selected; }
+    Card_Meta *get_played() const { return played; }
+    QVector<Card_Meta *> get_hands() const { return hands; }
+
+public slots:
+    void set_selected(Card_Meta *ret_selected);
+    void set_hands(QVector<Card_Meta *> ret_hands);
+
+signals:
+    void onSelectedChanged();
+    void onHandsChanged();
+    void onPlayed();
+
 private:
-    Card_Manager *manager;
     QWidget *parent;
+    Card_Meta *selected;
+    Card_Meta *played;
     QVector<Card *> cards;
+    QVector<Card_Meta *> hands;
     Arrow *arrow = nullptr;
 };
 #endif // CARDPILE_H

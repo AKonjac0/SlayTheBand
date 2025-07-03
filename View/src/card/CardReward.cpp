@@ -1,11 +1,12 @@
 #include "CardReward.h"
+#include <QParallelAnimationGroup>
 
 CardReward::CardReward(Card_Manager *manager, QWidget *parent) : manager(manager), parent(parent){
         QVector<Card_Meta*> gen = manager->gen(3);
 
-        card1 = new Card(gen[0], manager, parent, false);
-        card2 = new Card(gen[1], manager, parent, false);
-        card3 = new Card(gen[2], manager, parent, false);
+        card1 = new Card(gen[0], parent, false);
+        card2 = new Card(gen[1], parent, false);
+        card3 = new Card(gen[2], parent, false);
         card1->getButton()->show();
         card2->getButton()->show();
         card3->getButton()->show();

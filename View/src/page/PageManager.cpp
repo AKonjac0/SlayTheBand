@@ -9,8 +9,8 @@
 #include "MapPage.h"
 #include "Combat.h"
 
-PageManager::PageManager(QWidget *parent, int page_width, int page_height)
-    : parent(parent), page_width(page_width), page_height(page_height) {
+PageManager::PageManager(QWidget *parent, Card_Manager *manager, int page_width, int page_height)
+    : card_manager(manager), parent(parent), page_width(page_width), page_height(page_height) {
 
     music = new Music_Manager(parent);
     music->play("../../OST/ready_to_go.wav");
@@ -30,7 +30,7 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
 
     // 创建页面1 战斗界面
     page1 = new BattlePage(parent);
-    card_manager = new Card_Manager(page1);
+    // card_manager = new Card_Manager(page1);
     card_view = new CardView(card_manager, page1);
     player = new Player("uika", PLAYER_MAX_HP, page1, PLAYER_MAX_MP); // test only
     enemy = new Enemy("soyo", ENEMY_MAX_HP, page1); //
@@ -143,7 +143,7 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
 
 PageManager::~PageManager() {
     qDebug() << "dtor";
-    delete card_manager;
+    // delete card_manager;
     delete card_view;
     delete music;
     delete player;

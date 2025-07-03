@@ -40,6 +40,8 @@ include_directories(View/src/play/)
 include_directories(ViewModel/include/character/)
 include_directories(ViewModel/src/character/)
 include_directories(ViewModel/include/combat)
+include_directories(App)
+include_directories(Common)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -113,6 +115,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
             View/src/page/BattlePage.cpp
             ViewModel/include/combat/Combat.h
             ViewModel/src/combat/Combat.cpp
+            App/MainApp.cpp
+            App/MainApp.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SlayTheShrike APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

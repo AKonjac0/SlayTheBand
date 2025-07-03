@@ -18,7 +18,7 @@ enum class PageAnimationDirection {
 
 class PageManager{
 public:
-    PageManager(QWidget *parent, int page_width, int page_height);
+    PageManager(QWidget *parent, Card_Manager *manager, int page_width, int page_height);
     ~PageManager();
     Card_Manager *getCardManager();
     CardView *getCardView();

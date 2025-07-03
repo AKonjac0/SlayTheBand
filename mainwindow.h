@@ -10,9 +10,9 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(Card_Manager *maanger, QWidget *parent = nullptr);
     ~MainWindow();
-
+    PageManager *get_page_manager(){return page_manager;}
 
 private:
     PageManager *page_manager;

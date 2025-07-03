@@ -3,7 +3,7 @@
 
 
 
-CardGenerator::CardGenerator(QWidget *parent) : parent(parent), rng(std::mt19937(std::random_device{}())) {
+CardGenerator::CardGenerator() : rng(std::mt19937(std::random_device{}())) {
     Card_Meta *meta = new Card_Meta("strike", attack, 1);
     meta->addBuff(BuffType::Damage, 6, false);
     full_card_deck.push_back(meta);

@@ -9,7 +9,7 @@
 
 class CardController{
 public:
-    CardController(QWidget *parent = nullptr);
+    CardController();
     ~CardController();
     void drawcard();
     void discard();
@@ -36,7 +36,6 @@ private:
 private:
     int drawcard_num;
     Card_Meta *selected = nullptr;
-    QWidget *parent;
     QVector<Card_Meta *> card_deck;
     QVector<Card_Meta *> drawcard_pile;
     QVector<Card_Meta *> discard_pile;

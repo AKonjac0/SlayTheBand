@@ -1,6 +1,6 @@
 #include "CardPile.h"
 
-CardPile::CardPile(Card_Manager *manager, QWidget *parent) : manager(manager), parent(parent){
+CardPile::CardPile(QWidget *parent) : parent(parent){
     create_cards();
 }
 
@@ -8,26 +8,33 @@ CardPile::~CardPile(){
     clear_cards();
 }
 
-Card_Meta *CardPile::get_selected(){
-    return manager->get_selected();
+void CardPile::set_selected(Card_Meta *ret_selected){
+    if(selected != ret_selected){
+        selected = ret_selected;
+        emit onSelectedChanged();
+    }
 }
+
+void CardPile::set_hands(QVector<Card_Meta *> ret_hands){
+    if(hands != ret_hands){
+        hands = ret_hands;
+        emit onHandsChanged();
+    }
+}
+
+
 void CardPile::create_cards(){
-    QVector<Card_Meta *> hands = manager->get_handcard();
+    // get_hands
     for(Card_Meta *meta : hands){
-        Card *card = new Card(meta, manager, parent);
+        Card *card = new Card(meta, parent);
         cards.push_back(card);
-        // card->getButton()->show();
     }
 
     for(Card *card : cards){
         HoverButton *button = card->getButton();
-        // QObject::connect(button, &QPushButton::clicked, parent, [this, combat, card](){
-        //     qDebug() << "Card";
-        //     combat->setCard(card->getMeta());
-        // });
         QObject::connect(button, &QPushButton::clicked, parent, [button, card, this]() {
             // 应用动画效果
-            if(this->manager->get_selected() == nullptr){ // unselected, select this
+            if(selected == nullptr){ // unselected, select this
                 if(button->Animating()) return;
                 button->Animating() = true;
                 QAbstractAnimation *anim = card->getAnimation()->applyButtonClickAnimation(button);
@@ -36,17 +43,13 @@ void CardPile::create_cards(){
                 QObject::connect(anim, &QAbstractAnimation::finished, [button]() {
                     button->Animating() = false;
                 });
-            }else if(this->manager->get_selected() == card->getMeta()){ // selected this card, then unselect it
+            }else if(selected == card->getMeta()){ // selected this card, then unselect it
                 if(button->Animating()) return;
                 unselect();
                 card->getButton()->Hover() = true;
-            }else{ // selected other card, then can't select this
-                // select_card(card->getMeta());
             }
-            if(this->manager->get_selected() == nullptr) qDebug() << "empty";
-            else qDebug() << this->manager->get_selected()->getCardName();
-            // 这里可以添加按钮原有的点击逻辑
-            // qDebug() << "按钮被点击:" << button->text();
+            if(selected == nullptr) qDebug() << "empty";
+            else qDebug() << selected->getCardName();
         });
     }
 
@@ -94,41 +97,42 @@ bool CardPile::isHover(){
 }
 
 void CardPile::select_card(Card_Meta *meta){
-
-    // Card *other_card = find_card(manager->get_selected());
     Card *card = find_card(meta);
-    manager->select_card(meta);
+    // manager->select_card(meta);
+    // emit onSelectCard(meta);
+    set_selected(meta);
     if(arrow) delete arrow, arrow = nullptr;
-
     QPointF center = card->getButton()->pos() + QPointF(card->getButton()->width() / 2.0, card->getButton()->height() / 2.0);
     arrow = new Arrow(center, parent);
-    // if(other_card) other_card->getAnimation()->applyDeHighLightAnimation(other_card->getButton());
     card->getAnimation()->applyHighLightAnimation(card->getButton());
 }
 void CardPile::unselect(){
-    Card *card = find_card(manager->get_selected());
-    manager->unselect();
+    Card *card = find_card(selected);
+    // manager->unselect();
+    // emit onUnselect();
+    set_selected(nullptr);
     if(arrow) delete arrow, arrow = nullptr;
     QAbstractAnimation *anim = nullptr;
     if(card) anim = card->getAnimation()->applyDeHighLightAnimation(card->getButton());
-    // if(anim){
-    //     QObject::connect(anim, &QAbstractAnimation::finished, [card]() {
-    //         card->getButton()->Hover() = true;
-    //     });
-    // }
 }
 
 void CardPile::playACard(Card_Meta *meta) {
+    played = meta;
     unselect();
     Card *toDel = nullptr;
+    // QVector<Card_Meta*> new_hands;
     for (auto i = cards.begin(); i != cards.end(); i++) {
         if ((*i)->getMeta() == meta) {
             toDel = *i;
             cards.erase(i);
             break;
+        }else{
+            // new_hands.push_back((*i)->getMeta());
         }
     }
     if (toDel) {
         delete toDel;
     }
+    // set_hands(new_hands);
+    emit onPlayed();
 }
