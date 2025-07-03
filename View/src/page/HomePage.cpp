@@ -42,7 +42,7 @@ HomePage::HomePage(QWidget *parent) : QWidget(parent), parent(parent)
         "   border-radius: 10px;"
         "   padding: 10px;"
         "}"
-        );
+    );
     startButton->setGeometry(150, 500, 150, 80);
 }
 

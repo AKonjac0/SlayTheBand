@@ -9,6 +9,7 @@
 #include "HomePage.h"
 #include "MapPage.h"
 #include "BattlePage.h"
+#include "Combat.h"
 
 enum class PageAnimationDirection {
     LeftToRight,
@@ -41,6 +42,8 @@ private:
     Card_Manager *card_manager;
     CardView *card_view;
     Music_Manager *music;
+
+    Combat *combat;
 
     friend class CardRewardPage;
 };

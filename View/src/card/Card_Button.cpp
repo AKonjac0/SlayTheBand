@@ -43,8 +43,8 @@ Card_Button::Card_Button(Card_Manager *manager, QWidget *parent, CardPile *pile)
     });
     QObject::connect(next_round, &QPushButton::clicked, parent, [this]() {
         // 应用动画效果
-        next_round_button_animation->applyButtonClickAnimation(next_round);
         if(next_round_click){
+            next_round_button_animation->applyButtonClickAnimation(next_round);
             this->pile->unselect(); // very important!
             // this->manager->unselect();
 
@@ -59,6 +59,7 @@ Card_Button::Card_Button(Card_Manager *manager, QWidget *parent, CardPile *pile)
                     next_round_click = true;
                     this->pile->setAnimating(false);
                     this->pile->setHover(true);
+                    emit finish_round();
                 });
             });
         }
@@ -113,4 +114,8 @@ void Card_Button::init_combat(){
         pile->setHover(true);
         pile->setAnimating(false);
     });
+}
+
+bool Card_Button::get_clickable(){
+    return next_round_click;
 }

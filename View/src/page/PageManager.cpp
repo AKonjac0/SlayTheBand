@@ -6,6 +6,7 @@
 #include "PageManager.h"
 #include "CardRewardPage.h"
 #include "HomePage.h"
+#include "MapPage.h"
 #include "Combat.h"
 
 PageManager::PageManager(QWidget *parent, int page_width, int page_height)
@@ -31,17 +32,18 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     page1 = new BattlePage(parent);
     card_manager = new Card_Manager(page1);
     card_view = new CardView(card_manager, page1);
-    player = new Player("uika", PLAYER_MAX_HP, page1, PLAYER_MAX_MP);
-    enemy = new Enemy("soyo", ENEMY_MAX_HP, page1);
-    Combat *combat = new Combat(page1, card_view, player);
+    player = new Player("uika", PLAYER_MAX_HP, page1, PLAYER_MAX_MP); // test only
+    enemy = new Enemy("soyo", ENEMY_MAX_HP, page1); //
+    combat = new Combat(page1, card_view, player);
+
 
     HoverButton *next_round = card_view->getButton()->get_next_round_button();
-    QObject::connect(next_round, &QPushButton::clicked, [this, combat](){
+    QObject::connect(card_view->getButton(), &Card_Button::finish_round, page1, [this](){
         combat->endOfRound();
     });
 
-    QPushButton *enemy_btn = enemy->getAvatar();
-    QObject::connect(enemy_btn, &QPushButton::clicked, [this, combat](){
+    QPushButton *enemy_btn = enemy->getButton();
+    QObject::connect(enemy_btn, &QPushButton::clicked, [this](){
         qDebug() << "Enemy";
         combat->setEnemy(enemy);
         combat->playACard();
@@ -57,11 +59,18 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     auto spire_tower = page2->spire_tower;
     for(auto &level : spire_tower){
         for(RoomButton *room : level){
-            QAbstractButton::connect(room, &QPushButton::clicked, [room, this](){
-                qDebug() << "next Level";
-                card_view->getButton()->init_combat();
-                switchToPage(page1, PageAnimationDirection::LeftToRight);
-                page2->switchBtn->show();
+            QAbstractButton::connect(room, &QPushButton::clicked, [room, level, this](){
+                if(room->getVisit() == visitType::opened){
+                    qDebug() << "next Level";
+                    for(RoomButton *r : level) if(room != r) r->setVisit(closed);
+                    room->openNext();
+                    room->setVisit(visited);
+
+                    card_view->getButton()->init_combat();
+                    // combat->new_combat();
+                    switchToPage(page1, PageAnimationDirection::LeftToRight);
+                    page2->switchBtn->show();
+                }
             });
         }
     }
@@ -83,16 +92,18 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     QAbstractButton::connect(page3->confirmBtn, &QPushButton::clicked, [this]() {
         // page3->deleteReward();
         // card_manager->new_combat();
-        card_view->getButton()->init_combat();
-        switchToPage(page1, PageAnimationDirection::RightToLeft);
+        // card_view->getButton()->init_combat();
+        switchToPage(page2, PageAnimationDirection::RightToLeft);
     });
 
     QPushButton *reward_btn = new QPushButton(page1);
     reward_btn->setText("奖励");
+    reward_btn->setStyleSheet("QPushButton{border-image: url(:image/images/normalCardReward.png);}");
     reward_btn->resize(64, 64);
     reward_btn->move(10, 10);
     QAbstractButton::connect(reward_btn, &QPushButton::clicked, [this]() {
         // page3->newReward();
+        page2->switchBtn->hide();
         switchToPage(page3, PageAnimationDirection::LeftToRight);
     });
 
@@ -137,6 +148,7 @@ PageManager::~PageManager() {
     delete music;
     delete player;
     delete enemy;
+    delete combat;
     delete page0;
     delete page1;
     delete page2;

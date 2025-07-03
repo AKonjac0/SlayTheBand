@@ -21,15 +21,19 @@ public:
 };
 
 
-class Card_Button{
+class Card_Button : public QObject{
+    Q_OBJECT
 public:
     Card_Button(Card_Manager *manager, QWidget *parent, CardPile *pile);
     ~Card_Button();
     void init_combat();
     HoverButton *get_next_round_button() { return next_round; }
+    bool get_clickable();
 private:
     QAbstractAnimation * drawcards();
     QAbstractAnimation * discards();
+signals:
+    void finish_round();
 private:
     QWidget *parent;
     HoverButton *next_round;

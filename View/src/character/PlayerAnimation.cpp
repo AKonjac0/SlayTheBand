@@ -13,11 +13,20 @@ void PlayerAnimation::show(int x, int y, int width, int height, int maxHP, int H
 
     // 设置角色头像大小和位置
     getAvatar()->setGeometry(x, y, width, height);
-
-    // getAvatar() -> setMovie(getIllustration());
-    getAvatar()->setStyleSheet("border-image: url(:/image/images/soyo.gif);");
-    getAvatar()->setAutoFillBackground(true);
-    getIllustration() -> start();
+    getButton()->setGeometry(x, y, width, height);
+    getButton()->setStyleSheet(
+        "QPushButton {"
+        "   background: transparent;"
+        "   border: none;"
+        "}"
+        "QPushButton:hover {"
+        "   border: 1px dashed gray;"  // 悬停时显示虚线框（可选）
+        "}"
+        );
+    getAvatar() -> setMovie(getIllustration());
+    // getAvatar()->setStyleSheet("border-image: url(:/image/images/soyo.gif);
+    // getAvatar()->setAutoFillBackground(true);
+    getIllustration()->start();
 
     // 定位血条
     getHealthBar()->setMaxHealth(maxHP);
@@ -31,8 +40,10 @@ void PlayerAnimation::show(int x, int y, int width, int height, int maxHP, int H
     getManaBar()->move(20, getAvatar()->height() - 30); // 法力条在血条下方
 
     // 确保显示在最上层
-    getAvatar()->raise();
+    // getAvatar()->raise();
     getAvatar()->show();
+    getButton()->show();
+    getButton()->raise();
 }
 
 void PlayerAnimation::setManaBarAnimation(int MP)

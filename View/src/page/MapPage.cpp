@@ -49,17 +49,15 @@ MapPage::MapPage(QWidget *parent) : QWidget(parent), parent(parent), rnd(std::mt
             }
         }
     }
-    for(auto &level : spire_tower){
-        for(RoomButton *room : level){
-            QObject::connect(room, &QPushButton::clicked, parent, [room, &level](){
-                if(room->getVisit() == opened){
-                    for(RoomButton *r : level) if(room != r) r->setVisit(closed);
-                    room->openNext();
-                    room->setVisit(visited);
-                }
-            });
-        }
-    }
+    // for(auto &level : spire_tower){
+    //     for(RoomButton *room : level){
+    //         QObject::connect(room, &QPushButton::clicked, parent, [room, &level](){
+    //             if(room->getVisit() == opened){
+
+    //             }
+    //         });
+    //     }
+    // }
 
     // 初始化页面2为透明并隐藏在右侧
     this->setWindowOpacity(0.0);

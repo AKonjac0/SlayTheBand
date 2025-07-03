@@ -1,11 +1,7 @@
 #ifndef CARD_CONTROLLER_H
 #define CARD_CONTROLLER_H
 #include <QVector>
-#include <QPropertyAnimation>
-#include <QParallelAnimationGroup>
-#include <QGraphicsOpacityEffect>
-#include <QTimer>
-#include <QEventLoop>
+#include <QWidget>
 #include <algorithm>
 #include <random>
 

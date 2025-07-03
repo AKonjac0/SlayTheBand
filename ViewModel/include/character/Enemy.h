@@ -24,7 +24,8 @@ public:
     QVector<Buff> getBuff() const { return enemyMeta->getBuff(); }
     QSize getSize() const { return enemyAnimation->getSize(); }
     void addBuff(Buff &buff) { enemyMeta->addBuff(buff);}
-    QPushButton *getAvatar() { return enemyAnimation->getAvatar(); }
+    QLabel *getAvatar() { return enemyAnimation->getAvatar(); }
+    QPushButton *getButton() { return enemyAnimation->getButton(); }
     void clearBuff() { enemyMeta->clearBuff(); }
 
     void show(int x, int y, int width, int height);
@@ -33,6 +34,7 @@ private:
     EnemyMeta* enemyMeta;
     // View
     EnemyAnimation* enemyAnimation;
+
 };
 
 #endif // ENEMY_H

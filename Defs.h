@@ -2,7 +2,7 @@
 #define DEFS_H
 
 #define PLAYER_MAX_HP 100
-#define ENEMY_MAX_HP 900
+#define ENEMY_MAX_HP 200
 #define PLAYER_MAX_MP 3
 
 #define SCREEN_WIDTH 1920

@@ -26,5 +26,6 @@
         <file>images/iron_wave.png</file>
         <file>images/whirlwind.png</file>
         <file>images/mapCompleteIcon.png</file>
+        <file>images/normalCardReward.png</file>
     </qresource>
 </RCC>

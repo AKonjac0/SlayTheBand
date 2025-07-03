@@ -15,18 +15,20 @@ public:
     CharacterAnimation(MetaType*, QWidget*);
     virtual ~CharacterAnimation() = 0;
 
-    QPushButton* getAvatar() const { return character_avatar; }
+    QLabel* getAvatar() const { return character_avatar; }
+    QPushButton* getButton() const { return button; }
     HealthBar* getHealthBar() const { return healthBar; }
     QMovie* getIllustration() const { return illustration; }
     QSize getSize() const { return size; }
 protected:
     // View
     QWidget* parent;
-    QPushButton* character_avatar;
+    QLabel* character_avatar;
     QMovie* illustration;
     HealthBar* healthBar;
     // Literally size of avatar
     QSize size;
+    QPushButton *button;
 };
 
 // 哦牛批，模板构造函数必须和类本身一块实现在头文件里，泛型毁了OOP
@@ -34,7 +36,8 @@ template<typename MetaType>
 CharacterAnimation::CharacterAnimation(MetaType* _meta, QWidget*_parent){
     // 创建角色头像标签
     parent = _parent;
-    character_avatar = new QPushButton(parent);
+    character_avatar = new QLabel(parent);
+    button = new QPushButton(parent);
     character_avatar->setObjectName("character_avatar_" + _meta->getname());
     QString pic_path = ":image/images/" + _meta->getname() + ".gif";
     illustration = new QMovie(pic_path);
