@@ -57,6 +57,7 @@ void CardPile::create_cards(){
 void CardPile::clear_cards(){
     for(Card *card : cards) delete card;
     cards.clear();
+    // hands.clear();
 }
 QVector<Card *> CardPile::get_cards(){
     return cards;
@@ -134,5 +135,6 @@ void CardPile::playACard(Card_Meta *meta) {
         delete toDel;
     }
     // set_hands(new_hands);
+    qDebug() << "onplayed";
     emit onPlayed();
 }

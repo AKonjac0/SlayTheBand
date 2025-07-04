@@ -20,7 +20,7 @@ bool Combat::playACard() {
     for (auto &buff : buffs) {
         applyBuff(buff);
     }
-    cardView->getManager()->playACard(cardMeta);
+    // cardView->getManager()->playACard(cardMeta);
     cardView->getCardPile()->playACard(cardMeta);
     return true;
 }

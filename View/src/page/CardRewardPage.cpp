@@ -15,7 +15,7 @@ void CardRewardPage::newReward(){
     if(reward) delete reward, reward = nullptr;
 
     fireGenReward();
-
+    init();
 }
 
 

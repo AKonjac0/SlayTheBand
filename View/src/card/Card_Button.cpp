@@ -79,8 +79,10 @@ Card_Button::~Card_Button(){
 }
 
 QAbstractAnimation *Card_Button::drawcards(){
-
     this->manager->drawcard();
+    // emit onDrawCardStart();
+
+
     this->pile->create_cards();
     this->pile->setHover(false); // need this because cards are newly constructed
     this->pile->setAnimating(true);
@@ -89,6 +91,7 @@ QAbstractAnimation *Card_Button::drawcards(){
     discard_num->setNumber(manager->get_discard_pile().count());
     return anim;
 }
+
 
 QAbstractAnimation * Card_Button::discards(){
     this->pile->setHover(false);

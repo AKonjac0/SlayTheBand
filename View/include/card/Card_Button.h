@@ -1,10 +1,10 @@
 #ifndef CARD_BUTTON_H
 #define CARD_BUTTON_H
 #include "HoverButton.h"
-#include "Card_Manager.h"
 #include "CardPileAnimation.h"
 #include "CardAnimation.h"
 #include "CardPile.h"
+#include "Card_Manager.h"
 
 class CountButton : public HoverButton {
 public:
@@ -29,11 +29,14 @@ public:
     void init_combat();
     HoverButton *get_next_round_button() { return next_round; }
     bool get_clickable();
+    // QAbstractAnimation * drawcards_finish();
 private:
     QAbstractAnimation * drawcards();
     QAbstractAnimation * discards();
+
 signals:
     void finish_round();
+    void onDrawCardStart();
 private:
     QWidget *parent;
     HoverButton *next_round;
@@ -41,8 +44,11 @@ private:
     HoverButton *drawcard_pile;
     CountButton *discard_num;
     CountButton *drawcard_num;
-    Card_Manager *manager;
     CardPileAnimation *animation;
+
+    Card_Manager *manager;
+
+
     CardAnimation *next_round_button_animation;
     CardAnimation *discard_pile_animation;
     CardAnimation *drawcard_pile_animation;

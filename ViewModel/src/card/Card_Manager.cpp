@@ -61,6 +61,7 @@ void Card_Manager::new_combat(){
 
 void Card_Manager::playACard(Card_Meta *meta) {
     // unselect();
+    qDebug() << "total cards:" << control->get_discard_pile().size() << " " << control->get_drawcard_pile().size() << " " << control->get_handcard().size();
     select_card(nullptr);
     control->playACard(meta);
     emit onSelectedChanged();
