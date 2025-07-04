@@ -85,6 +85,11 @@ QAbstractAnimation *CardPileAnimation::applyDisCardAnimation(QVector<Card *> car
         fullGroup->addAnimation(cardGroup);
         mainGroup->addAnimation(fullGroup);
     }
+    if(card_size == 0){
+        QSequentialAnimationGroup *idle = new QSequentialAnimationGroup(parent);
+        idle->addPause(100);
+        mainGroup->addAnimation(idle);
+    }
     mainGroup->start(QAbstractAnimation::DeleteWhenStopped);
     return mainGroup;
     // manager->discard();

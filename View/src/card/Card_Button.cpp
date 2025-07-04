@@ -43,6 +43,7 @@ Card_Button::Card_Button(Card_Manager *manager, QWidget *parent, CardPile *pile)
     });
     QObject::connect(next_round, &QPushButton::clicked, parent, [this]() {
         // 应用动画效果
+        qDebug() << "next_round_click: " << next_round_click;
         if(next_round_click){
             next_round_button_animation->applyButtonClickAnimation(next_round);
             this->pile->unselect(); // very important!
@@ -52,6 +53,7 @@ Card_Button::Card_Button(Card_Manager *manager, QWidget *parent, CardPile *pile)
             // this->pile->setAnimating(true);
             // this->pile->setHover(false);
             QAbstractAnimation *disanim = this->discards();
+
             QObject::connect(disanim, &QAbstractAnimation::finished, this->parent, [this](){
                 QAbstractAnimation *drawanim = this->drawcards();
                 QObject::connect(drawanim, &QAbstractAnimation::finished, this->parent, [this](){
@@ -79,8 +81,8 @@ Card_Button::~Card_Button(){
 }
 
 QAbstractAnimation *Card_Button::drawcards(){
-    this->manager->drawcard();
-    // emit onDrawCardStart();
+    // this->manager->drawcard();
+    emit onDrawCardStart();
 
 
     this->pile->create_cards();
@@ -97,6 +99,7 @@ QAbstractAnimation * Card_Button::discards(){
     this->pile->setHover(false);
     this->pile->setAnimating(true);
     QAbstractAnimation *anim = this->animation->applyDisCardAnimation(this->pile->get_cards());
+    if(anim == nullptr) qDebug() << "!!!anim nullptr";
     QObject::connect(anim, &QAbstractAnimation::finished, parent, [this, anim](){
         this->manager->discard();
         this->pile->clear_cards();
