@@ -22,6 +22,7 @@ public:
     ~PageManager();
     Card_Manager *getCardManager();
     CardView *getCardView();
+    CardRewardPage *getCardRewardPage() const { return page3; }
 private:
     void switchToPage(QWidget *targetPage, PageAnimationDirection direction);
     void enterGame();

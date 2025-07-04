@@ -88,7 +88,7 @@ PageManager::PageManager(QWidget *parent, Card_Manager *manager, int page_width,
     // });
 
 
-    page3 = new CardRewardPage(card_manager, parent);
+    page3 = new CardRewardPage(parent);
     QAbstractButton::connect(page3->confirmBtn, &QPushButton::clicked, [this]() {
         // page3->deleteReward();
         // card_manager->new_combat();

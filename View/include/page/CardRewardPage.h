@@ -7,16 +7,35 @@
 
 
 class CardRewardPage : public QWidget{
+    Q_OBJECT
 public:
-    CardRewardPage(Card_Manager *manager, QWidget *parent);
+    CardRewardPage(QWidget *parent);
     ~CardRewardPage() = default;
     void newReward();
+    CardReward *getCardReward() const { return reward; }
+    QVector<Card_Meta*> getReward() const { return gen; }
+    Card_Meta *getNewCard() const { return new_card; }
+public slots:
+    void setReward(QVector<Card_Meta*> ret_gen){
+        gen = ret_gen;
+    }
+    void setNewCard(Card_Meta *meta) {
+        new_card = meta;
+        emit onNewCard();
+    }
+    void fireGenReward(){
+        emit onGenReward();
+    }
+    void init();
+signals:
+    void onGenReward();
+    void onNewCard();
 private:
     QWidget *parent;
-    Card_Manager *manager;
     CardReward *reward = nullptr;
     QPushButton *confirmBtn;
-
+    QVector<Card_Meta*> gen;
+    Card_Meta *new_card;
     friend class PageManager;
 };
 

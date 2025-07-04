@@ -2,17 +2,21 @@
 #define CARDREWARD_H
 #include <QWidget>
 #include "Card.h"
-#include "Card_Manager.h"
 
 
-class CardReward{
 
+class CardReward : public QObject{
+    Q_OBJECT
 public:
-    CardReward(Card_Manager *manager, QWidget *parent = nullptr);
+    CardReward(QVector<Card_Meta *> gen, QWidget *parent = nullptr);
     ~CardReward();
+    // void init();
+
+
 private:
     QWidget *parent;
-    Card_Manager *manager;
     Card *card1, *card2, *card3;
+    QVector<Card_Meta *> gen;
+    friend class CardRewardPage;
 };
 #endif // CARDREWARD_H
