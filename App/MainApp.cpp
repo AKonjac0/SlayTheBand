@@ -40,9 +40,24 @@ MainApp::MainApp(){
 //--------------
 
     QObject::connect(button, &Card_Button::onDrawCardStart, manager, [this, button](){
-
         manager->drawcard();
-        qDebug() << "drawcard finish";
+        // qDebug() << "drawcard finish";
+    });
+
+    QObject::connect(button, &Card_Button::onDisCardStart, manager, [this, button](){
+        manager->discard();
+    });
+
+    QObject::connect(button, &Card_Button::onNewCombat, manager, [this, button](){
+        manager->new_combat();
+    });
+
+    QObject::connect(button, &Card_Button::onGetDiscardPile, manager, [this, button](){
+        button->set_discard_pile(manager->get_discard_pile());
+    });
+
+    QObject::connect(button, &Card_Button::onGetDrawcardPile, manager, [this, button](){
+        button->set_drawcard_pile(manager->get_drawcard_pile());
     });
 }
 

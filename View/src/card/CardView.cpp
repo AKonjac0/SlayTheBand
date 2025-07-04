@@ -2,7 +2,7 @@
 
 CardView::CardView(Card_Manager *manager, QWidget *parent) : manager(manager), parent(parent){
     card_pile = new CardPile(parent);
-    card_button = new Card_Button(manager, parent, card_pile);
+    card_button = new Card_Button(parent, card_pile);
 }
 
 
