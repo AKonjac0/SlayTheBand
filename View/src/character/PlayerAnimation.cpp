@@ -1,7 +1,13 @@
 #include "PlayerAnimation.h"
 
-PlayerAnimation::PlayerAnimation(PlayerMeta* _playerMeta, QWidget* _parent) : CharacterAnimation(_playerMeta, _parent){
+PlayerAnimation::PlayerAnimation(QWidget* _parent) : CharacterAnimation(_parent){
     manaBar = new ManaBar(getAvatar());
+}
+
+void PlayerAnimation::init()
+{
+    emit getName();
+    CharacterAnimation::init();
 }
 
 void PlayerAnimation::show(int x, int y, int width, int height, int maxHP, int HP, int maxMP, int MP)

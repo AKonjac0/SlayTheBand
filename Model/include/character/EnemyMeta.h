@@ -6,7 +6,7 @@
 class EnemyMeta : public CharacterMeta
 {
 public:
-    EnemyMeta(QString _name, int _HP, int _maxHP/*, Intention* _intention*/);
+    EnemyMeta(QString _name, int _HP, int _maxHP);
     ~EnemyMeta() override = default;
 
 private:

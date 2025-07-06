@@ -3,7 +3,12 @@
 EnemyAnimation::~EnemyAnimation() = default;
 
 
-EnemyAnimation::EnemyAnimation(EnemyMeta *_enemyMeta, QWidget *_parent): CharacterAnimation(_enemyMeta, _parent){}
+EnemyAnimation::EnemyAnimation(QWidget *_parent): CharacterAnimation(_parent){}
+
+void EnemyAnimation::init() {
+    emit getName();
+    CharacterAnimation::init();
+}
 
 void EnemyAnimation::show(int x, int y, int width, int height, int maxHP, int HP)
 {

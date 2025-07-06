@@ -32,22 +32,21 @@ PageManager::PageManager(QWidget *parent, Card_Manager *manager, int page_width,
     page1 = new BattlePage(parent);
     // card_manager = new Card_Manager(page1);
     card_view = new CardView(card_manager, page1);
-    player = new Player("uika", PLAYER_MAX_HP, page1, PLAYER_MAX_MP); // test only
-    enemy = new Enemy("soyo", ENEMY_MAX_HP, page1); //
-    combat = new Combat(page1, card_view, player);
-
+    playerAnimation = new PlayerAnimation(page1);
+    enemyAnimation = new EnemyAnimation(page1);
+    // combat = new Combat(page1, card_view, player);
 
     HoverButton *next_round = card_view->getButton()->get_next_round_button();
-    QObject::connect(card_view->getButton(), &Card_Button::finish_round, page1, [this](){
-        combat->endOfRound();
-    });
+    // QObject::connect(card_view->getButton(), &Card_Button::finish_round, page1, [this](){
+    //     combat->endOfRound();
+    // });
 
-    QPushButton *enemy_btn = enemy->getButton();
-    QObject::connect(enemy_btn, &QPushButton::clicked, [this](){
-        qDebug() << "Enemy";
-        combat->setEnemy(enemy);
-        combat->playACard();
-    });
+    QPushButton *enemy_btn = enemyAnimation->getButton();
+    // QObject::connect(enemy_btn, &QPushButton::clicked, [this](){
+    //     qDebug() << "Enemy";
+    //     combat->setEnemy(enemy);
+    //     combat->playACard();
+    // });
 
     QAbstractButton::connect(page1->switchBtn, &QPushButton::clicked, [this](){
         switchToPage(page2, PageAnimationDirection::RightToLeft);
@@ -141,14 +140,19 @@ PageManager::PageManager(QWidget *parent, Card_Manager *manager, int page_width,
     now_page = page0;
 }
 
+void PageManager::init() {
+    playerAnimation->init();
+    enemyAnimation->init();
+}
+
 PageManager::~PageManager() {
     qDebug() << "dtor";
     // delete card_manager;
     delete card_view;
     delete music;
-    delete player;
-    delete enemy;
-    delete combat;
+    delete playerAnimation;
+    delete enemyAnimation;
+    // delete combat;
     delete page0;
     delete page1;
     delete page2;
@@ -246,19 +250,21 @@ void PageManager::switchToPage(QWidget *targetPage, PageAnimationDirection direc
 void PageManager::enterGame() {
     music->play("../../OST/haruhikage.wav");
 
-    player->show(
-        PLAYER_POSITION_X,
-        SCREEN_HEIGHT-PLAYER_POSITION_Y-player->getSize().height(),
-        player->getSize().width(),
-        player->getSize().height()
-    );
+    emit startGame();
 
-    enemy->show(
-        SCREEN_WIDTH-PLAYER_POSITION_X-enemy->getSize().width(),
-        SCREEN_HEIGHT-PLAYER_POSITION_Y-enemy->getSize().height(),
-        enemy->getSize().width(),
-        enemy->getSize().height()
-    );
+    // player->show(
+    //     PLAYER_POSITION_X,
+    //     SCREEN_HEIGHT-PLAYER_POSITION_Y-player->getSize().height(),
+    //     player->getSize().width(),
+    //     player->getSize().height()
+    // );
+    //
+    // enemy->show(
+    //     SCREEN_WIDTH-PLAYER_POSITION_X-enemy->getSize().width(),
+    //     SCREEN_HEIGHT-PLAYER_POSITION_Y-enemy->getSize().height(),
+    //     enemy->getSize().width(),
+    //     enemy->getSize().height()
+    // );
 
     // character_animation->show();
 

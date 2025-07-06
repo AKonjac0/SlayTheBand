@@ -2,27 +2,33 @@
 #define PAGEMANAGER_H
 #include "Card_Manager.h"
 #include "CardView.h"
-#include "Player.h"
-#include "Enemy.h"
 #include "Music_Manager.h"
 #include "CardRewardPage.h"
 #include "HomePage.h"
 #include "MapPage.h"
 #include "BattlePage.h"
 #include "Combat.h"
+#include "PlayerAnimation.h"
+#include "EnemyAnimation.h"
 
 enum class PageAnimationDirection {
     LeftToRight,
     RightToLeft
 };
 
-class PageManager{
+class PageManager : public QObject{
+    Q_OBJECT
 public:
     PageManager(QWidget *parent, Card_Manager *manager, int page_width, int page_height);
     ~PageManager();
     Card_Manager *getCardManager();
     CardView *getCardView();
     CardRewardPage *getCardRewardPage() const { return page3; }
+    PlayerAnimation *getPlayerAnimation() { return playerAnimation; }
+    EnemyAnimation *getEnemyAnimation() { return enemyAnimation; }
+    void init();
+signals:
+    void startGame();
 private:
     void switchToPage(QWidget *targetPage, PageAnimationDirection direction);
     void enterGame();
@@ -37,14 +43,14 @@ private:
     CardRewardPage *page3;
     bool animationInProgress = false;
 
-    Player *player;
-    Enemy *enemy;
+    PlayerAnimation *playerAnimation;
+    EnemyAnimation *enemyAnimation;
 
     Card_Manager *card_manager;
     CardView *card_view;
     Music_Manager *music;
 
-    Combat *combat;
+    // Combat *combat;
 
     friend class CardRewardPage;
 };

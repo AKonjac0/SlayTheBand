@@ -3,11 +3,13 @@
 
 #include "CharacterAnimation.h"
 #include "Manabar.h"
-#include "PlayerMeta.h"
+#include <QObject>
 
-class PlayerAnimation: public CharacterAnimation{
+
+class PlayerAnimation: public CharacterAnimation {
+    Q_OBJECT
 public:
-    PlayerAnimation(PlayerMeta* _playerMeta, QWidget* _parent);
+    PlayerAnimation(QWidget* _parent);
     ~PlayerAnimation();
     void show(int, int, int, int, int, int, int, int);
     ManaBar* getManaBar(){ return manaBar;}
@@ -19,7 +21,9 @@ public:
     // set max MP, HP
     void setMaxManaBarAnimation(int maxMP);
     void setMaxHealthBarAnimation(int maxHP);
-
+    void init();
+signals:
+    void getName();
 private:
     ManaBar* manaBar;
 };

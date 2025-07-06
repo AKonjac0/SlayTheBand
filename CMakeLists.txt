@@ -117,6 +117,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
             ViewModel/src/combat/Combat.cpp
             App/MainApp.cpp
             App/MainApp.h
+            ViewModel/include/character/RoleManager.h
+            ViewModel/src/character/RoleManager.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SlayTheShrike APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
