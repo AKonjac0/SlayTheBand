@@ -4,13 +4,14 @@
 #include "Card_Manager.h"
 #include "RoleManager.h"
 
+#include "Combat.h"
 class MainApp{
 public:
     MainApp();
     ~MainApp();
 private:
     MainWindow *mainwindow;
-    Card_Manager *cardManager;
+    Combat *combat;
     RoleManager *roleManager;
 };
 #endif // MAINAPP_H

@@ -32,8 +32,6 @@ private:
     CardController *control;
     CardGenerator *generator;
 
-private:
-    QWidget *parent;
 };
 
 #endif // CARD_MANAGER_H

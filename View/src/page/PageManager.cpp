@@ -7,10 +7,10 @@
 #include "CardRewardPage.h"
 #include "HomePage.h"
 #include "MapPage.h"
-#include "Combat.h"
 
-PageManager::PageManager(QWidget *parent, Card_Manager *manager, int page_width, int page_height)
-    : card_manager(manager), parent(parent), page_width(page_width), page_height(page_height) {
+
+PageManager::PageManager(QWidget *parent, int page_width, int page_height)
+    : parent(parent), page_width(page_width), page_height(page_height) {
 
     music = new Music_Manager(parent);
     music->play("../../OST/ready_to_go.wav");
@@ -31,22 +31,24 @@ PageManager::PageManager(QWidget *parent, Card_Manager *manager, int page_width,
     // 创建页面1 战斗界面
     page1 = new BattlePage(parent);
     // card_manager = new Card_Manager(page1);
-    card_view = new CardView(card_manager, page1);
     playerAnimation = new PlayerAnimation(page1);
     enemyAnimation = new EnemyAnimation(page1);
+    card_view = new CardView(page1);
     // combat = new Combat(page1, card_view, player);
 
-    HoverButton *next_round = card_view->getButton()->get_next_round_button();
-    // QObject::connect(card_view->getButton(), &Card_Button::finish_round, page1, [this](){
-    //     combat->endOfRound();
-    // });
+    combat_view = new CombatView(page1);
 
-    QPushButton *enemy_btn = enemyAnimation->getButton();
-    // QObject::connect(enemy_btn, &QPushButton::clicked, [this](){
-    //     qDebug() << "Enemy";
-    //     combat->setEnemy(enemy);
-    //     combat->playACard();
-    // });
+    HoverButton *next_round = card_view->getButton()->get_next_round_button();
+    QObject::connect(card_view->getButton(), &Card_Button::finish_round, page1, [this](){
+        combat_view->endOfRound();
+    });
+
+    QPushButton *enemy_btn = enemy->getButton();
+    QObject::connect(enemy_btn, &QPushButton::clicked, [this](){
+        qDebug() << "Enemy";
+        combat_view->setEnemy(enemy);
+        combat_view->playACard();
+    });
 
     QAbstractButton::connect(page1->switchBtn, &QPushButton::clicked, [this](){
         switchToPage(page2, PageAnimationDirection::RightToLeft);
@@ -150,9 +152,9 @@ PageManager::~PageManager() {
     // delete card_manager;
     delete card_view;
     delete music;
+    delete combat_view;
     delete playerAnimation;
     delete enemyAnimation;
-    // delete combat;
     delete page0;
     delete page1;
     delete page2;
@@ -270,10 +272,5 @@ void PageManager::enterGame() {
 
 }
 
-Card_Manager *PageManager::getCardManager() {
-    return card_manager;
-}
 
-CardView *PageManager::getCardView() {
-    return card_view;
-}
+

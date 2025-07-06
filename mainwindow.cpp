@@ -4,12 +4,12 @@
 #include "Defs.h"
 using namespace std;
 
-MainWindow::MainWindow(Card_Manager *manager, QWidget *parent)
+MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     setWindowTitle("SlayTheBand");
     setFixedSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-    page_manager = new PageManager(this, manager, this->width(), this->height());
+    page_manager = new PageManager(this, this->width(), this->height());
 }
 
 MainWindow::~MainWindow()

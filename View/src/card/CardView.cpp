@@ -1,6 +1,6 @@
 #include "CardView.h"
 
-CardView::CardView(Card_Manager *manager, QWidget *parent) : manager(manager), parent(parent){
+CardView::CardView(QWidget *parent) : parent(parent){
     card_pile = new CardPile(parent);
     card_button = new Card_Button(parent, card_pile);
 }
@@ -13,7 +13,5 @@ CardView::~CardView(){
 }
 
 Card_Button *CardView::getButton() const{ return card_button; }
-
-Card_Manager *CardView::getManager() const { return manager; }
 
 CardPile *CardView::getCardPile() const { return card_pile; }
