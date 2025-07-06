@@ -6,16 +6,17 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Buff.h"
+#include "RoleManager.h"
 
 class Combat : public QObject
 {
     Q_OBJECT
 public:
-    Combat(Player *player);
+    Combat(RoleManager *role);
     ~Combat() = default;
     // void setCard(Card_Meta *card);
-    void setEnemy(Enemy *enemy);
-    void setPlayer(Player *player);
+    void setEnemy();
+    void setPlayer();
     bool playACard();
     void endOfRound();
     void new_combat();
@@ -29,7 +30,7 @@ private:
     bool check();
     Card_Manager *card_manager;
     Card_Meta *played;
-    Enemy *enemy;
-    Player *player;
+    EnemyMeta *enemy;
+    RoleManager *role;
 };
 #endif //COMBAT_H

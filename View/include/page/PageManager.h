@@ -25,13 +25,21 @@ public:
     CardView *getCardView(){return card_view;}
     CombatView *getCombatView(){return combat_view;}
     CardRewardPage *getCardRewardPage() const { return page3; }
+
     PlayerAnimation *getPlayerAnimation() { return playerAnimation; }
     EnemyAnimation *getEnemyAnimation() { return enemyAnimation; }
     void init();
 signals:
     void startGame();
-private:
+public:
+
+    MapPage *getMapPage() const { return page2; }
+    BattlePage *getBattlePage() const { return page1; }
+    // Player *getPlayer(){ return player; }
+
     void switchToPage(QWidget *targetPage, PageAnimationDirection direction);
+private:
+
     void enterGame();
 
     QWidget *now_page;

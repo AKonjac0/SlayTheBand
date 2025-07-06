@@ -29,6 +29,8 @@ public:
     void clearEnemyBuff() {enemyMeta->clearBuff();}
     void updateEnemyHP(int hp);
     void updateEnemyMaxHP(int hp);
+    EnemyMeta *getEnemyMeta() { return enemyMeta; }
+    PlayerMeta *getPlayerMeta() { return playerMeta; }
 signals:
     void repaintPlayerHP(int hp);
     void repaintPlayerMP(int mp);

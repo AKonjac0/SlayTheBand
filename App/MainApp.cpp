@@ -6,22 +6,30 @@ MainApp::MainApp(){
 
     // manager = new Card_Manager();
 
-
-    combat = new Combat(nullptr);
+    roleManager = new RoleManager("soyo", ENEMY_MAX_HP, ENEMY_MAX_HP, "uika", PLAYER_MAX_HP, PLAYER_MAX_HP, PLAYER_MAX_MP);
+    combat = new Combat(roleManager);
     Card_Manager *manager = combat->get_card_manager();
+    map = new Map();
+
 
     mainwindow = new MainWindow();
-    combat->setPlayer(mainwindow->get_page_manager()->getPlayer());
 
-    roleManager = new RoleManager("soyo", ENEMY_MAX_HP, ENEMY_MAX_HP, "uika", PLAYER_MAX_HP, PLAYER_MAX_HP, PLAYER_MAX_MP);
     mainwindow->show();
     PageManager *pageManager = mainwindow->get_page_manager();
     CardPile *pile = mainwindow->get_page_manager()->getCardView()->getCardPile();
     Card_Button *button = mainwindow->get_page_manager()->getCardView()->getButton();
+    CardView *card_view = mainwindow->get_page_manager()->getCardView();
     CardRewardPage *reward = mainwindow->get_page_manager()->getCardRewardPage();
     CombatView *combat_view = mainwindow->get_page_manager()->getCombatView();
+
     EnemyAnimation *enemyAnimation = pageManager->getEnemyAnimation();
     PlayerAnimation *playerAnimation = pageManager->getPlayerAnimation();
+
+    MapPage *map_page = mainwindow->get_page_manager()->getMapPage();
+    PageManager *page_manager = mainwindow->get_page_manager();
+
+
+
     QObject::connect(manager, &Card_Manager::onSelectedChanged, pile, [this, pile, manager](){
         pile->set_selected(manager->get_selected());
     });
@@ -34,9 +42,34 @@ MainApp::MainApp(){
         manager->select_card(pile->get_selected());
     });
 
-    // QObject::connect(pile, &CardPile::onPlayed, manager, [this, pile](){ // only playACard
-    //     manager->playACard(pile->get_played());
-    // });
+
+//-------------- Map ~ MapPage
+
+
+    map_page->setMap(map->get_tower());
+    map_page->createRooms();
+
+    qDebug() << "OK";
+
+    auto spire_tower = map_page->getTower();
+    for(auto &level : spire_tower){
+        for(RoomButton *room : level){
+            QAbstractButton::connect(room, &QPushButton::clicked, [room, level, card_view, this, page_manager](){
+                if(room->getVisit() == visitType::opened){
+                    qDebug() << "next Level";
+                    for(RoomButton *r : level) if(room != r) r->setVisit(closed);
+                    room->openNext();
+                    room->setVisit(visited);
+
+                    card_view->getButton()->init_combat();
+                    page_manager->switchToPage(page_manager->getBattlePage(), PageAnimationDirection::LeftToRight);
+                    page_manager->getMapPage()->switchBtn->show();
+                }
+            });
+        }
+    }
+
+    qDebug() << "OK";
 
 //-------------- Combat ~ CardPile
 
@@ -55,7 +88,7 @@ MainApp::MainApp(){
     });
 
     QObject::connect(combat_view, &CombatView::onSetEnemy, combat, [this, combat_view](){
-        combat->setEnemy(combat_view->getEnemy());
+        combat->setEnemy();
     });
 
 //-------------- CardRewardPage ~ Card_Manager

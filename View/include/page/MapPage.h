@@ -2,29 +2,30 @@
 #define MAPPAGE_H
 #include <QWidget>
 #include <QPushButton>
-#include <QPainter>
-#include <Qpen>
-#include <random>
 #include <QGraphicsColorizeEffect>
 #include <QPropertyAnimation>
 #include <QSequentialAnimationGroup>
-
-enum visitType{closed, opened, visited};
+#include <QPainter>
+#include <QPen>
+#include "RoomMeta.h"
 
 class RoomButton : public QPushButton{
 public:
-    RoomButton(QWidget *parent = nullptr) : QPushButton(parent), parent(parent), visit(closed) {
+    RoomButton(RoomMeta *room, QWidget *parent = nullptr) : QPushButton(parent), parent(parent), visit(closed), room(room) {
         next.clear();
         effect = new QGraphicsColorizeEffect(this);
-        resize(128, 128);
-        setStyleSheet("QPushButton{border-image: url(:image/images/monster.png);}");
+        setGeometry(room->getX(), room->getY(), 128, 128);
+        setStyleSheet("QPushButton{border-image: url(:image/images/" + room->getRoomName() + ".png);}");
+        setVisit(room->getVisit());
+        show();
     }
     ~RoomButton(){
         delete effect;
     }
-    visitType getVisit() const { return visit; }
+    visitType getVisit() const { return room->getVisit(); }
+    std::pair<int, int> getId() const { return room->getId(); }
     void setVisit(visitType vis) {
-        visit = vis;
+        room->setVisit(vis);
         if(vis == opened){
             effect->setColor(Qt::blue);
             effect->setStrength(1.0);
@@ -53,32 +54,15 @@ public:
             i->setVisit(opened);
         }
     }
+
 private:
     QWidget *parent;
     visitType visit;
     QVector<RoomButton *> next;
+    RoomMeta *room;
     QGraphicsColorizeEffect *effect;
 };
 
-
-
-class Line{
-public:
-    Line(QWidget *parent = nullptr) : parent(parent) {}
-
-public:
-    void paint(const QPointF &from, const QPointF &to){
-        QPainter painter(parent);
-        // 创建虚线画笔
-        QPen pen(Qt::gray);       // 设置颜色
-        pen.setWidth(2);           // 设置线宽
-        pen.setStyle(Qt::DashLine); // 设置为虚线样式
-        painter.setPen(pen); // 应用画笔
-        painter.drawLine(QLine(from.x(), from.y(), to.x(), to.y()));
-    }
-private:
-    QWidget *parent;
-};
 
 
 class MapPage : public QWidget
@@ -87,37 +71,29 @@ class MapPage : public QWidget
 public:
     MapPage(QWidget *parent = nullptr);
     ~MapPage();
-    void paintEvent(QPaintEvent *event) override {
-        // 创建 QPainter 对象
-        QPainter painter(this);
-
-        // 创建 QPen 并设置为虚线样式
-        QPen pen(Qt::gray);  // 设置颜色
-        pen.setWidth(2);      // 设置线条宽度
-        pen.setStyle(Qt::DashLine);  // 设置为虚线
-
-        // 将 QPen 应用到 QPainter
-        painter.setPen(pen);
-
-        for(int i = 0; i < 7; ++i){
-            auto this_level = spire_tower[i], next_level = spire_tower[i + 1];
-            for(RoomButton *room : this_level){
-                auto next_rooms = room->getNext();
-                for(auto next_room : next_rooms){
-                    QPointF room_center = room->pos() + QPointF(room->width() / 2.0, room->height() / 2.0);
-                    QPointF next_center = next_room->pos() + QPointF(next_room->width() / 2.0, next_room->height() / 2.0);
-                    painter.drawLine(room_center.x(), room_center.y(), next_center.x(), next_center.y());
-                }
-            }
-        }
-
+    void paintEvent(QPaintEvent *event) override;
+    RoomButton *find_button(RoomMeta *room){
+        std::pair<int, int> id = room->getId();
+        return spire_tower[id.first][id.second];
     }
+    void setMap(QVector<QVector<RoomMeta *> > ret_map){
+        if(map != ret_map) map = ret_map;
+    }
+    QVector<QVector<RoomButton *> > getTower(){ return spire_tower; }
+    void createRooms();
+public slots:
+    void fireGetMap(){
+        emit onGetMap();
+    }
+signals:
+    void onGetMap();
+public:
+    QPushButton *switchBtn;
 private:
     QWidget *parent;
     QVector<QVector<RoomButton *> > spire_tower;
-    QPushButton *switchBtn;
-    Line *painter;
-    std::mt19937 rnd;
+    QVector<QVector<RoomMeta *> > map;
+
     friend class PageManager;
 };
 

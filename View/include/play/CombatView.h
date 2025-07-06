@@ -1,7 +1,8 @@
 #ifndef COMBATVIEW_H
 #define COMBATVIEW_H
 #include <QWidget>
-#include "Enemy.h"
+#include "EnemyAnimation.h"
+
 class CombatView : public QObject{
     Q_OBJECT
 public:
@@ -9,14 +10,14 @@ public:
     ~CombatView() {}
     void endOfRound();
     void playACard();
-    void setEnemy(Enemy*);
-    Enemy *getEnemy(){ return enemy; }
+    void setEnemy();
+    EnemyAnimation *getEnemy(){ return enemy; }
 signals:
     void onEndOfRound();
     void onPlayACard();
     void onSetEnemy();
 private:
     QWidget *parent;
-    Enemy *enemy;
+    EnemyAnimation *enemy;
 };
 #endif // COMBATVIEW_H

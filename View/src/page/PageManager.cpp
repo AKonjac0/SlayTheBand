@@ -34,7 +34,9 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     playerAnimation = new PlayerAnimation(page1);
     enemyAnimation = new EnemyAnimation(page1);
     card_view = new CardView(page1);
-    // combat = new Combat(page1, card_view, player);
+
+    // player = new Player("uika", PLAYER_MAX_HP, page1, PLAYER_MAX_MP); // test only
+    // enemy = new Enemy("soyo", ENEMY_MAX_HP, page1); //
 
     combat_view = new CombatView(page1);
 
@@ -43,10 +45,10 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
         combat_view->endOfRound();
     });
 
-    QPushButton *enemy_btn = enemy->getButton();
+    QPushButton *enemy_btn = enemyAnimation->getButton();
     QObject::connect(enemy_btn, &QPushButton::clicked, [this](){
         qDebug() << "Enemy";
-        combat_view->setEnemy(enemy);
+        combat_view->setEnemy(); // M
         combat_view->playACard();
     });
 
@@ -57,43 +59,11 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     QAbstractButton::connect(page2->switchBtn, &QPushButton::clicked, [this](){
         switchToPage(page1, PageAnimationDirection::LeftToRight);
     });
-    auto spire_tower = page2->spire_tower;
-    for(auto &level : spire_tower){
-        for(RoomButton *room : level){
-            QAbstractButton::connect(room, &QPushButton::clicked, [room, level, this](){
-                if(room->getVisit() == visitType::opened){
-                    qDebug() << "next Level";
-                    for(RoomButton *r : level) if(room != r) r->setVisit(closed);
-                    room->openNext();
-                    room->setVisit(visited);
 
-                    card_view->getButton()->init_combat();
-                    // combat->new_combat();
-                    switchToPage(page1, PageAnimationDirection::LeftToRight);
-                    page2->switchBtn->show();
-                }
-            });
-        }
-    }
-
-
-    // QAbstractButton::connect(page2->level1, &QPushButton::clicked, [this](){
-    //     qDebug() << "Level 1";
-    //     card_view->getButton()->init_combat();
-    //     switchToPage(page1, PageAnimationDirection::LeftToRight);
-    //     // opacity
-    //     // page2->level1->setGraphicsEffect();
-
-
-    //     page2->switchBtn->show();
-    // });
 
 
     page3 = new CardRewardPage(parent);
     QAbstractButton::connect(page3->confirmBtn, &QPushButton::clicked, [this]() {
-        // page3->deleteReward();
-        // card_manager->new_combat();
-        // card_view->getButton()->init_combat();
         switchToPage(page2, PageAnimationDirection::RightToLeft);
     });
 
@@ -103,36 +73,9 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     reward_btn->resize(64, 64);
     reward_btn->move(10, 10);
     QAbstractButton::connect(reward_btn, &QPushButton::clicked, [this]() {
-        // page3->newReward();
         page2->switchBtn->hide();
         switchToPage(page3, PageAnimationDirection::LeftToRight);
     });
-
-    // player->setHP(10);
-    // qDebug() << "Test setHP: Player HP set to:" << player->getHP();
-    // player->HP_change(-5);
-    // qDebug() << "Test HP_change: Player HP changed to:" << player->getHP();
-    // player->setMaxHP(200);
-    // qDebug() << "Test setMaxHP: Player max HP set to:" << player->getMaxHP();
-    // player->maxHP_change(50);
-    // qDebug() << "Test maxHP_change: Player max HP changed to:" << player->getMaxHP();
-    // player->setMP(5);
-    // qDebug() << "Test setMP: Player MP set to:" << player->getMP(); // 3
-    // player->MP_change(3);
-    // qDebug() << "Test MP_change: Player MP changed to:" << player->getMP();
-    // player->setMaxMP(100);
-    // qDebug() << "Test setMaxMP: Player max MP set to:" << player->getMaxMP();
-    // player->maxMP_change(20);
-    // qDebug() << "Test maxMP_change: Player max MP changed to:" << player->getMaxMP();
-
-    // enemy->setHP(10);
-    // qDebug() << "Test setHP: Enemy HP set to:" << enemy->getHP();
-    // enemy->HP_change(-5);
-    // qDebug() << "Test HP_change: Enemy HP changed to:" << enemy->getHP();
-    // enemy->setMaxHP(200);
-    // qDebug() << "Test setMaxHP: Enemy max HP set to:" << enemy->getMaxHP();
-    // enemy->maxHP_change(50);
-    // qDebug() << "Test maxHP_change: Enemy max HP changed to:" << enemy->getMaxHP();
 
     page0->show();
     page1->show();
@@ -149,7 +92,6 @@ void PageManager::init() {
 
 PageManager::~PageManager() {
     qDebug() << "dtor";
-    // delete card_manager;
     delete card_view;
     delete music;
     delete combat_view;
@@ -232,12 +174,8 @@ void PageManager::switchToPage(QWidget *targetPage, PageAnimationDirection direc
         if(targetPage == page3) page3->newReward();
         else if(targetPage == page1){
             qDebug() << "return to page1";
-
-            // QEventLoop loop;
-            // QTimer::singleShot(1000, &loop, SLOT(quit()));
-            // loop.exec();
-            // if(!loop.isRunning()){
-            // }
+        }else if(targetPage == page2){
+            // page2->fireGetMap();
         }
     });
 

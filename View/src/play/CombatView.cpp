@@ -8,9 +8,6 @@ void CombatView::endOfRound(){
     emit onEndOfRound();
 }
 
-void CombatView::setEnemy(Enemy *ret_enemy){
-    if(enemy != ret_enemy){
-        enemy = ret_enemy;
-        emit onSetEnemy();
-    }
+void CombatView::setEnemy(){
+    emit onSetEnemy();
 }

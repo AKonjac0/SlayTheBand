@@ -16,9 +16,6 @@ find_package(Qt6 REQUIRED COMPONENTS MultimediaWidgets)
 
 set(PROJECT_SOURCES
         main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
 )
 
 include_directories(View/include/character/)
@@ -33,16 +30,23 @@ include_directories(Model/include/buff/)
 include_directories(Model/src/buff/)
 include_directories(Model/include/character/)
 include_directories(Model/src/character/)
+include_directories(Model/include/map/)
+include_directories(Model/src/map/)
 include_directories(View/include/page/)
 include_directories(View/src/page/)
 include_directories(View/include/play/)
 include_directories(View/src/play/)
+include_directories(View/include/music/)
+include_directories(View/src/music/)
+include_directories(View/src/)
+include_directories(View/include/)
 include_directories(ViewModel/include/character/)
 include_directories(ViewModel/src/character/)
 include_directories(ViewModel/include/combat)
 include_directories(ViewModel/src/combat)
 include_directories(App)
-include_directories(Common)
+include_directories(Common/include)
+include_directories(Common/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -52,18 +56,26 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         res.qrc
+        View/src/mainwindow.cpp
+        View/include/mainwindow.h
+        View/include/mainwindow.ui
+
         View/include/card/Card.h View/src/card/Card.cpp
-        Model/include/buff/Buff.h Model/src/buff/Buff.cpp
+
         ViewModel/include/card/Card_Manager.h ViewModel/src/card/Card_Manager.cpp
-        Model/include/card/Card_Meta.h Model/src/card/Card_Meta.cpp
+        Common/include/Card_Meta.h
+        Common/src/Card_Meta.cpp
+        Common/include/Buff.h
+        Common/src/Buff.cpp
+        Common/include/Defs.h
 
         View/include/character/Healthbar.h View/src/character/Healthbar.cpp
         View/src/card/Card_Button.cpp
         View/include/card/Card_Button.h
         Model/src/card/CardController.cpp
         Model/include/card/CardController.h
-        Music_Manager.cpp
-        Music_Manager.h
+        View/src/music/Music_Manager.cpp
+        View/include/music/Music_Manager.h
         View/src/card/CardView.cpp
         View/include/card/CardView.h
         View/src/card/CardAnimation.cpp
@@ -90,13 +102,15 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         View/src/character/PlayerAnimation.cpp
         View/include/character/EnemyAnimation.h
         View/src/character/EnemyAnimation.cpp
-        Defs.h
+
         View/include/page/CardRewardPage.h
         View/src/page/CardRewardPage.cpp
         View/src/card/CardReward.cpp
             View/include/card/CardReward.h
         Model/src/card/CardGenerator.cpp
             Model/include/card/CardGenerator.h
+
+
         Model/include/character/CharacterMeta.h
         Model/include/character/PlayerMeta.h
         Model/include/character/EnemyMeta.h
@@ -120,8 +134,16 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
             App/MainApp.h
             View/src/play/CombatView.cpp
             View/include/play/CombatView.h
+
             ViewModel/include/character/RoleManager.h
             ViewModel/src/character/RoleManager.cpp
+
+
+        Common/include/RoomMeta.h
+        Common/src/RoomMeta.cpp
+        Model/include/map/Map.h
+        Model/src/map/Map.cpp
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SlayTheShrike APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
