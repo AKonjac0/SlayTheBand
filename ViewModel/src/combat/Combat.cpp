@@ -1,32 +1,47 @@
 #include "Combat.h"
 #include <QVector>
-Combat::Combat(QObject *parent, CardView *cardView, Player *player)
-    : QObject(parent), cardView(cardView), player(player), cardMeta(nullptr), enemy(nullptr) {}
+Combat::Combat(Player *player)
+    : player(player), played(nullptr), enemy(nullptr) {
+    card_manager = new Card_Manager();
+}
+
+Card_Meta *Combat::get_played() { return played; }
+
+Card_Manager *Combat::get_card_manager(){
+    return card_manager;
+}
 
 void Combat::setEnemy(Enemy *enemy) {
     this->enemy = enemy;
 }
 
+void Combat::setPlayer(Player *player) {
+    this->player = player;
+}
 bool Combat::playACard() {
     if (!check()) {
         return false;
     }
-    Card_Meta *cardMeta = cardView->getCardPile()->get_selected();
-    if (player->getMP() < cardMeta->getEnergyConsumption()) {
+    played = card_manager->get_selected();
+    if (player->getMP() < played->getEnergyConsumption()) {
         return false;
     }
-    player->setMP(player->getMP() - cardMeta->getEnergyConsumption());
-    QVector<Buff> buffs = cardMeta->getBuff();
+    player->setMP(player->getMP() - played->getEnergyConsumption());
+    QVector<Buff> buffs = played->getBuff();
     for (auto &buff : buffs) {
         applyBuff(buff);
     }
     // cardView->getManager()->playACard(cardMeta);
-    cardView->getCardPile()->playACard(cardMeta);
+
+    card_manager->playACard(played);
+    emit onPlayed();
+
+
     return true;
 }
 
 bool Combat::check() {
-    if (cardView->getCardPile()->get_selected() == nullptr || enemy == nullptr){
+    if (card_manager->get_selected() == nullptr || enemy == nullptr){
         return false;
     }
     return true;

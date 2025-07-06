@@ -136,5 +136,5 @@ void CardPile::playACard(Card_Meta *meta) {
     }
     // set_hands(new_hands);
     qDebug() << "onplayed";
-    emit onPlayed();
+    // emit onPlayed();
 }

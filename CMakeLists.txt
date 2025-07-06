@@ -22,8 +22,8 @@ set(PROJECT_SOURCES
 )
 
 include_directories(View/include/character/)
-include_directories(View/include/card/)
 include_directories(View/src/character/)
+include_directories(View/include/card/)
 include_directories(View/src/card/)
 include_directories(ViewModel/include/card/)
 include_directories(ViewModel/src/card/)
@@ -40,6 +40,7 @@ include_directories(View/src/play/)
 include_directories(ViewModel/include/character/)
 include_directories(ViewModel/src/character/)
 include_directories(ViewModel/include/combat)
+include_directories(ViewModel/src/combat)
 include_directories(App)
 include_directories(Common)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
@@ -79,7 +80,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         View/include/card/HoverButton.h
 
         View/src/play/Arrow.cpp
-        View/src/play/Arrow.h
+        View/include/play/Arrow.h
 
         View/src/character/Manabar.cpp
         View/include/character/Manabar.h
@@ -117,6 +118,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
             ViewModel/src/combat/Combat.cpp
             App/MainApp.cpp
             App/MainApp.h
+            View/src/play/CombatView.cpp
+            View/include/play/CombatView.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET SlayTheShrike APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
