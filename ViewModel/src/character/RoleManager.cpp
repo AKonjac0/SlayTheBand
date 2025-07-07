@@ -9,6 +9,8 @@ RoleManager::~RoleManager() {
     delete playerMeta;
 }
 
+
+
 void RoleManager::updatePlayerHP(int hp) {
     playerMeta->setHP(hp);
     emit repaintPlayerHP(hp);
@@ -37,4 +39,13 @@ void RoleManager::updateEnemyHP(int hp) {
 void RoleManager::updateEnemyMaxHP(int mhp) {
     enemyMeta->setMaxHP(mhp);
     emit repaintEnemyMaxHP(mhp);
+}
+
+const Buff &RoleManager::getEnemyIntent() {
+    return enemyMeta->getIntent();
+}
+const Buff &RoleManager::nextEnemyIntent() {
+    const Buff &buff = enemyMeta->nextIntent();
+    emit repaintEnemyIntent(buff);
+    return buff;
 }

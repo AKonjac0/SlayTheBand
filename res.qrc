@@ -27,5 +27,14 @@
         <file>images/whirlwind.png</file>
         <file>images/mapCompleteIcon.png</file>
         <file>images/normalCardReward.png</file>
+        <file>images/attack/attack_intent_1.png</file>
+        <file>images/attack/attack_intent_2.png</file>
+        <file>images/attack/attack_intent_3.png</file>
+        <file>images/attack/attack_intent_4.png</file>
+        <file>images/attack/attack_intent_5.png</file>
+        <file>images/attack/attack_intent_6.png</file>
+        <file>images/attack/attack_intent_7.png</file>
+        <file>images/block.png</file>
+        <file>images/defend_intent_1.png</file>
     </qresource>
 </RCC>

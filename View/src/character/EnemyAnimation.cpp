@@ -1,9 +1,11 @@
 #include "EnemyAnimation.h"
 
-EnemyAnimation::~EnemyAnimation() = default;
+EnemyAnimation::~EnemyAnimation() {
+    delete intention;
+}
 
 
-EnemyAnimation::EnemyAnimation(QWidget *_parent): CharacterAnimation(_parent){}
+EnemyAnimation::EnemyAnimation(QWidget *_parent): CharacterAnimation(_parent), intention(new QPushButton(_parent)) {}
 
 void EnemyAnimation::init() {
     emit getName();
@@ -52,6 +54,11 @@ void EnemyAnimation::show(int x, int y, int width, int height, int maxHP, int HP
     getAvatar()->show();
     getButton()->show();
     getButton()->raise();
+
+    const int intentWidth = 128, intentHeight = 128;
+    intention->setGeometry(x + width / 2 - intentWidth / 2, y - intentHeight, intentWidth, intentHeight);
+    intention->show();
+    intention->raise();
 }
 
 void EnemyAnimation::setHealthBarAnimation(int HP)
@@ -62,4 +69,18 @@ void EnemyAnimation::setHealthBarAnimation(int HP)
 void EnemyAnimation::setMaxHealthBarAnimation(int maxHP)
 {
     healthBar->setMaxHealth(maxHP);
+}
+
+
+void EnemyAnimation::setIntent(Buff intent)
+{
+    if(intent.getType() == Damage){
+        int level = std::min(intent.getLevel() / 5 + 1, 7);
+        QString str = "";
+        str += static_cast<char>(level + '0');
+        intention->setText(QString::number(intent.getLevel()));
+        intention->setStyleSheet("QPushButton{border-image: url(:/image/images/attack/attack_intent_" + str + ".png);}");
+    }else{
+        intention->setStyleSheet("QPushButton{border-image: url(:/image/images/defend_intent_1.png);}");
+    }
 }

@@ -60,7 +60,7 @@ MainApp::MainApp(){
                     for(RoomButton *r : level) if(room != r) r->setVisit(closed);
                     room->openNext();
                     room->setVisit(visited);
-
+                    combat->new_combat();
                     card_view->getButton()->init_combat();
                     page_manager->switchToPage(page_manager->getBattlePage(), PageAnimationDirection::LeftToRight);
                     page_manager->getMapPage()->switchBtn->show();
@@ -179,6 +179,11 @@ MainApp::MainApp(){
         enemyAnimation->setMaxHealthBarAnimation(mhp);
     });
 
+    QObject::connect(roleManager, &RoleManager::repaintEnemyIntent, enemyAnimation, [this, enemyAnimation](Buff intent) {
+        enemyAnimation->setIntent(intent);
+    });
+
+    qDebug() << "finish connect";
     pageManager->init();
 }
 

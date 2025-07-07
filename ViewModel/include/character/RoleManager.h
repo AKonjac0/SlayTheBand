@@ -25,6 +25,9 @@ public:
     int getEnemyMaxHP() {return enemyMeta->getmaxHP();}
     QString getEnemyName() {return enemyMeta->getname();}
     QVector<Buff> getEnemyBuff() {return enemyMeta->getBuff();}
+    // const Buff &getEnemyIntent(){ return enemyMeta->getIntent(); }
+    const Buff &getEnemyIntent();
+    const Buff &nextEnemyIntent();
     void addEnemyBuff(Buff &new_buff) {enemyMeta->addBuff(new_buff);}
     void clearEnemyBuff() {enemyMeta->clearBuff();}
     void updateEnemyHP(int hp);
@@ -39,6 +42,7 @@ signals:
 
     void repaintEnemyHP(int hp);
     void repaintEnemyMaxHP(int mhp);
+    void repaintEnemyIntent(Buff intent);
 private:
     EnemyMeta *enemyMeta;
     PlayerMeta *playerMeta;

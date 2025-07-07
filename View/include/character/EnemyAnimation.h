@@ -2,6 +2,7 @@
 #define ENEMYANIMATION_H
 
 #include "CharacterAnimation.h"
+#include "Buff.h"
 #include <QObject>
 
 class EnemyAnimation: public CharacterAnimation {
@@ -15,10 +16,12 @@ public:
     void setHealthBarAnimation(int HP);
     // set max HP
     void setMaxHealthBarAnimation(int maxHP);
+
+    void setIntent(Buff intent);
 signals:
     void getName();
 private:
-    
+    QPushButton *intention;
 };
 
 #endif

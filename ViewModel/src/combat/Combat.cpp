@@ -50,13 +50,26 @@ void Combat::applyBuff(Buff &buff) {
     if (buff.getType() == Damage) {
         // enemy->setHP(enemy->getHP() - buff.getLevel());
         role->updateEnemyHP(role->getEnemyHP() - buff.getLevel());
+        if(role->getEnemyHP() == 0){
+            emit onEnemyDefeated();
+        }
     } else if (buff.getType() == Block) {
         role->addPlayerBuff(buff);
     }
 }
 
+void Combat::new_combat(){
+    role->nextEnemyIntent();
+}
+
 void Combat::endOfRound() {
-    int enemyDamage = 2; //TODO: enemy attack logic
+    // qDebug() << "ok";
+    Buff enemyBuff = role->getEnemyIntent();
+    role->nextEnemyIntent();
+    // qDebug() << "ok";
+    int enemyDamage = 0, enemyBlock = 0;
+    if(enemyBuff.getType() == Damage) enemyDamage = enemyBuff.getLevel();
+    else enemyBlock = enemyBuff.getLevel();
     int lossHP = enemyDamage;
     for (auto& buff : role->getPlayerBuff()) {
         if (buff.getType() == Block) {
@@ -74,6 +87,7 @@ void Combat::endOfRound() {
     role->updatePlayerHP(role->getPlayerHP() - lossHP);
     if (role->getPlayerHP() == 0) {
         // GameOver()
+        emit onPlayerDead();
     } else {
         // next round
         role->updatePlayerMP(role->getPlayerMaxMP());

@@ -4,6 +4,8 @@ Buff::Buff(BuffType type, int level, bool isAll) : type(type), level(level), isA
 
 BuffType Buff::getType() { return this->type; }
 
+void Buff::setType(BuffType buff) { this->type = buff; }
+
 int Buff::getLevel() { return this->level; }
 
 bool Buff::getIsAll() { return this->isAll; }

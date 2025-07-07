@@ -7,6 +7,7 @@ public:
     Buff(BuffType, int, bool isAll = false);
     ~Buff() = default;
     BuffType getType();
+    void setType(BuffType buff);
     int getLevel();
     bool getIsAll();
     bool changeLevel(int delta);

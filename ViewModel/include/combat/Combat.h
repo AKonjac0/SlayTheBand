@@ -25,6 +25,8 @@ public:
 
 signals:
     void onPlayed();
+    void onEnemyDefeated();
+    void onPlayerDead();
 private:
     void applyBuff(Buff &buff);
     bool check();
