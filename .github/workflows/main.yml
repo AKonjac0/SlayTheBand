@@ -2,18 +2,17 @@ name: QT6 CI
 
 on:
   push:
-    branches: [ dev ]
-  pull_request:
-    branches: [ dev ]
+    branches: [ main ]
 
 jobs:
-  build:
+  build-and-release:
     runs-on: windows-latest
+    permissions:
+      contents: write  # 授予发布所需的写入权限
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # 获取完整提交历史（用于创建标签）
 
       - name: Install Qt6
         uses: jurplel/install-qt-action@v4.3.0
@@ -32,53 +31,72 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="D:/a/SlayTheShrike/Qt/6.9.1/mingw_64" -DCMAKE_CXX_COMPILER="D:/a/SlayTheShrike/Qt/Tools/mingw1310_64/bin/g++.exe" ..
           cmake --build . -j
 
-      - name: Get executable path
-        id: exe-path
+      - name: Find executable
+        id: find-exe
         run: |
-          $exe = (Get-ChildItem -Path build -Recurse -Include *.exe | Select-Object -First 1).FullName
+          # 递归查找所有 exe 文件
+          $exes = Get-ChildItem -Path . -Recurse -Filter *.exe | Where-Object { $_.FullName -notlike '*\CMakeFiles\*' }
+          if (-not $exes) {
+            Write-Error "No .exe files found in build directory"
+            exit 1
+          }
+          
+          # 选择第一个找到的 exe
+          $exe = $exes[0].FullName
+          Write-Output "Found executable: $exe"
           echo "exe_path=$exe" >> $env:GITHUB_OUTPUT
 
-      - name: Create timestamp
-        id: timestamp
-        run: echo "timestamp=$(Get-Date -Format 'yyyyMMdd_HHmmss')" >> $env:GITHUB_OUTPUT
-
-      - name: Setup GitHub identity
+      - name: Generate unique tag
+        id: tag
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          $timestamp = Get-Date -UFormat "%Y%m%d-%H%M%S"
+          echo "tag=ci-build-$timestamp" >> $env:GITHUB_OUTPUT
 
       - name: Delete previous release
         uses: actions/github-script@v6
-        id: delete-release
         with:
           script: |
-            const { data: releases } = await github.rest.repos.listReleases({
-              owner: context.repo.owner,
-              repo: context.repo.repo
-            });
-            
-            const ciRelease = releases.find(r => r.name.includes('CI Build'));
-            if (ciRelease) {
-              await github.rest.repos.deleteRelease({
+            try {
+              // 查找所有包含 "ci-build-" 的标签
+              const releases = await github.rest.repos.listReleases({
                 owner: context.repo.owner,
-                repo: context.repo.repo,
-                release_id: ciRelease.id
+                repo: context.repo.repo
               });
-              await github.rest.git.deleteRef({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                ref: `tags/${ciRelease.tag_name}`
-              });
-              return 'Deleted previous release';
+              
+              // 查找并删除所有 CI 构建的发布
+              for (const release of releases.data) {
+                if (release.tag_name.includes('ci-build-')) {
+                  console.log(`Deleting previous release: ${release.tag_name}`);
+                  await github.rest.repos.deleteRelease({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    release_id: release.id
+                  });
+                  
+                  // 尝试删除关联的标签
+                  try {
+                    await github.rest.git.deleteRef({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      ref: `tags/${release.tag_name}`
+                    });
+                  } catch (tagError) {
+                    console.log(`Tag ${release.tag_name} already deleted or not found`);
+                  }
+                }
+              }
+              return "Successfully cleaned up previous releases";
+            } catch (error) {
+              console.log(`Cleanup error: ${error.message}`);
+              return "No previous releases found or error occurred";
             }
-            return 'No previous release found';
-          result-encoding: string
 
-      - name: Create new release
+      - name: Create release with artifact
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ci-build-${{ steps.timestamp.outputs.timestamp }}
-          name: "CI Build (${{ steps.timestamp.outputs.timestamp }})"
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: "CI Build (${{ steps.tag.outputs.tag }})"
           body: "Automated build from GitHub Actions"
-          files: ${{ steps.exe-path.outputs.exe_path }}
+          files: ${{ steps.find-exe.outputs.exe_path }}
+          draft: false
           prerelease: true
