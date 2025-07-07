@@ -21,7 +21,7 @@ jobs:
           target: desktop
           arch: win64_mingw
           modules: qtmultimedia
-          tools: tools_mingw qt.tools.win64_mingw1310
+          tools: tools_mingw1310
 
       - name: Configure and Build
         run: |
