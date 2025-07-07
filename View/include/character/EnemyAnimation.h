@@ -16,7 +16,7 @@ public:
     void setHealthBarAnimation(int HP);
     // set max HP
     void setMaxHealthBarAnimation(int maxHP);
-
+    void setBlockBarAnimation(int Block);
     void setIntent(Buff intent);
 signals:
     void getName();

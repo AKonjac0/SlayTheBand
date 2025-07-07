@@ -9,7 +9,14 @@ RoleManager::~RoleManager() {
     delete playerMeta;
 }
 
-
+void RoleManager::addPlayerBuff(Buff &new_buff) {
+    playerMeta->addBuff(new_buff);
+    emit repaintPlayerBlock(&new_buff);
+}
+void RoleManager::clearPlayerBuff() {
+    playerMeta->clearBuff();
+    emit repaintPlayerBlock(nullptr);
+}
 
 void RoleManager::updatePlayerHP(int hp) {
     playerMeta->setHP(hp);

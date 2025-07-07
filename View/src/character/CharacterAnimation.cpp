@@ -6,6 +6,7 @@ CharacterAnimation::CharacterAnimation(QWidget* _parent){
     character_avatar = new QLabel(parent);
     button = new QPushButton(parent);
     healthBar = new HealthBar(getAvatar());
+    blockBar = new BlockBar(getAvatar());
 }
 
 void CharacterAnimation::init(){

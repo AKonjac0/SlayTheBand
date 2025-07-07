@@ -10,7 +10,7 @@
 #include <QObject>
 
 #include "Healthbar.h"
-
+#include "Blockbar.h"
 
 class CharacterAnimation : public QObject{
     Q_OBJECT
@@ -23,6 +23,7 @@ public:
     QLabel* getAvatar() const { return character_avatar; }
     QPushButton* getButton() const { return button; }
     HealthBar* getHealthBar() const { return healthBar; }
+    BlockBar* getBlockBar() const { return blockBar; }
     QMovie* getIllustration() const { return illustration; }
     QSize getSize() const { return size; }
 protected:
@@ -32,6 +33,7 @@ protected:
     QLabel* character_avatar;
     QMovie* illustration;
     HealthBar* healthBar;
+    BlockBar* blockBar;
     // Literally size of avatar
     QSize size;
     QPushButton *button;

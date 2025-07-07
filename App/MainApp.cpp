@@ -183,7 +183,18 @@ MainApp::MainApp(){
         enemyAnimation->setIntent(intent);
     });
 
-    qDebug() << "finish connect";
+    QObject::connect(roleManager, &RoleManager::repaintPlayerBlock, playerAnimation, [this, playerAnimation](Buff *buff) {
+        QVector<Buff> playerBuff = combat->get_role()->getPlayerBuff();
+        int block = 0;
+        for(auto buff : playerBuff){
+            if(buff.getType() == Block) block += buff.getLevel();
+        }
+
+        if(buff == nullptr) playerAnimation->setBlockBarAnimation(0);
+        else playerAnimation->setBlockBarAnimation(block);
+    });
+
+
     pageManager->init();
 }
 

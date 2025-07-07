@@ -22,7 +22,7 @@ public:
     void new_combat();
     Card_Manager *get_card_manager();
     Card_Meta *get_played();
-
+    RoleManager *get_role(){ return role; }
 signals:
     void onPlayed();
     void onEnemyDefeated();

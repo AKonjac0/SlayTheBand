@@ -48,6 +48,9 @@ void EnemyAnimation::show(int x, int y, int width, int height, int maxHP, int HP
     getHealthBar()->setCurrentHealth(HP);
     getHealthBar()->setFixedWidth(getAvatar()->width() - 40); // 血条宽度
     getHealthBar()->move(20, getAvatar()->height() - 60); // 血条位置（底部）
+    getBlockBar()->setFixedWidth(getAvatar()->width() - 40); // 宽度
+    getBlockBar()->move(20, getAvatar()->height() - 30); // 位置（底部）
+    getBlockBar()->hide();
 
     // 确保显示在最上层
     // getAvatar()->raise();
@@ -71,6 +74,10 @@ void EnemyAnimation::setMaxHealthBarAnimation(int maxHP)
     healthBar->setMaxHealth(maxHP);
 }
 
+void EnemyAnimation::setBlockBarAnimation(int Block)
+{
+    blockBar->setCurrentBlock(Block);
+}
 
 void EnemyAnimation::setIntent(Buff intent)
 {

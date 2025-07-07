@@ -45,6 +45,9 @@ void PlayerAnimation::show(int x, int y, int width, int height, int maxHP, int H
     getManaBar()->setFixedWidth(getAvatar()->width() - 40);
     getManaBar()->move(20, getAvatar()->height() - 30); // 法力条在血条下方
 
+    getBlockBar()->setFixedWidth(getAvatar()->width() - 40); // 宽度
+    getBlockBar()->move(20, getAvatar()->height() - 10); // 位置（底部）
+
     // 确保显示在最上层
     // getAvatar()->raise();
     getAvatar()->show();
@@ -70,6 +73,11 @@ void PlayerAnimation::setMaxManaBarAnimation(int maxMP)
 void PlayerAnimation::setMaxHealthBarAnimation(int maxHP)
 {
     healthBar->setMaxHealth(maxHP);
+}
+
+void PlayerAnimation::setBlockBarAnimation(int Block)
+{
+    blockBar->setCurrentBlock(Block);
 }
 
 PlayerAnimation::~PlayerAnimation(){

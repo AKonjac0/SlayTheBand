@@ -21,6 +21,8 @@ public:
     // set max MP, HP
     void setMaxManaBarAnimation(int maxMP);
     void setMaxHealthBarAnimation(int maxHP);
+
+    void setBlockBarAnimation(int Block);
     void init();
 signals:
     void getName();
