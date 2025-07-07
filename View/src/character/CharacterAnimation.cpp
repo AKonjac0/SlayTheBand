@@ -12,6 +12,11 @@ CharacterAnimation::CharacterAnimation(QWidget* _parent){
 void CharacterAnimation::init(){
     character_avatar->setObjectName("character_avatar_" + name);
     QString pic_path = ":image/images/" + name + ".gif";
+    qDebug() << pic_path;
+    if (illustration != nullptr) {
+        delete illustration;
+        illustration = nullptr;
+    }
     illustration = new QMovie(pic_path);
     QImageReader reader(pic_path);
     size = reader.size();

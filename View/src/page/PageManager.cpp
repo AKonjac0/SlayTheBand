@@ -35,9 +35,6 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     enemyAnimation = new EnemyAnimation(page1);
     card_view = new CardView(page1);
 
-    // player = new Player("uika", PLAYER_MAX_HP, page1, PLAYER_MAX_MP); // test only
-    // enemy = new Enemy("soyo", ENEMY_MAX_HP, page1); //
-
     combat_view = new CombatView(page1);
 
     HoverButton *next_round = card_view->getButton()->get_next_round_button();
@@ -61,20 +58,9 @@ PageManager::PageManager(QWidget *parent, int page_width, int page_height)
     });
 
 
-
     page3 = new CardRewardPage(parent);
     QAbstractButton::connect(page3->confirmBtn, &QPushButton::clicked, [this]() {
         switchToPage(page2, PageAnimationDirection::RightToLeft);
-    });
-
-    QPushButton *reward_btn = new QPushButton(page1);
-    reward_btn->setText("奖励");
-    reward_btn->setStyleSheet("QPushButton{border-image: url(:image/images/normalCardReward.png);}");
-    reward_btn->resize(64, 64);
-    reward_btn->move(10, 10);
-    QAbstractButton::connect(reward_btn, &QPushButton::clicked, [this]() {
-        page2->switchBtn->hide();
-        switchToPage(page3, PageAnimationDirection::LeftToRight);
     });
 
     page0->show();
@@ -189,25 +175,7 @@ void PageManager::switchToPage(QWidget *targetPage, PageAnimationDirection direc
 
 void PageManager::enterGame() {
     music->play("../../OST/haruhikage.wav");
-
     emit startGame();
-
-    // player->show(
-    //     PLAYER_POSITION_X,
-    //     SCREEN_HEIGHT-PLAYER_POSITION_Y-player->getSize().height(),
-    //     player->getSize().width(),
-    //     player->getSize().height()
-    // );
-    //
-    // enemy->show(
-    //     SCREEN_WIDTH-PLAYER_POSITION_X-enemy->getSize().width(),
-    //     SCREEN_HEIGHT-PLAYER_POSITION_Y-enemy->getSize().height(),
-    //     enemy->getSize().width(),
-    //     enemy->getSize().height()
-    // );
-
-    // character_animation->show();
-
 }
 
 

@@ -1,12 +1,12 @@
 #include "MainApp.h"
 #include "Defs.h"
+#include <random>
 
 MainApp::MainApp(){
 
-
-    // manager = new Card_Manager();
-
-    roleManager = new RoleManager("soyo", ENEMY_MAX_HP, ENEMY_MAX_HP, "uika", PLAYER_MAX_HP, PLAYER_MAX_HP, PLAYER_MAX_MP);
+    std::mt19937 rd(std::random_device{}());
+    int enemyHP = rd() % ENEMY_MAX_HP + 1;
+    roleManager = new RoleManager("soyo", enemyHP, enemyHP, "uika", PLAYER_MAX_HP, PLAYER_MAX_HP, PLAYER_MAX_MP);
     combat = new Combat(roleManager);
     Card_Manager *manager = combat->get_card_manager();
     map = new Map();
@@ -45,7 +45,6 @@ MainApp::MainApp(){
 
 //-------------- Map ~ MapPage
 
-
     map_page->setMap(map->get_tower());
     map_page->createRooms();
 
@@ -78,6 +77,24 @@ MainApp::MainApp(){
     });
 
 //-------------- Combat ~ CombatView
+
+    QObject::connect(combat, &Combat::onEnemyDefeated, pageManager, [this, pageManager, enemyAnimation]() {
+        pageManager->switchToPage(pageManager->getCardRewardPage(), PageAnimationDirection::LeftToRight);
+        roleManager->updatePlayerMP(roleManager->getPlayerMaxMP());
+        std::mt19937 rd(std::random_device{}());
+        int newEnemyHP = rd() % ENEMY_MAX_HP + 1;
+        roleManager->updateEnemyMaxHP(newEnemyHP);
+        roleManager->updateEnemyHP(roleManager->getEnemyMaxHP());
+        roleManager->updateEnemyPic();
+        enemyAnimation->show(
+            SCREEN_WIDTH-PLAYER_POSITION_X-enemyAnimation->getSize().width(),
+            SCREEN_HEIGHT-PLAYER_POSITION_Y-enemyAnimation->getSize().height(),
+            enemyAnimation->getSize().width(),
+            enemyAnimation->getSize().height(),
+            roleManager->getEnemyMaxHP(),
+            roleManager->getEnemyHP()
+            );
+    });
 
     QObject::connect(combat_view, &CombatView::onEndOfRound, combat, [this](){
         combat->endOfRound();
@@ -135,6 +152,7 @@ MainApp::MainApp(){
     });
 
     QObject::connect(pageManager, &PageManager::startGame, roleManager, [this, playerAnimation, enemyAnimation]() {
+        roleManager->updateEnemyPic();
         playerAnimation->show(
             PLAYER_POSITION_X,
             SCREEN_HEIGHT - PLAYER_POSITION_Y - playerAnimation->getSize().height(),
@@ -194,6 +212,10 @@ MainApp::MainApp(){
         else playerAnimation->setBlockBarAnimation(block);
     });
 
+
+    QObject::connect(roleManager, &RoleManager::repaintEnemyPic, enemyAnimation, [this, enemyAnimation]() {
+        enemyAnimation->init();
+    });
 
     pageManager->init();
 }

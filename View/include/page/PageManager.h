@@ -28,16 +28,12 @@ public:
 
     PlayerAnimation *getPlayerAnimation() { return playerAnimation; }
     EnemyAnimation *getEnemyAnimation() { return enemyAnimation; }
+    MapPage *getMapPage() const { return page2; }
+    BattlePage *getBattlePage() const { return page1; }
+    void switchToPage(QWidget *targetPage, PageAnimationDirection direction);
     void init();
 signals:
     void startGame();
-public:
-
-    MapPage *getMapPage() const { return page2; }
-    BattlePage *getBattlePage() const { return page1; }
-    // Player *getPlayer(){ return player; }
-
-    void switchToPage(QWidget *targetPage, PageAnimationDirection direction);
 private:
 
     void enterGame();

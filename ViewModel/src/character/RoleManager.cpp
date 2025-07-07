@@ -1,5 +1,6 @@
 #include "RoleManager.h"
 #include <QString>
+#include <random>
 
 RoleManager::RoleManager(QString enemyName, int enemyHP, int enemyMaxHP, QString playerName, int playerHP, int playerMaxHP, int playerMP)
     : enemyMeta(new EnemyMeta(enemyName, enemyHP, enemyMaxHP)), playerMeta(new PlayerMeta(playerName, playerHP, playerMaxHP, playerMP)) {}
@@ -55,4 +56,23 @@ const Buff &RoleManager::nextEnemyIntent() {
     const Buff &buff = enemyMeta->nextIntent();
     emit repaintEnemyIntent(buff);
     return buff;
+}
+
+void RoleManager::updateEnemyPic() {
+    QString enemyName = "";
+    std::mt19937 rd(std::random_device{}());
+    int rand =  rd() % 2 + 1;
+    switch (rand) {
+        // case 0:
+        //     enemyName = "slime_balloon";
+        //     break;
+        case 1:
+            enemyName = "saki";
+            break;
+        case 2:
+            enemyName = "soyo";
+            break;
+    }
+    enemyMeta->setName(enemyName);
+    emit repaintEnemyPic();
 }

@@ -9,7 +9,7 @@
         <file>images/power_through.png</file>
         <file>images/second_wind.png</file>
         <file>images/defend.png</file>
-        <file>images/slime_balloon.png</file>
+        <file>images/slime_balloon.gif</file>
         <file>images/uika.gif</file>
         <file>images/soyo.gif</file>
         <file>images/Background1.jpg</file>
@@ -36,5 +36,6 @@
         <file>images/attack/attack_intent_7.png</file>
         <file>images/block.png</file>
         <file>images/defend_intent_1.png</file>
+        <file>images/saki.gif</file>
     </qresource>
 </RCC>

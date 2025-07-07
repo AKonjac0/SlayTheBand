@@ -32,6 +32,7 @@ public:
     void clearEnemyBuff() {enemyMeta->clearBuff();}
     void updateEnemyHP(int hp);
     void updateEnemyMaxHP(int hp);
+    void updateEnemyPic();
     EnemyMeta *getEnemyMeta() { return enemyMeta; }
     PlayerMeta *getPlayerMeta() { return playerMeta; }
 signals:
@@ -43,7 +44,7 @@ signals:
     void repaintEnemyHP(int hp);
     void repaintEnemyMaxHP(int mhp);
     void repaintEnemyIntent(Buff intent);
-
+    void repaintEnemyPic();
     void repaintPlayerBlock(Buff *buff);
 private:
     EnemyMeta *enemyMeta;

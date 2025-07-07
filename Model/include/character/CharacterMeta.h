@@ -38,6 +38,7 @@ public:
     void setMaxHP(int mhp);
     void addBuff(Buff& new_buff);
     void clearBuff();
+    void setName(QString name) { this->name = name; }
 
 private:
 
