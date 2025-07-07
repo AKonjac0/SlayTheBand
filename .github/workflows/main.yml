@@ -26,5 +26,5 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="${{ env.QT_INSTALL_DIR }}/6.9.1/mingw_64" -DCMAKE_CXX_COMPILER="${{ env.QT_INSTALL_DIR }}/Tools/mingw1310_64/bin/g++.exe" ..
+          cmake -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="${{ env.QT_INSTALL_DIR }}/6.9.1/mingw_64" -DCMAKE_CXX_COMPILER="${{ env.QT_INSTALL_DIR }}/6.9.1/mingw_64/bin/g++.exe" ..
           cmake --build . -j
