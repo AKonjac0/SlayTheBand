@@ -10,7 +10,7 @@ jobs:
   build-and-release:
     runs-on: windows-latest
     permissions:
-      contents: write  # 授予发布所需的写入权限
+      contents: write
     
     steps:
       - name: Checkout code
@@ -36,17 +36,18 @@ jobs:
       - name: Find executable
         id: find-exe
         run: |
-          # 递归查找所有 exe 文件
-          $exes = Get-ChildItem -Path . -Recurse -Filter *.exe | Where-Object { $_.FullName -notlike '*\CMakeFiles\*' }
-          if (-not $exes) {
+          $exe = Get-ChildItem -Path build -Recurse -Filter *.exe | 
+                 Where-Object { $_.FullName -notlike '*\CMakeFiles\*' } |
+                 Select-Object -First 1
+          
+          if (-not $exe) {
             Write-Error "No .exe files found in build directory"
             exit 1
           }
           
-          # 选择第一个找到的 exe
-          $exe = $exes[0].FullName
-          Write-Output "Found executable: $exe"
-          echo "exe_path=$exe" >> $env:GITHUB_OUTPUT
+          $relativePath = $exe.FullName.Replace((Get-Location).Path + "\", "").Replace("\", "/")
+          Write-Output "Using relative path: $relativePath"
+          echo "exe_path=$relativePath" >> $env:GITHUB_OUTPUT
 
       - name: Generate unique tag
         id: tag
@@ -59,13 +60,11 @@ jobs:
         with:
           script: |
             try {
-              // 查找所有包含 "ci-build-" 的标签
               const releases = await github.rest.repos.listReleases({
                 owner: context.repo.owner,
                 repo: context.repo.repo
               });
               
-              // 查找并删除所有 CI 构建的发布
               for (const release of releases.data) {
                 if (release.tag_name.includes('ci-build-')) {
                   console.log(`Deleting previous release: ${release.tag_name}`);
@@ -75,7 +74,6 @@ jobs:
                     release_id: release.id
                   });
                   
-                  // 尝试删除关联的标签
                   try {
                     await github.rest.git.deleteRef({
                       owner: context.repo.owner,
