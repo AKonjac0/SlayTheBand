@@ -1,12 +1,13 @@
 #include "CharacterAnimation.h"
 
-CharacterAnimation::CharacterAnimation(QWidget* _parent){
+CharacterAnimation::CharacterAnimation(QWidget* _parent) {
     // 创建角色头像标签
     parent = _parent;
     character_avatar = new QLabel(parent);
     button = new QPushButton(parent);
     healthBar = new HealthBar(getAvatar());
     blockBar = new BlockBar(getAvatar());
+    illustration = nullptr;
 }
 
 void CharacterAnimation::init(){

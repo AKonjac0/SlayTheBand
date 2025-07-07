@@ -61,15 +61,12 @@ const Buff &RoleManager::nextEnemyIntent() {
 void RoleManager::updateEnemyPic() {
     QString enemyName = "";
     std::mt19937 rd(std::random_device{}());
-    int rand =  rd() % 2 + 1;
+    int rand = rd() % 2;
     switch (rand) {
-        // case 0:
-        //     enemyName = "slime_balloon";
-        //     break;
-        case 1:
+        case 0:
             enemyName = "saki";
             break;
-        case 2:
+        case 1:
             enemyName = "soyo";
             break;
     }

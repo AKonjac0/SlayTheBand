@@ -20,8 +20,7 @@ jobs:
           host: windows
           target: desktop
           arch: win64_mingw
-          modules: qtmultimedia  # 添加需要的模块
-          additional-packages: vulkan-devel  # 添加Vulkan开发包
+          modules: qtmultimedia
 
       - name: Add QT's MinGW to PATH
         run: |
