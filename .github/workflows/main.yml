@@ -21,21 +21,11 @@ jobs:
           target: desktop
           arch: win64_mingw
           modules: qtmultimedia
-
-      - name: Add QT's MinGW to PATH
-        run: |
-          # 获取 QT 安装路径中的 MinGW 目录
-          echo "QT_MINGW_PATH=${{ env.QT_INSTALL_DIR }}\mingw64\bin" >> $GITHUB_ENV
-          echo "${{ env.QT_MINGW_PATH }}" >> $GITHUB_PATH
-
-      - name: Verify MinGW
-        run: |
-          g++ --version
-          mingw32-make --version
+          tools: tools_mingw1310
 
       - name: Configure and Build
         run: |
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="${{ env.QT_INSTALL_DIR }}" ..
-          mingw32-make
+          cmake -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="D:/a/SlayTheShrike/Qt/6.9.1/mingw_64" -DCMAKE_CXX_COMPILER="D:/a/SlayTheShrike/Qt/Tools/mingw1310_64/bin/g++.exe" ..
+          cmake --build . -j
