@@ -2,9 +2,9 @@ name: QT6 CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ dev ]
   pull_request:
-    branches: [ main ]
+    branches: [ dev ]
 
 jobs:
   build:
@@ -24,7 +24,11 @@ jobs:
 
       - name: Configure and Build
         run: |
-          mkdir build
-          cd build
-          cmake -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="${{ env.QT_INSTALL_DIR }}/6.9.1/mingw_64" -DCMAKE_CXX_COMPILER="${{ env.QT_INSTALL_DIR }}/6.9.1/mingw_64/bin/g++.exe" ..
-          cmake --build . -j
+          cd D:\a\SlayTheShrike\Qt
+          ls
+          cd .\Tools
+          ls
+          # mkdir build
+          # cd build
+          # cmake -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="${{ env.QT_INSTALL_DIR }}/6.9.1/mingw_64" -DCMAKE_CXX_COMPILER="${{ env.QT_INSTALL_DIR }}/6.9.1/mingw_64/bin/g++.exe" ..
+          # cmake --build . -j
