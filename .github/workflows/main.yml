@@ -7,8 +7,11 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-and-release:
     runs-on: windows-latest
+    permissions:
+      contents: write
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,3 +32,71 @@ jobs:
           cd build
           cmake -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="D:/a/SlayTheShrike/Qt/6.9.1/mingw_64" -DCMAKE_CXX_COMPILER="D:/a/SlayTheShrike/Qt/Tools/mingw1310_64/bin/g++.exe" ..
           cmake --build . -j
+
+      - name: Find executable
+        id: find-exe
+        run: |
+          $exe = Get-ChildItem -Path build -Recurse -Filter *.exe | 
+                 Where-Object { $_.FullName -notlike '*\CMakeFiles\*' } |
+                 Select-Object -First 1
+          
+          if (-not $exe) {
+            Write-Error "No .exe files found in build directory"
+            exit 1
+          }
+          
+          $relativePath = $exe.FullName.Replace((Get-Location).Path + "\", "").Replace("\", "/")
+          Write-Output "Using relative path: $relativePath"
+          echo "exe_path=$relativePath" >> $env:GITHUB_OUTPUT
+
+      - name: Generate unique tag
+        id: tag
+        run: |
+          $timestamp = Get-Date -UFormat "%Y%m%d-%H%M%S"
+          echo "tag=ci-build-$timestamp" >> $env:GITHUB_OUTPUT
+
+      - name: Delete previous release
+        uses: actions/github-script@v6
+        with:
+          script: |
+            try {
+              const releases = await github.rest.repos.listReleases({
+                owner: context.repo.owner,
+                repo: context.repo.repo
+              });
+              
+              for (const release of releases.data) {
+                if (release.tag_name.includes('ci-build-')) {
+                  console.log(`Deleting previous release: ${release.tag_name}`);
+                  await github.rest.repos.deleteRelease({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    release_id: release.id
+                  });
+                  
+                  try {
+                    await github.rest.git.deleteRef({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      ref: `tags/${release.tag_name}`
+                    });
+                  } catch (tagError) {
+                    console.log(`Tag ${release.tag_name} already deleted or not found`);
+                  }
+                }
+              }
+              return "Successfully cleaned up previous releases";
+            } catch (error) {
+              console.log(`Cleanup error: ${error.message}`);
+              return "No previous releases found or error occurred";
+            }
+
+      - name: Create release with artifact
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: "CI Build (${{ steps.tag.outputs.tag }})"
+          body: "Automated build from GitHub Actions"
+          files: ${{ steps.find-exe.outputs.exe_path }}
+          draft: false
+          prerelease: true
