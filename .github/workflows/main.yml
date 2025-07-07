@@ -1,0 +1,27 @@
+name: QT6 CI
+
+on: [ push, pull_request ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
+        qt_version: [ "6.9.1" ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4.3.0
+        with:
+          version: ${{ matrix.qt_version }}
+          host: ${{ matrix.os == 'windows-latest' && 'windows' || 'linux' }}
+          target: desktop
+
+      - name: Configure and Build
+        run: |
+          mkdir build && cd build
+          cmake -DCMAKE_PREFIX_PATH="${{ env.QT_INSTALL_DIR }}" ..
+          cmake --build . --config Release
