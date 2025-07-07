@@ -1,27 +1,40 @@
 name: QT6 CI
 
-on: [ push, pull_request ]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ ubuntu-latest, windows-latest ]
-        qt_version: [ "6.9.1" ]
-
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Install Qt
+      - name: Install Qt6 with MinGW
         uses: jurplel/install-qt-action@v4.3.0
         with:
-          version: ${{ matrix.qt_version }}
-          host: ${{ matrix.os == 'windows-latest' && 'windows' || 'linux' }}
+          version: 6.9.1
+          host: windows
           target: desktop
+          arch: win64_mingw
+
+      - name: Add QT's MinGW to PATH
+        run: |
+          # 获取 QT 安装路径中的 MinGW 目录
+          echo "QT_MINGW_PATH=${{ env.QT_INSTALL_DIR }}\mingw64\bin" >> $GITHUB_ENV
+          echo "${{ env.QT_MINGW_PATH }}" >> $GITHUB_PATH
+
+      - name: Verify MinGW
+        run: |
+          g++ --version
+          mingw32-make --version
 
       - name: Configure and Build
         run: |
-          mkdir build && cd build
-          cmake -DCMAKE_PREFIX_PATH="${{ env.QT_INSTALL_DIR }}" ..
-          cmake --build . --config Release
+          mkdir build
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="${{ env.QT_INSTALL_DIR }}" ..
+          mingw32-make
