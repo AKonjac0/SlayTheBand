@@ -13,6 +13,7 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS Multimedia)
 find_package(Qt6 REQUIRED COMPONENTS MultimediaWidgets)
+find_package(Qt6 REQUIRED COMPONENTS Test)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -193,3 +194,30 @@ install(TARGETS SlayTheShrike
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(SlayTheShrike)
 endif()
+
+# 添加测试可执行文件
+add_executable(SlayTheShrikeTest
+        Model/src/character/CharacterMeta.cpp
+        Model/include/character/CharacterMeta.h
+        Model/src/character/EnemyMeta.cpp
+        Model/include/character/EnemyMeta.h
+        Model/src/character/PlayerMeta.cpp
+        Model/include/character/PlayerMeta.h
+        Common/include/Buff.h
+        Common/src/Buff.cpp
+        Model/src/test/PlayerMetaTest.cpp
+        Model/include/test/PlayerMetaTest.h
+        TestMain.cpp
+)
+
+# 链接 Qt Test 框架和其他依赖
+target_link_libraries(SlayTheShrikeTest PRIVATE Qt6::Test)
+target_link_libraries(SlayTheShrikeTest PRIVATE Qt6::Widgets)
+
+# 包含必要的头文件目录
+include_directories(Model/include/)
+include_directories(Common/include/)
+
+# 设置输出目录（可选）
+set_target_properties(SlayTheShrikeTest PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test)
+
