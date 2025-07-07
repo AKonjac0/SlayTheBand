@@ -1,4 +1,6 @@
 #include "CardController.h"
+#include <QDebug>
+#include <algorithm>
 
 
 // Model

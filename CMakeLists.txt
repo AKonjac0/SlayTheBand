@@ -107,9 +107,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         View/include/page/CardRewardPage.h
         View/src/page/CardRewardPage.cpp
         View/src/card/CardReward.cpp
-            View/include/card/CardReward.h
+        View/include/card/CardReward.h
         Model/src/card/CardGenerator.cpp
-            Model/include/card/CardGenerator.h
+        Model/include/card/CardGenerator.h
 
 
         Model/include/character/CharacterMeta.h
@@ -119,26 +119,21 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Model/src/character/PlayerMeta.cpp
         Model/src/character/EnemyMeta.cpp
 
-        ViewModel/include/character/Enemy.h
-        ViewModel/src/character/Enemy.cpp
-        ViewModel/include/character/Player.h
-        ViewModel/src/character/Player.cpp
-            View/include/page/HomePage.h
-            View/src/page/HomePage.cpp
-            View/src/page/MapPage.cpp
-            View/include/page/MapPage.h
-            View/include/page/BattlePage.h
-            View/src/page/BattlePage.cpp
-            ViewModel/include/combat/Combat.h
-            ViewModel/src/combat/Combat.cpp
-            App/MainApp.cpp
-            App/MainApp.h
-            View/src/play/CombatView.cpp
-            View/include/play/CombatView.h
+        View/include/page/HomePage.h
+        View/src/page/HomePage.cpp
+        View/src/page/MapPage.cpp
+        View/include/page/MapPage.h
+        View/include/page/BattlePage.h
+        View/src/page/BattlePage.cpp
+        ViewModel/include/combat/Combat.h
+        ViewModel/src/combat/Combat.cpp
+        App/MainApp.cpp
+        App/MainApp.h
+        View/src/play/CombatView.cpp
+        View/include/play/CombatView.h
 
-            ViewModel/include/character/RoleManager.h
-            ViewModel/src/character/RoleManager.cpp
-
+        ViewModel/include/character/RoleManager.h
+        ViewModel/src/character/RoleManager.cpp
 
         Common/include/RoomMeta.h
         Common/src/RoomMeta.cpp

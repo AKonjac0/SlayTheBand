@@ -1,7 +1,6 @@
 #ifndef CARDGENERATOR_H
 #define CARDGENERATOR_H
 #include "Card_Meta.h"
-#include <QWidget>
 #include <random>
 class CardGenerator{
 public:

@@ -1,8 +1,6 @@
 #ifndef CARD_CONTROLLER_H
 #define CARD_CONTROLLER_H
 #include <QVector>
-#include <QWidget>
-#include <algorithm>
 #include <random>
 
 #include "Card_Meta.h"

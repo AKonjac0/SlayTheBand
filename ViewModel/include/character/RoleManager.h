@@ -2,6 +2,7 @@
 #define ROLEMANAGER_H
 #include "EnemyMeta.h"
 #include "PlayerMeta.h"
+#include <QObject>
 
 class RoleManager : public QObject {
     Q_OBJECT

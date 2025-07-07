@@ -3,7 +3,7 @@
 #include <QWidget>
 #include <Card.h>
 #include <QPushButton>
-#include "../card/CardReward.h"
+#include "CardReward.h"
 
 
 class CardRewardPage : public QWidget{

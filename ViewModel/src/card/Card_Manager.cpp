@@ -1,5 +1,6 @@
 #include "Card_Manager.h"
 #include <QString>
+#include <QDebug>
 
 // ViewModel
 Card_Manager::Card_Manager()

@@ -3,6 +3,7 @@
 
 #include "CardController.h"
 #include "CardGenerator.h"
+#include <QObject>
 
 class Card_Manager : public QObject{
     Q_OBJECT

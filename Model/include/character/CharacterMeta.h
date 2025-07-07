@@ -2,10 +2,9 @@
 #define CHARACTERMETA_H
 
 #include <QString>
-#include <QWidget>
+#include <QVector>
 #include "Buff.h"
 #include "Defs.h"
-// #include "Intension.h"
 
 
 class CharacterMeta

@@ -3,8 +3,6 @@
 #include <QObject>
 #include "Card_Meta.h"
 #include "Card_Manager.h"
-#include "Player.h"
-#include "Enemy.h"
 #include "Buff.h"
 #include "RoleManager.h"
 
